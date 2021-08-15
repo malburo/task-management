@@ -25,12 +25,12 @@ export default makeStyles({
         marginBottom: '1%'
     },
     name: {
-        margin: '0 3% 0 2%'
+        margin: '0 3% 0 2%!important'
     },
     messageContent: {        
         backgroundColor: 'black',
+        color: 'white!important',
         padding: '1rem',
-        borderRadius: '20px',     
-        boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px',
+        borderRadius: '20px',             
     }
 })

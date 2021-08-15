@@ -19,7 +19,7 @@ const Message: React.FC<IMessagePros> = ({name, postedDate, content}) => {
                 </div>
                 <div>
                     <div className={style.messageContent}>
-                        <Typography variant="body2" color="initial">{content}</Typography>
+                        <Typography variant="body2">{content}</Typography>
                     </div>
                     <div className={style.accountInfor}>
                         <Typography variant="subtitle2" className={style.name}>{name}</Typography>

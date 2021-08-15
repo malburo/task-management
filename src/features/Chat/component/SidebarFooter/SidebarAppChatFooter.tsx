@@ -27,7 +27,7 @@ const SidebarAppChatFooter: React.FC = () => {
                 endIcon={<ExpandMoreIcon />}
             >
                 <img alt='none' className={style.avatarImg} src="https://znews-photo.zadn.vn/w660/Uploaded/ngogtn/2021_04_25/avatar_movie_Cropped.jpg"></img>
-                <Typography variant="body1" className={style.roomName}>Usernamehere</Typography>
+                <Typography variant="body1" className={style.username}>Usernamehere</Typography>
             </Button>
             <Menu
                 id="profile-option"

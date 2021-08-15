@@ -4,19 +4,19 @@ export default makeStyles({
     sidebar:{        
         backgroundColor: 'rgb(18, 15, 19)',
         height: '90vh',
-        width: '20vw',
-        overflow: 'hidden',
+        width: '100%',        
         color: 'white',
     },    
     backButton: {
-        backgroundColor: 'rgb(18, 15, 19)',
+        backgroundColor: 'rgb(18, 15, 19) !important',
         width: '100%',
         height: '6vh',
         boxShadow: 'rgb(11, 10, 15) 0px 3px',
         color: 'white',
         paddingLeft: '6%',
         zIndex: 0,
-        justifyContent: 'flex-start',
+        
+        justifyContent: 'flex-start  !important',
         textTransform: 'none',        
         '&:hover': {
             backgroundColor: 'rgb(18, 15, 19)',
@@ -42,7 +42,7 @@ export default makeStyles({
         width: '70%'      
     },
     searchIcon:{
-        height: '6vh',
+        height: '6vh!important',
         marginLeft: '10px',
         color:'gray',        
     },
@@ -60,14 +60,15 @@ export default makeStyles({
         }               
     },
     chanelLink: {        
-        display: 'flex',        
-        width: '85%',
-        margin: '3vh 7.5% 3vh 7.5%',        
-        padding: '5px 2px 5px 2px',
-        justifyContent: 'flex-start',
-        backgroundColor: 'rgb(18, 15, 19)',        
+        display: 'flex  !important',        
+        width: '85%  !important',
+        margin: '3vh 7.5% 3vh 7.5%  !important',        
+        padding: '5px 2px 5px 2px  !important',
+        justifyContent: 'flex-start  !important',
+        backgroundColor: 'rgb(18, 15, 19)  !important',        
         color: 'white',
-        boxShadow: 'none',
+        boxShadow: 'none !important ',
+        textAlign: 'left',
         '&:hover': {
             backgroundColor: 'rgb(37, 35, 41)',    
             color: 'white',
@@ -75,10 +76,11 @@ export default makeStyles({
     },
     avatar: {
         backgroundColor: 'gray',
-        padding: '.25em',
+        padding: '.25em ',
         width: '12%',
         borderRadius: '5px',
         textTransform: 'uppercase',
-        marginRight: '1em'
+        marginRight: '1em  !important',
+        textAlign: 'center'
     },
 })

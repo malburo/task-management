@@ -12,7 +12,7 @@ export default makeStyles({
     },
     roomName: {
         lineHeight: '5vh',
-        marginLeft: '5%',
+        marginLeft: '5%!important',
         color: 'white'
     }
 })

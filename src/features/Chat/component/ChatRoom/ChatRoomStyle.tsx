@@ -19,17 +19,24 @@ export default makeStyles({
 
     },
     roomHeader: {
-        backgroundColor: 'rgb(37, 35, 41) !important',
-        width: '100%',
-        height: '6vh',        
-        boxShadow: 'rgb(31, 30, 35) 0px 3px',        
-        color: 'white',
-        paddingLeft: '6%',        
-        zIndex: 1
+        position: 'relative',
+        display: 'flex !important',
+        flexDirection: 'row',
+        backgroundColor: 'rgb(37, 35, 41)',        
+        height: '6vh !important',                
+        paddingLeft: '6%',  
+        boxShadow: 'rgb(26, 25, 30) 0px 3px',
+        zIndex: 0,        
+    },
+    menuIcon: {
+        height: '100%',
+        marginRight: '20px !important',        
+        color:'white !important',        
     },
     roomTitle: {
         height: '6vh',
-        lineHeight: '6vh',
+        lineHeight: '6vh !important',
+        color:' white',
     },
     messageSender: {        
         height: '14vh',          
@@ -42,7 +49,7 @@ export default makeStyles({
         marginLeft: '5%',
         width: '90%',  
         backgroundColor: 'rgb(60, 57, 63)',        
-        height: '6vh',        
+        height: '40px',        
         display: 'inline-block',        
         borderRadius: '10px',        
         overflow: 'hidden',
@@ -60,10 +67,9 @@ export default makeStyles({
         paddingLeft: '1%'
     },
     messageSubmit: {
-        height: '5vh',
-        width: '5vh',        
-        borderRadius: '10px',
-        marginRight: '.5vh',
-        marginTop: '.5vh',
+        height: '5vh',        
+        borderRadius: '10px!important',
+        marginRight: '.5vh!important',
+        marginTop: '.5vh!important',
     }
 })

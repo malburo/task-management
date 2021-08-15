@@ -5,14 +5,14 @@ export default makeStyles({
         textDecoration: 'none !important'
     },
     title: {
-        margin: '3vh 7.5% 1vh 7.5%',      
+        margin: '3vh 7.5% 1vh 7.5% !important',      
         textTransform: 'uppercase' ,
         color:'white',
         fontWeight: 'bolder',
     },
     description: {        
-        marginLeft: '7.5%',
-        marginRight: '7.5%',
+        marginLeft: '7.5%!important',
+        marginRight: '7.5%!important',
         height: '15vh',        
         overflow: 'hidden'
     },

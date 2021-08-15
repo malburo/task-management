@@ -2,24 +2,24 @@ import { makeStyles } from "@material-ui/styles";
 
 export default makeStyles({
     profileButton: {        
-        backgroundColor: 'rgb(10, 7, 9)',        
+        backgroundColor: 'rgb(10, 7, 9)  !important',        
         padding: '0',
-        borderRadius: '0',
-        width: '20vw',
+        borderRadius: '0 !important',
+        width: '100%',
         height: '10vh',
         zIndex: 0,
         color: 'white',
         cursor: 'pointer',
         display: 'flex',
-        justifyContent: 'flex-start',
+        justifyContent: 'flex-start  !important',
         textTransform: 'none', 
-        overflow: 'hidden',       
+        overflow: 'hidden',                    
         '&:hover': {
-            backgroundColor: 'rgb(10, 7, 9)',             
+            backgroundColor: 'rgb(10, 7, 9)  !important',             
         }
     },
     profileOptionList: {    
-        backgroundColor: 'rgb(37, 35, 41)',
+        backgroundColor: 'rgb(37, 35, 41) !important',
         borderRadius: '10px',
         padding: '5px'
     },
@@ -34,21 +34,21 @@ export default makeStyles({
         marginLeft: '10%'
     },
     profileNormalOptionItem: {
-        color:'white', 
+        color:'white !important', 
         padding: '10px',
         margin: '0 10px 0 10px',      
-        borderRadius: '10px',   
+        borderRadius: '10px !important',   
         '&:hover': {
-            backgroundColor: 'rgb(57, 55, 61)',
+            backgroundColor: 'rgb(57, 55, 61)  !important',
         }       
     },
     profileLogOutOptionItem: {
-        color:'red', 
+        color:'red  !important', 
         padding: '10px',
         margin: '0 10px 0 10px',
-        borderRadius: '10px',           
+        borderRadius: '10px  !important',           
         '&:hover': {
-            backgroundColor: 'rgb(57, 55, 61)',
+            backgroundColor: 'rgb(57, 55, 61)  !important',
         }       
     },
     avatarImg: {      
@@ -57,9 +57,10 @@ export default makeStyles({
         width: '6vh',  
         borderRadius: '5px'
     },
-    roomName: {        
-        lineHeight: '6vh',
-        marginLeft: '5%',
-        color: 'white'
+    username: {        
+        lineHeight: '6vh !important',
+        marginLeft: '5% !important',
+        color: 'white',
+        textTransform: 'none',   
     }
 })

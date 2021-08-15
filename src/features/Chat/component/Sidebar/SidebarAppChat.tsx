@@ -6,7 +6,11 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import SearchIcon from '@material-ui/icons/Search';
 import SidebarAppChatFooter from '../SidebarFooter/SidebarAppChatFooter';
 
-const SidebarAppChat: React.FC = () => {
+interface ISidebarAppChatProps {
+    setMenuState: (active: boolean) => void;
+}
+
+const SidebarAppChat: React.FC<ISidebarAppChatProps> = ({setMenuState}) => {
     const [hideStatus, setHideStatus] = useState(true);
     const [idChanel, setIdChanel] = useState('0');
     
@@ -26,7 +30,7 @@ const SidebarAppChat: React.FC = () => {
         <React.Fragment>
 
             <div className={style.sidebar}>
-                <Slide direction='right' timeout={{ enter: 400, exit: 200 }} in={hideStatus} unmountOnExit mountOnEnter>
+                <Slide direction='right' timeout={{ enter: 200, exit: 100 }} in={hideStatus} unmountOnExit mountOnEnter>
                     <Box>
                         <Button
                             variant="contained"
@@ -133,7 +137,7 @@ const SidebarAppChat: React.FC = () => {
 
                     </Box>
                 </Slide>
-                <Slide direction='left' timeout={{ enter: 400, exit: 0 }} in={!hideStatus} unmountOnExit mountOnEnter>
+                <Slide direction='left' timeout={{ enter: 200, exit: 0 }} in={!hideStatus} unmountOnExit mountOnEnter>
                     <Box>
                         <Button
                             variant="contained"
@@ -143,7 +147,7 @@ const SidebarAppChat: React.FC = () => {
                         >
                             All Chanels
                         </Button>
-                        <ListRooms idChanel={idChanel} />
+                        <ListRooms setMenuState={setMenuState} idChanel={idChanel} />
                     </Box>
                 </Slide>
             </div>            
