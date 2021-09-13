@@ -1,5 +1,5 @@
-import { Box, Button } from "@material-ui/core";
-import InputBase from "@material-ui/core/InputBase";
+import { Box, Button } from '@material-ui/core';
+import InputBase from '@material-ui/core/InputBase';
 
 const Search: React.FC = () => {
   return (
@@ -7,18 +7,13 @@ const Search: React.FC = () => {
       <InputBase
         placeholder="Keyword..."
         sx={{
-          fontSize: "12px",
-          fontWeight: "500",
-          width: "300px",
+          fontSize: '12px',
+          fontWeight: '500',
+          width: '300px',
           marginLeft: 4,
         }}
         endAdornment={
-          <Button
-            color="primary"
-            variant="contained"
-            type="submit"
-            sx={{ marginLeft: 3 }}
-          >
+          <Button color="primary" variant="contained" type="submit" sx={{ marginLeft: 3 }}>
             Search
           </Button>
         }

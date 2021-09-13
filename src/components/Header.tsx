@@ -1,4 +1,3 @@
-
 import { Avatar, Box, Button, Divider, Stack } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Menu from '@material-ui/core/Menu';

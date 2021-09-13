@@ -1,28 +1,29 @@
-import { Theme } from "@material-ui/core";
-import { createStyles, makeStyles } from "@material-ui/styles";
+import { Theme } from '@material-ui/core';
+import { createStyles, makeStyles } from '@material-ui/styles';
 
-export default makeStyles((theme: Theme)=> createStyles({
+export default makeStyles((theme: Theme) =>
+  createStyles({
     horizontalRule: {
-        display: 'flex',
-        marginTop: '4vh',
-        marginBottom: '4vh',
-        marginRight: '6vh',
-        marginLeft: '6vh',
-        
+      display: 'flex',
+      marginTop: '4vh',
+      marginBottom: '4vh',
+      marginRight: '6vh',
+      marginLeft: '6vh',
     },
     hrElement: {
-        backgroundColor: 'gray',
-        border: 'none',
-        height: '1.75px',
-        [theme.breakpoints.up('sm')]: {
-            width: '40%',
-        },
-        [theme.breakpoints.down('sm')]: {
-            width: '20%',
-        }
+      backgroundColor: 'gray',
+      border: 'none',
+      height: '1.75px',
+      [theme.breakpoints.up('sm')]: {
+        width: '40%',
+      },
+      [theme.breakpoints.down('sm')]: {
+        width: '20%',
+      },
     },
-    timeElement: {        
-        color: 'white!important',
-        textAlign: 'center'
-    }
-}))
+    timeElement: {
+      color: 'white!important',
+      textAlign: 'center',
+    },
+  })
+);
