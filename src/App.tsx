@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import RoutesComponent from 'routes';
 import socketClient from 'socket.io-client';
+import './App.css';
 
 function App() {
   useEffect(() => {
