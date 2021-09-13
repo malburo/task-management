@@ -1,10 +1,19 @@
+import { useEffect } from 'react';
+import RoutesComponent from 'routes';
+import socketClient from 'socket.io-client';
 import './App.css';
-import ChatFeature from './features/Chat/ChatApp';
-import { ThemeProvider,  createTheme } from '@material-ui/core/styles';
-const theme = createTheme();
+
 function App() {
-  return (  
-    <ThemeProvider theme={theme}><ChatFeature /></ThemeProvider>    
+  useEffect(() => {
+    const socket = socketClient('http://localhost:8001');
+    socket.on('connect', () => {
+      console.log(`I'm connected with the back-end`);
+    });
+  }, []);
+  return (
+    <div className="App">
+      <RoutesComponent />
+    </div>
   );
 }
 
