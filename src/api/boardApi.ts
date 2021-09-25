@@ -1,10 +1,10 @@
 import { IBoard } from 'models/board';
-import { Response } from 'models/common';
+import { Response, ResponseList } from 'models/common';
 import axiosClient from './axiosClient';
 
 const boardApi = {
-  getAll(): Promise<Response<IBoard[]>> {
-    return axiosClient.get('/boards');
+  getAll(params?: any): Promise<ResponseList<any>> {
+    return axiosClient.get('/boards', { params });
   },
   getOne(payload: any): Promise<Response<IBoard>> {
     return axiosClient.get(`/boards/${payload.boardId}`);

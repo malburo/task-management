@@ -4,7 +4,7 @@ import axiosClient from './axiosClient';
 
 const columnApi = {
   update(payload: any): Promise<Response<IColumn>> {
-    return axiosClient.put(`/columns/${payload.columnId}`, { taskOrder: payload.taskOrder, taskId: payload.taskId });
+    return axiosClient.put(`/columns/${payload.columnId}`, payload.data);
   },
 };
 
