@@ -11,3 +11,10 @@ export interface Response<T> {
   };
   message: string;
 }
+export interface ResponseList<T> {
+  data: {
+    [key: string]: T;
+  };
+  message: string;
+  pagination: ListParams;
+}
