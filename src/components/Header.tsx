@@ -8,12 +8,16 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AppsIcon from '@material-ui/icons/Apps';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ViewListIcon from '@material-ui/icons/ViewList';
+import { AppDispatch } from 'app/store';
+import { logout } from 'features/Auth/authSlice';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import Search from './Search';
 
 const Header = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const history = useHistory();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -21,6 +25,11 @@ const Header = () => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleLogout = () => {
+    dispatch(logout());
+    history.push('/auth/login');
     setAnchorEl(null);
   };
   return (
@@ -79,7 +88,7 @@ const Header = () => {
           <Typography variant="regular2"> All boards</Typography>
         </MenuItem>
         <Divider style={{ margin: '10px 0px' }} />
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleLogout}>
           <ExitToAppIcon fontSize="small" sx={{ fill: '#e35555fa' }} />
           <Typography variant="regular2" sx={{ color: '#e35555fa' }}>
             Logout
