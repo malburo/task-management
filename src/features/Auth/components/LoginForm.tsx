@@ -7,14 +7,11 @@ import Typography from '@material-ui/core/Typography';
 import LockIcon from '@material-ui/icons/Lock';
 import MailIcon from '@material-ui/icons/Mail';
 import { makeStyles } from '@material-ui/styles';
-import { AppDispatch } from 'app/store';
 import InputField from 'components/form-control/InputField';
 import PasswordField from 'components/form-control/PasswordField';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
-import { getMe, logout } from '../authSlice';
 
 const useStyles = makeStyles((theme: any) => ({
   submit: {
@@ -23,12 +20,11 @@ const useStyles = makeStyles((theme: any) => ({
 }));
 
 const schema = yup.object().shape({
-  email: yup
+  account: yup
     .string()
-    .required('Please enter your email.')
+    .required('Please enter email or username.')
     .min(6, 'Please enter at least 6 characters.')
-    .max(35, 'Please enter at most 35 characters')
-    .matches(/(\W|^)[\w.+\-]*@gmail\.com(\W|$)/, 'Please enter a valid email address.'),
+    .max(35, 'Please enter at most 35 characters'),
   password: yup
     .string()
     .required('Please enter your password')
@@ -37,11 +33,11 @@ const schema = yup.object().shape({
 });
 
 interface LoginFormProps {
-  onSubmit: (values: LoginFormValues) => any;
+  onSubmit: (values: LoginFormValues) => void;
 }
 
 export interface LoginFormValues {
-  email: string;
+  account: string;
   password: string;
 }
 
@@ -51,20 +47,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
     mode: 'onSubmit',
     reValidateMode: 'onChange',
     defaultValues: {
-      email: '',
+      account: '',
       password: '',
     },
     resolver: yupResolver(schema),
   });
-  const dispatch = useDispatch<AppDispatch>();
   const loginWithGithub = async () => {
     window.open('http://localhost:8000/api/auth/github', '_self');
-  };
-  const handleLogout = async () => {
-    await dispatch(logout());
-  };
-  const handlegetme = async () => {
-    await dispatch(getMe());
   };
   return (
     <Container component="main" maxWidth="xs">
@@ -75,16 +64,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
           padding: '32px 48px',
         }}
       >
-        <p onClick={handleLogout}>logout</p>
-        <p onClick={handlegetme}>getme</p>
         <Typography variant="subtitle1">Bullo app</Typography>
-        <Typography variant="subtitle2">Join to discover thousands of photos from around the world</Typography>
-        <Typography variant="subtitle1">
-          Beautiful, free images and photos that you can download and use for any project.
-        </Typography>
-
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <InputField name="email" placeholder="Your Email*" startIcon={<MailIcon />} form={form} />
+          <InputField name="account" placeholder="Your Email or Username*" startIcon={<MailIcon />} form={form} />
           <PasswordField name="password" placeholder="Your password*" startIcon={<LockIcon />} form={form} />
           <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
             Login now

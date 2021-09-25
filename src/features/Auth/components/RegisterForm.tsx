@@ -24,7 +24,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 const schema = yup.object().shape({
   fullname: yup
     .string()
-    .required('Please enter your full name.')
+    .required('Please enter your fullname.')
+    .min(2, 'Please enter at least 2 characters.')
+    .max(30, 'Please enter at most 30 characters'),
+  username: yup
+    .string()
+    .required('Please enter your username.')
     .min(2, 'Please enter at least 2 characters.')
     .max(30, 'Please enter at most 30 characters'),
   email: yup
@@ -45,7 +50,7 @@ const schema = yup.object().shape({
 });
 
 interface RegisterFormProps {
-  onSubmit: (values: RegisterFormValues) => any;
+  onSubmit: (values: RegisterFormValues) => void;
 }
 
 export interface RegisterFormValues {
@@ -81,13 +86,10 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
         }}
       >
         <Typography variant="subtitle1">Bullo app</Typography>
-        <Typography variant="subtitle2">Join to discover thousands of photos from around the world</Typography>
-        <Typography variant="subtitle1">
-          Beautiful, free images and photos that you can download and use for any project.
-        </Typography>
 
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <InputField name="fullname" placeholder="Your fullname*" startIcon={<PersonIcon />} form={form} />
+          <InputField name="username" placeholder="Your username*" startIcon={<PersonIcon />} form={form} />
           <InputField name="email" placeholder="Your email*" startIcon={<MailIcon />} form={form} />
           <PasswordField name="password" placeholder="Your password*" startIcon={<LockIcon />} form={form} />
           <PasswordField name="retypePassword" placeholder="Retype password*" startIcon={<LockIcon />} form={form} />

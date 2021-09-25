@@ -14,7 +14,6 @@ const OAuthLogin = () => {
   useEffect(() => {
     (async () => {
       try {
-        console.log(access_token);
         localStorage.setItem('access_token', access_token);
         await dispatch(getMe());
         history.push('/');

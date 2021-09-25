@@ -38,7 +38,7 @@ const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.isAuth = false;
-      localStorage.removeItem('access-token');
+      localStorage.removeItem('access_token');
     },
   },
   extraReducers: (builder) => {
@@ -49,6 +49,22 @@ const authSlice = createSlice({
     builder.addCase(getMe.fulfilled, (state, action: PayloadAction<Response<GetMeResponse>>) => {
       state.isAuth = true;
       state.currentUser = action.payload.data.currentUser;
+    });
+
+    builder.addCase(login.pending, (state) => {});
+    builder.addCase(login.rejected, (state) => {
+      state.isAuth = false;
+    });
+    builder.addCase(login.fulfilled, (state) => {
+      state.isAuth = true;
+    });
+
+    builder.addCase(register.pending, () => {});
+    builder.addCase(register.rejected, (state) => {
+      state.isAuth = false;
+    });
+    builder.addCase(register.fulfilled, (state) => {
+      state.isAuth = true;
     });
   },
 });
