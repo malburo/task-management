@@ -10,22 +10,22 @@ import { makeStyles, createStyles } from '@material-ui/styles';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     chatRoom: {
-      [theme.breakpoints.down('md')]: {
-        width: '100%',
-        marginLeft: '0%',
-      },
-      [theme.breakpoints.up('md')]: {
-        width: '80%',
-        marginLeft: '20%',
-      },
+      //   [theme.breakpoints.down('md')]: {
+      //     width: '100%',
+      //     marginLeft: '0%',
+      //   },
+      //   [theme.breakpoints.up('md')]: {
+      //     width: '80%',
+      //     marginLeft: '20%',
+      //   },
     },
     sideBar: {
-      [theme.breakpoints.down('md')]: {
-        width: '100%',
-      },
-      [theme.breakpoints.up('md')]: {
-        width: '20%',
-      },
+      //   [theme.breakpoints.down('md')]: {
+      //     width: '100%',
+      //   },
+      //   [theme.breakpoints.up('md')]: {
+      //     width: '20%',
+      //   },
       border: 'none !important',
     },
     background: {
