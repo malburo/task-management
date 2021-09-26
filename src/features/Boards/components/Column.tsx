@@ -2,13 +2,13 @@
 import { Box, Typography } from '@material-ui/core';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { Container, Draggable, DropResult } from '@richardrout/react-smooth-dnd';
-import { AppDispatch } from 'app/store';
+import { AppDispatch, RootState } from 'app/store';
 import { IColumn } from 'models/column';
 import { ITask } from 'models/task';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { applyDrag } from 'utilities/dragDrop';
 import { mapOrder } from 'utilities/sorts';
-import { updateColumn, updateTasksRedux } from '../boardSlice';
+import { drogTask, tasksSelector, updateTaskOrder } from '../boardSlice';
 import TaskCard from './TaskCard';
 
 interface ColumnProps {
@@ -17,24 +17,30 @@ interface ColumnProps {
 
 const Column: React.FC<ColumnProps> = ({ column }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const tasks = mapOrder(column.tasks, column.taskOrder, '_id');
 
-  useEffect(() => {
-    dispatch(updateTasksRedux({ columnId: column._id }));
-  }, []);
+  const tasks = useSelector((state: RootState) => {
+    const allTasks = tasksSelector.selectAll(state).filter((task: ITask) => task.columnId === column._id);
+    return mapOrder(allTasks, column.taskOrder, '_id');
+  });
 
-  const onTaskDrop = (columnId: string, dropResult: DropResult) => {
+  const onTaskDrop = async (columnId: string, dropResult: DropResult) => {
     if (dropResult.addedIndex === dropResult.removedIndex) return;
     if (dropResult.addedIndex === null && dropResult.removedIndex === null) return;
+
+    const newTasks = applyDrag(tasks, dropResult);
+    const newTaskOrder = newTasks.map((task: ITask) => task._id);
+
     if (dropResult.addedIndex !== null && dropResult.removedIndex !== null) {
-      return dispatch(updateColumn({ columnId, dropResult }));
+      dispatch(drogTask({ columnId, changes: { taskOrder: newTaskOrder } }));
+      dispatch(updateTaskOrder({ columnId, taskOrder: newTaskOrder }));
+      return;
     }
+
     if (dropResult.addedIndex !== null) {
-      const dropResultClone = JSON.parse(JSON.stringify(dropResult));
-      dropResultClone.payload.columnId = column._id;
-      return dispatch(updateColumn({ columnId, dropResult: dropResultClone, taskId: dropResultClone.payload._id }));
+      dispatch(drogTask({ columnId, changes: { taskOrder: newTaskOrder }, taskId: dropResult.payload._id }));
+      dispatch(updateTaskOrder({ columnId, taskOrder: newTaskOrder, taskId: dropResult.payload._id }));
+      return;
     }
-    dispatch(updateColumn({ columnId, dropResult }));
   };
 
   return (
