@@ -29,6 +29,7 @@ export default makeStyles({
     height: '100%',
     marginRight: '20px !important',
     color: 'white !important',
+    backgroundColor: 'rgb(37, 35, 41) !important'
   },
   roomTitle: {
     height: '6vh',

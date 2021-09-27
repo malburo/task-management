@@ -1,33 +1,33 @@
-import { Drawer, Hidden, Theme } from '@material-ui/core';
+import { Drawer, Hidden } from '@material-ui/core';
 import React, { useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ChatRoom from './component/ChatRoom/ChatRoom';
 import SidebarAppChat from './component/Sidebar/SidebarAppChat';
 import CloseIcon from '@material-ui/icons/Close';
 import { useEffect } from 'react';
-import { makeStyles, createStyles } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/styles';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
+const useStyles = makeStyles({
     chatRoom: {
-      //   [theme.breakpoints.down('md')]: {
-      //     width: '100%',
-      //     marginLeft: '0%',
-      //   },
-      //   [theme.breakpoints.up('md')]: {
-      //     width: '80%',
-      //     marginLeft: '20%',
-      //   },
+      // eslint-disable-next-line
+      ['@media (min-width:780px)']: {
+        width: '80%',
+        marginLeft: '20%',
+      },
+      // eslint-disable-next-line
+      ['@media (max-width:780px)']: {
+        width: '100%',
+        marginLeft: '0%',
+      },
     },
-    sideBar: {
-      //   [theme.breakpoints.down('md')]: {
-      //     width: '100%',
-      //   },
-      //   [theme.breakpoints.up('md')]: {
-      //     width: '20%',
-      //   },
+    sideBarLarge: {
+      width: '20%',
       border: 'none !important',
     },
+    sideBarSmall: {
+    width: '100%',
+    border: 'none !important',
+  },
     background: {
       '& > .MuiBackdrop-root': {
         backgroundColor: 'transparent !important',
@@ -49,8 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
     floatingButtonLabel: {
       height: '100%',
     },
-  })
-);
+});
 
 const ChatFeature: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -70,7 +69,7 @@ const ChatFeature: React.FC = () => {
             anchor="left"
             className={styles.background}
             open={sidebarOpen}
-            classes={{ paper: styles.sideBar, root: styles.background }}
+            classes={{ paper: styles.sideBarSmall, root: styles.background }}
           >
             <SidebarAppChat setMenuState={setSidebarOpen} />
             {anyRoom && (
@@ -82,7 +81,7 @@ const ChatFeature: React.FC = () => {
         </Hidden>
         {/* For Large Size */}
         <Hidden mdDown>
-          <Drawer variant="permanent" anchor="left" classes={{ paper: styles.sideBar }}>
+          <Drawer variant="permanent" anchor="left" classes={{ paper: styles.sideBarLarge }}>
             <SidebarAppChat setMenuState={setSidebarOpen} />
           </Drawer>
         </Hidden>

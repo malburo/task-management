@@ -66,13 +66,13 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
   const form = useForm({
     mode: 'onSubmit',
     reValidateMode: 'onSubmit',
-    defaultValues: {
-      fullname: '',
-      username: '',
-      email: '',
-      password: '',
-      retypePassword: '',
-    },
+    // defaultValues: {
+    //   fullname: '',
+    //   username: '',
+    //   email: '',
+    //   password: '',
+    //   retypePassword: '',
+    // },
     resolver: yupResolver(schema),
   });
 

@@ -17,7 +17,7 @@ export default makeStyles({
     overflow: 'hidden',
   },
   listMember: {
-    height: '50vh',
+    height: '52vh',
     overflowY: 'scroll',
     '&::-webkit-scrollbar': {
       width: '0.2em',

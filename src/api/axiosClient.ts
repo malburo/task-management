@@ -2,7 +2,7 @@ import axios from 'axios';
 import queryString from 'query-string';
 
 const axiosClient = axios.create({
-  baseURL: process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API : process.env.REACT_APP_API_LOCAL,
+  baseURL: process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API : `http://localhost:8000/api`,
   headers: {
     'content-type': 'application/json',
   },

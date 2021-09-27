@@ -66,6 +66,7 @@ export default makeStyles({
     backgroundColor: 'rgb(18, 15, 19)  !important',
     color: 'white',
     boxShadow: 'none !important ',
+    fontSize: '1rem !important',
     textAlign: 'left',
     '&:hover': {
       backgroundColor: 'rgb(37, 35, 41)',

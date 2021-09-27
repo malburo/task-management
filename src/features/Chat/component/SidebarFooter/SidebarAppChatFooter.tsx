@@ -5,6 +5,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import HomeIcon from '@material-ui/icons/Home';
 import SidebarAppChatFooterStyle from './SidebarAppChatFooterStyle';
+import { Box } from '@material-ui/system';
 
 const SidebarAppChatFooter: React.FC = () => {
   const [anchor, setAnchor] = useState<null | HTMLElement>(null);
@@ -19,7 +20,7 @@ const SidebarAppChatFooter: React.FC = () => {
   };
 
   return (
-    <React.Fragment>
+    <Box className={style.footerLayout}>
       <Button
         variant="contained"
         className={style.profileButton}
@@ -57,7 +58,7 @@ const SidebarAppChatFooter: React.FC = () => {
           Log Out
         </MenuItem>
       </Menu>
-    </React.Fragment>
+    </Box>
   );
 };
 export default SidebarAppChatFooter;

@@ -1,5 +1,5 @@
 import Typography from '@material-ui/core/Typography';
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import SendIcon from '@material-ui/icons/Send';
 import Message from '../Message/Message';
@@ -10,6 +10,8 @@ import { useParams } from 'react-router-dom';
 import { Hidden, IconButton } from '@material-ui/core';
 import ListIcon from '@material-ui/icons/List';
 import ChatRoomStyle from './ChatRoomStyle';
+import { IRoom } from 'models/room';
+import roomApi from 'api/roomApi';
 
 let message = {
   name: 'Andrew',
@@ -28,13 +30,15 @@ interface IChatRoomProps {
 }
 
 const ChatRoom: React.FC<IChatRoomProps> = ({ setMenuState, setAnyRoomState }) => {
+  const [room, setRoom] = useState<IRoom>();
   const { id } = useParams<IParamChatRoom>();
   const style = ChatRoomStyle();
   const myRef = React.useRef<HTMLDivElement>(null);
   useEffect(() => {
+    roomApi.getOne(id.toString()).then((res) => setRoom(res.data.room));
     setAnyRoomState(true);
     myRef.current?.scrollIntoView();
-  });
+  }, []);
   const clickHandler = () => {
     setMenuState(true);
   };

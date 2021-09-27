@@ -1,8 +1,6 @@
-import { Theme } from '@material-ui/core';
-import { createStyles, makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/styles';
 
-export default makeStyles((theme: Theme) =>
-  createStyles({
+export default makeStyles({
     horizontalRule: {
       display: 'flex',
       marginTop: '4vh',
@@ -14,10 +12,12 @@ export default makeStyles((theme: Theme) =>
       backgroundColor: 'gray',
       border: 'none',
       height: '1.75px',
-      [theme.breakpoints.up('sm')]: {
+      // eslint-disable-next-line
+      ['@media (min-width:780px)']: {
         width: '40%',
       },
-      [theme.breakpoints.down('sm')]: {
+      // eslint-disable-next-line
+      ['@media (max-width:780px)']: {
         width: '20%',
       },
     },
@@ -25,5 +25,4 @@ export default makeStyles((theme: Theme) =>
       color: 'white!important',
       textAlign: 'center',
     },
-  })
-);
+});

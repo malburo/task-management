@@ -11,7 +11,7 @@ export default makeStyles({
     borderRadius: '5px',
   },
   roomName: {
-    lineHeight: '5vh',
+    lineHeight: '5vh !important',
     marginLeft: '5%!important',
     color: 'white',
   },
