@@ -1,5 +1,5 @@
 import { Typography } from '@material-ui/core';
-import roomApi from 'api/roomApi';
+import roomApi from '.././../../../api/roomApi';
 import { IRoom } from 'models/room';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
