@@ -17,12 +17,11 @@ export default makeStyles({
     overflow: 'hidden',
   },
   listMember: {
-    height: '52vh',
+    height: '50vh',
     overflowY: 'scroll',
     '&::-webkit-scrollbar': {
-      width: '0.2em',
+      width: '0.4em',
     },
-    '&::-webkit-scrollbar-track': {},
     '&::-webkit-scrollbar-thumb': {
       backgroundColor: '#3f51b5',
     },

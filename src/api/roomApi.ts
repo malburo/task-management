@@ -1,4 +1,3 @@
-import { ResponseList } from 'models/common';
 import axiosClient from './axiosClient';
 
 const roomApi = {

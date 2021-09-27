@@ -1,16 +1,26 @@
 import { Menu, MenuItem, Typography, Button } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import HomeIcon from '@material-ui/icons/Home';
 import SidebarAppChatFooterStyle from './SidebarAppChatFooterStyle';
 import { Box } from '@material-ui/system';
+import authApi, { GetMeResponse } from 'api/authApi';
+import { useSelector } from 'react-redux';
+import { RootState } from 'app/store';
 
 const SidebarAppChatFooter: React.FC = () => {
+  //const currentUser = useSelector((state: RootState) => state.auth );
   const [anchor, setAnchor] = useState<null | HTMLElement>(null);
   const style = SidebarAppChatFooterStyle();
 
+  useEffect(() => {
+    (async () => {
+      let res = await authApi.getMe();
+      console.log(res.data);
+    })();
+  }, []);
   const openProfileOptionHanlder = (e: React.MouseEvent<HTMLElement>) => {
     setAnchor(e.currentTarget);
   };
@@ -33,7 +43,7 @@ const SidebarAppChatFooter: React.FC = () => {
           src="https://znews-photo.zadn.vn/w660/Uploaded/ngogtn/2021_04_25/avatar_movie_Cropped.jpg"
         ></img>
         <Typography variant="body1" className={style.username}>
-          Usernamehere
+          {/* {currentUser.currentUser} */}
         </Typography>
       </Button>
       <Menu

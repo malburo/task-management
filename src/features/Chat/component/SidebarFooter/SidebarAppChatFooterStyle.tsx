@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/styles';
 
 export default makeStyles({
   footerLayout: {
-    height: '10vh'
+    height: '10vh',
   },
   profileButton: {
     backgroundColor: 'rgb(10, 7, 9)  !important',

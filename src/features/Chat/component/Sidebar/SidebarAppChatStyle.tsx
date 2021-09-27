@@ -6,16 +6,17 @@ export default makeStyles({
     height: '90vh',
     width: '100%',
     color: 'white',
+    overflow: 'hidden',
   },
   backButton: {
     backgroundColor: 'rgb(18, 15, 19) !important',
     width: '100%',
-    height: '6vh',
-    boxShadow: 'rgb(11, 10, 15) 0px 3px',
+    height: '6vh !important',
+    boxShadow: 'rgb(11, 10, 15) 0px 3px !important',
     color: 'white',
     paddingLeft: '6%',
     zIndex: 0,
-
+    fontSize: '1rem !important',
     justifyContent: 'flex-start  !important',
     textTransform: 'none',
     '&:hover': {
@@ -40,6 +41,7 @@ export default makeStyles({
     color: 'white',
     borderRadius: '10px',
     width: '70%',
+    fontSize: '1rem',
   },
   searchIcon: {
     height: '6vh!important',
@@ -52,7 +54,6 @@ export default makeStyles({
     '&::-webkit-scrollbar': {
       width: '0.2em',
     },
-    '&::-webkit-scrollbar-track': {},
     '&::-webkit-scrollbar-thumb': {
       backgroundColor: '#3f51b5',
     },

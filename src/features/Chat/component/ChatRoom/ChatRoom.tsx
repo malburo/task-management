@@ -12,6 +12,9 @@ import ListIcon from '@material-ui/icons/List';
 import ChatRoomStyle from './ChatRoomStyle';
 import { IRoom } from 'models/room';
 import roomApi from 'api/roomApi';
+import { useDispatch } from 'react-redux';
+import { setAnyRoom, setMenuOpen } from 'features/Chat/ReduxSlice/SidebarAppChatSlice';
+import { AppDispatch } from 'app/store';
 
 let message = {
   name: 'Andrew',
@@ -24,24 +27,27 @@ interface IParamChatRoom {
   id: string;
 }
 
-interface IChatRoomProps {
-  setMenuState: (active: boolean) => void;
-  setAnyRoomState: (active: boolean) => void;
-}
-
-const ChatRoom: React.FC<IChatRoomProps> = ({ setMenuState, setAnyRoomState }) => {
+const ChatRoom: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const [room, setRoom] = useState<IRoom>();
   const { id } = useParams<IParamChatRoom>();
   const style = ChatRoomStyle();
   const myRef = React.useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    dispatch(setAnyRoom(true));
+    dispatch(setMenuOpen(false));
+  }, []);
+
   useEffect(() => {
     roomApi.getOne(id.toString()).then((res) => setRoom(res.data.room));
-    setAnyRoomState(true);
     myRef.current?.scrollIntoView();
-  }, []);
+  }, [id]);
+
   const clickHandler = () => {
-    setMenuState(true);
+    dispatch(setMenuOpen(true));
   };
+
   return (
     <React.Fragment>
       <div className={style.roomHeader}>
@@ -51,7 +57,7 @@ const ChatRoom: React.FC<IChatRoomProps> = ({ setMenuState, setAnyRoomState }) =
           </IconButton>
         </Hidden>
         <Typography variant="subtitle1" className={style.roomTitle}>
-          {id}
+          {room?.name}
         </Typography>
       </div>
       <div className={style.chatRoom}>

@@ -8,22 +8,17 @@ import SidebarAppChatFooter from '../SidebarFooter/SidebarAppChatFooter';
 import boardApi from 'api/boardApi';
 import { IBoard } from 'models/board';
 
-interface ISidebarAppChatProps {
-  setMenuState: (active: boolean) => void;
-}
-
 interface IChannel {
   lstChannel: Array<IBoard>;
 }
 
-const SidebarAppChat: React.FC<ISidebarAppChatProps> = ({ setMenuState }) => {
+const SidebarAppChat: React.FC = () => {
   const [hideStatus, setHideStatus] = useState(true);
   const [idChanel, setIdChanel] = useState('0');
   const [chanel, setChanel] = useState<IChannel>({ lstChannel: [] });
   const style = SidebarAppChatStyle();
 
   useEffect(() => {
-    console.log('call api');
     boardApi.getAll().then((data) => {
       setChanel({ lstChannel: data.data.boards });
     });
@@ -46,7 +41,7 @@ const SidebarAppChat: React.FC<ISidebarAppChatProps> = ({ setMenuState }) => {
   return (
     <React.Fragment>
       <div className={style.sidebar}>
-        <Slide direction="right" timeout={{ enter: 200, exit: 100 }} in={hideStatus} unmountOnExit mountOnEnter>
+        <Slide direction="right" timeout={{ enter: 500, exit: 300 }} in={hideStatus} unmountOnExit mountOnEnter>
           <Box>
             <Button variant="contained" className={style.backButton}>
               Chanels List
@@ -70,11 +65,10 @@ const SidebarAppChat: React.FC<ISidebarAppChatProps> = ({ setMenuState }) => {
                   {i.title}
                 </Button>
               ))}
-              <div></div>
             </div>
           </Box>
         </Slide>
-        <Slide direction="left" timeout={{ enter: 200, exit: 0 }} in={!hideStatus} unmountOnExit mountOnEnter>
+        <Slide direction="left" timeout={{ enter: 300, exit: 0 }} in={!hideStatus} unmountOnExit mountOnEnter>
           <Box>
             <Button
               variant="contained"
@@ -84,7 +78,7 @@ const SidebarAppChat: React.FC<ISidebarAppChatProps> = ({ setMenuState }) => {
             >
               All Chanels
             </Button>
-            <ListRooms setMenuState={setMenuState} idChanel={idChanel} />
+            <ListRooms idChanel={idChanel} />
           </Box>
         </Slide>
       </div>

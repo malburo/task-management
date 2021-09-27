@@ -26,10 +26,10 @@ export default makeStyles({
     zIndex: 0,
   },
   menuIcon: {
-    height: '100%',
+    height: '100% !important',
     marginRight: '20px !important',
     color: 'white !important',
-    backgroundColor: 'rgb(37, 35, 41) !important'
+    backgroundColor: 'rgb(37, 35, 41) !important',
   },
   roomTitle: {
     height: '6vh',
