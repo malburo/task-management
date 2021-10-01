@@ -1,24 +1,31 @@
-import React from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import MessageStyle from './MessageStyle';
 import Typography from '@material-ui/core/Typography';
+import dateUtil from 'utilities/dateUtil';
+import TimeLine from '../HorizontalRule/TimeLine';
 
 interface IMessagePros {
   name: string;
-  postedDate: string;
+  postedDate: Date;
   content: string;
+  profilePictureUrl: string;
+  renderTimeLine: Boolean;
+  time: Date;
 }
 
-const Message: React.FC<IMessagePros> = ({ name, postedDate, content }) => {
+const Message: React.FC<IMessagePros> = ({ name, postedDate, content, profilePictureUrl, renderTimeLine, time }) => {
   const style = MessageStyle();
+  const [timeline, setTimeline] = useState<ReactElement>();
+  useEffect(() => {
+    console.log(new Date(time));
+    if (renderTimeLine === true) setTimeline(<TimeLine time={new Date(time)} />);
+  }, [renderTimeLine]);
   return (
     <React.Fragment>
+      {timeline}
       <div className={style.message}>
         <div className={style.avatar}>
-          <img
-            className={style.avatarImg}
-            alt="none"
-            src="https://znews-photo.zadn.vn/w660/Uploaded/ngogtn/2021_04_25/avatar_movie_Cropped.jpg"
-          ></img>
+          <img className={style.avatarImg} alt="none" src={profilePictureUrl}></img>
         </div>
         <div>
           <div className={style.messageContent}>
@@ -26,9 +33,9 @@ const Message: React.FC<IMessagePros> = ({ name, postedDate, content }) => {
           </div>
           <div className={style.accountInfor}>
             <Typography variant="subtitle2" className={style.name}>
-              {name}
+              {name} -
             </Typography>
-            <Typography variant="subtitle2">{postedDate}</Typography>
+            <Typography variant="subtitle2">{dateUtil.fortmatDate(postedDate)}</Typography>
           </div>
         </div>
       </div>

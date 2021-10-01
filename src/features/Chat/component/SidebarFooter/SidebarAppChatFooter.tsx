@@ -9,16 +9,17 @@ import { Box } from '@material-ui/system';
 import authApi, { GetMeResponse } from 'api/authApi';
 import { useSelector } from 'react-redux';
 import { RootState } from 'app/store';
-
+import { IUser } from 'models/user';
 const SidebarAppChatFooter: React.FC = () => {
   //const currentUser = useSelector((state: RootState) => state.auth );
   const [anchor, setAnchor] = useState<null | HTMLElement>(null);
+  const [me, setMe] = useState<IUser>();
   const style = SidebarAppChatFooterStyle();
 
   useEffect(() => {
     (async () => {
       let res = await authApi.getMe();
-      console.log(res.data);
+      setMe(res.data.currentUser.currentUser);
     })();
   }, []);
   const openProfileOptionHanlder = (e: React.MouseEvent<HTMLElement>) => {
@@ -42,9 +43,7 @@ const SidebarAppChatFooter: React.FC = () => {
           className={style.avatarImg}
           src="https://znews-photo.zadn.vn/w660/Uploaded/ngogtn/2021_04_25/avatar_movie_Cropped.jpg"
         ></img>
-        <Typography variant="body1" className={style.username}>
-          {/* {currentUser.currentUser} */}
-        </Typography>
+        <Typography variant="body1" className={style.username}></Typography>
       </Button>
       <Menu
         id="profile-option"

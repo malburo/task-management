@@ -1,16 +1,26 @@
-import React from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import MyMessageStyle from './MyMessageStyle';
+import dateUtil from 'utilities/dateUtil';
+import TimeLine from '../HorizontalRule/TimeLine';
 
 interface IMessagePros {
-  postedDate: string;
+  postedDate: Date;
   content: string;
+  profilePictureUrl: string;
+  renderTimeLine: Boolean;
+  time: Date;
 }
 
-const MyMessage: React.FC<IMessagePros> = ({ postedDate, content }) => {
+const MyMessage: React.FC<IMessagePros> = ({ postedDate, content, profilePictureUrl, renderTimeLine, time }) => {
   const style = MyMessageStyle();
+  const [timeline, setTimeline] = useState<ReactElement>();
+  useEffect(() => {
+    if (renderTimeLine == true) setTimeline(<TimeLine time={new Date(time)} />);
+  }, [renderTimeLine]);
   return (
     <React.Fragment>
+      {timeline}
       <div className={style.message}>
         <div>
           <div>
@@ -20,16 +30,12 @@ const MyMessage: React.FC<IMessagePros> = ({ postedDate, content }) => {
           </div>
           <div className={style.accountInfor}>
             <Typography variant="subtitle2" className={style.date}>
-              {postedDate}
+              {dateUtil.fortmatDate(postedDate)}
             </Typography>
           </div>
         </div>
         <div className={style.avatar}>
-          <img
-            className={style.avatarImg}
-            alt="none"
-            src="https://znews-photo.zadn.vn/w660/Uploaded/ngogtn/2021_04_25/avatar_movie_Cropped.jpg"
-          ></img>
+          <img className={style.avatarImg} alt="none" src={profilePictureUrl}></img>
         </div>
       </div>
     </React.Fragment>

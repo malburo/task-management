@@ -1,19 +1,20 @@
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
-import HorizontalRuleStyle from './HorizontalRuleStyle';
+import dateUtil from 'utilities/dateUtil';
+import TimeLineStyle from './TimeLineStyle';
 
-interface HorizontalRulePros {
-  time: string;
+interface TimeLinePros {
+  time: Date;
 }
 
-const HorizontalRule: React.FC<HorizontalRulePros> = ({ time }) => {
-  const style = HorizontalRuleStyle();
+const TimeLine: React.FC<TimeLinePros> = ({ time }) => {
+  const style = TimeLineStyle();
   return (
     <React.Fragment>
       <div className={style.horizontalRule}>
         <hr className={style.hrElement}></hr>
         <Typography className={style.timeElement} variant="subtitle2" color="initial">
-          {time}
+          {`${dateUtil.getDayOfWeekString(time)}, ${time.getDate()}/${time.getMonth() + 1}`}
         </Typography>
         <hr className={style.hrElement}></hr>
       </div>
@@ -21,4 +22,4 @@ const HorizontalRule: React.FC<HorizontalRulePros> = ({ time }) => {
   );
 };
 
-export default HorizontalRule;
+export default TimeLine;

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import SendIcon from '@material-ui/icons/Send';
 import Message from '../Message/Message';
-import HorizontalRule from '../HorizontalRule/HorizontalRule';
+import HorizontalRule from '../HorizontalRule/TimeLine';
 import MyMessage from '../MyMessage/MyMessage';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -15,6 +15,10 @@ import roomApi from 'api/roomApi';
 import { useDispatch } from 'react-redux';
 import { setAnyRoom, setMenuOpen } from 'features/Chat/ReduxSlice/SidebarAppChatSlice';
 import { AppDispatch } from 'app/store';
+import { IMessage } from 'models/messages';
+import messageApi from 'api/messageApi';
+import { Timeline } from '@material-ui/icons';
+import TimeLine from '../HorizontalRule/TimeLine';
 
 let message = {
   name: 'Andrew',
@@ -27,9 +31,15 @@ interface IParamChatRoom {
   id: string;
 }
 
+interface IListMessage {
+  lstMsg: Array<IMessage>;
+}
+
 const ChatRoom: React.FC = () => {
+  let timeLine = 0;
   const dispatch = useDispatch<AppDispatch>();
   const [room, setRoom] = useState<IRoom>();
+  const [messages, setMessages] = useState<IListMessage>({ lstMsg: [] });
   const { id } = useParams<IParamChatRoom>();
   const style = ChatRoomStyle();
   const myRef = React.useRef<HTMLDivElement>(null);
@@ -40,7 +50,10 @@ const ChatRoom: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    roomApi.getOne(id.toString()).then((res) => setRoom(res.data.room));
+    roomApi.getOne(id).then((res) => setRoom(res.data.room));
+    messageApi.getAllInRoom(id).then((res) => {
+      setMessages({ lstMsg: res.data.rs });
+    });
     myRef.current?.scrollIntoView();
   }, [id]);
 
@@ -61,14 +74,38 @@ const ChatRoom: React.FC = () => {
         </Typography>
       </div>
       <div className={style.chatRoom}>
-        <Message name={message.name} postedDate={message.postedDate.toDateString()} content={message.content}></Message>
-        <Message name={message.name} postedDate={message.postedDate.toDateString()} content={message.content}></Message>
-        <MyMessage postedDate={message.postedDate.toDateString()} content={message.content}></MyMessage>
-        <HorizontalRule time="20/2/2021"></HorizontalRule>
-        <Message name={message.name} postedDate={message.postedDate.toDateString()} content={message.content}></Message>
-        <MyMessage postedDate={message.postedDate.toDateString()} content={message.content}></MyMessage>
-        <MyMessage postedDate={message.postedDate.toDateString()} content={message.content}></MyMessage>
-        <Message name={message.name} postedDate={message.postedDate.toDateString()} content={message.content}></Message>
+        {messages.lstMsg.map((item) => {
+          let date = new Date(item.createdAt);
+          let renderTimeline = false;
+          if (timeLine + 1000 * 3600 * 24 * 7 < date.getTime()) {
+            timeLine = date.getTime();
+            renderTimeline = true;
+          }
+          if (!item.isMe)
+            return (
+              <Message
+                key={item._id}
+                profilePictureUrl={item.postedBy.profilePictureUrl}
+                name={item.postedBy.fullname}
+                postedDate={date}
+                content={item.content}
+                renderTimeLine={renderTimeline}
+                time={new Date(timeLine)}
+              />
+            );
+          else
+            return (
+              <MyMessage
+                key={item._id}
+                profilePictureUrl={item.postedBy.profilePictureUrl}
+                postedDate={date}
+                content={item.content}
+                renderTimeLine={renderTimeline}
+                time={new Date(timeLine)}
+              />
+            );
+        })}
+
         <div ref={myRef}></div>
       </div>
       <div className={style.messageSender}>

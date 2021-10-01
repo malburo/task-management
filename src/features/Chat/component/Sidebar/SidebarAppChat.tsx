@@ -44,7 +44,7 @@ const SidebarAppChat: React.FC = () => {
         <Slide direction="right" timeout={{ enter: 500, exit: 300 }} in={hideStatus} unmountOnExit mountOnEnter>
           <Box>
             <Button variant="contained" className={style.backButton}>
-              Chanels List
+              Channels List
             </Button>
             <div className={style.searchField}>
               <SearchIcon className={style.searchIcon}></SearchIcon>
