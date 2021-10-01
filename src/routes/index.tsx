@@ -12,7 +12,7 @@ const RoutesComponent = () => (
     <Switch>
       <AuthRoute path="/auth" component={AuthFeature} />
       <PrivateRoute path="/boards" component={BoardFeature} />
-      <PublicRoute path="/appchat" component={ChatFeature} />
+      <PrivateRoute path="/appchat" component={ChatFeature} />
       <Route component={NotFound} />
     </Switch>
   </BrowserRouter>
