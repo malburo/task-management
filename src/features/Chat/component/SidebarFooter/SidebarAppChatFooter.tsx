@@ -10,6 +10,7 @@ import authApi, { GetMeResponse } from 'api/authApi';
 import { useSelector } from 'react-redux';
 import { RootState } from 'app/store';
 import { IUser } from 'models/user';
+import { Redirect } from 'react-router';
 const SidebarAppChatFooter: React.FC = () => {
   //const currentUser = useSelector((state: RootState) => state.auth );
   const [anchor, setAnchor] = useState<null | HTMLElement>(null);
@@ -19,8 +20,10 @@ const SidebarAppChatFooter: React.FC = () => {
   useEffect(() => {
     (async () => {
       let res = await authApi.getMe();
+      console.log(res);
       setMe(res.data.currentUser.currentUser);
     })();
+    console.log(me);
   }, []);
   const openProfileOptionHanlder = (e: React.MouseEvent<HTMLElement>) => {
     setAnchor(e.currentTarget);

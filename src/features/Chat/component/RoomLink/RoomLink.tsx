@@ -11,11 +11,7 @@ const RoomLink: React.FC<IRoomLinkPros> = ({ roomInfor }) => {
   const style = RoomLinkStyle();
   return (
     <div className={style.roomLink}>
-      <img
-        alt="none"
-        className={style.avatarImg}
-        src="https://znews-photo.zadn.vn/w660/Uploaded/ngogtn/2021_04_25/avatar_movie_Cropped.jpg"
-      ></img>
+      <img alt="none" className={style.avatarImg} src={roomInfor.image}></img>
       <Typography variant="subtitle1" className={style.roomName}>
         {roomInfor.name}
       </Typography>

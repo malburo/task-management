@@ -1,32 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Box, Button, Slide, Typography } from '@material-ui/core';
 import SidebarAppChatStyle from './SidebarAppChatStyle';
 import ListRooms from '../ListRooms/ListRooms';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import SearchIcon from '@material-ui/icons/Search';
 import SidebarAppChatFooter from '../SidebarFooter/SidebarAppChatFooter';
-import boardApi from 'api/boardApi';
 import { IBoard } from 'models/board';
+import { debounce } from 'lodash';
+import roomApi from 'api/roomApi';
 
-interface IChannel {
+interface IChannelList {
   lstChannel: Array<IBoard>;
 }
 
 const SidebarAppChat: React.FC = () => {
   const [hideStatus, setHideStatus] = useState(true);
   const [idChanel, setIdChanel] = useState('0');
-  const [chanel, setChanel] = useState<IChannel>({ lstChannel: [] });
+  const [channels, setChannels] = useState<IChannelList>({ lstChannel: [] });
   const style = SidebarAppChatStyle();
+  const searchInput = useRef(null);
 
   useEffect(() => {
-    boardApi.getAll().then((data) => {
-      setChanel({ lstChannel: data.data.boards });
+    roomApi.getAllChannel().then((data) => {
+      setChannels({ lstChannel: data.data.channels });
     });
   }, []);
-
-  useEffect(() => {
-    console.log(chanel.lstChannel);
-  }, [chanel]);
 
   const getAvatar = (name: string) => {
     let lstName = name.split(' ');
@@ -38,6 +36,20 @@ const SidebarAppChat: React.FC = () => {
     setIdChanel((chanel as HTMLInputElement).value);
     setHideStatus(!hideStatus);
   };
+
+  const fetchDataFromSearch = async (term: string) => {
+    const res = await roomApi.search({ term: term });
+    setChannels({ lstChannel: res.data.channels });
+    console.log(term);
+  };
+
+  const debounceCall = debounce((term) => fetchDataFromSearch(term), 500);
+
+  const submitChange = (e: React.FormEvent<HTMLInputElement>) => {
+    let term = e.currentTarget.value;
+    debounceCall(term);
+  };
+
   return (
     <React.Fragment>
       <div className={style.sidebar}>
@@ -47,24 +59,32 @@ const SidebarAppChat: React.FC = () => {
               Channels List
             </Button>
             <div className={style.searchField}>
-              <SearchIcon className={style.searchIcon}></SearchIcon>
-              <input type="text" placeholder="Search" className={style.searchInput}></input>
+              <SearchIcon className={style.searchIcon} />
+              <input
+                type="text"
+                placeholder="Search"
+                name="term"
+                onChange={submitChange}
+                className={style.searchInput}
+                ref={searchInput}
+              ></input>
             </div>
             <div className={style.listChanels}>
-              {chanel.lstChannel.map((i) => (
-                <Button
-                  key={i._id}
-                  value={i._id}
-                  variant="contained"
-                  className={style.chanelLink}
-                  onClick={clickHandler}
-                >
-                  <Typography variant="subtitle1" className={style.avatar}>
-                    {getAvatar(i.title)}
-                  </Typography>
-                  {i.title}
-                </Button>
-              ))}
+              {channels.lstChannel.length > 0 &&
+                channels.lstChannel.map((i) => (
+                  <Button
+                    key={i._id}
+                    value={i._id}
+                    variant="contained"
+                    className={style.chanelLink}
+                    onClick={clickHandler}
+                  >
+                    <Typography variant="subtitle1" className={style.avatar}>
+                      {getAvatar(i.title)}
+                    </Typography>
+                    {i.title}
+                  </Button>
+                ))}
             </div>
           </Box>
         </Slide>
@@ -76,7 +96,7 @@ const SidebarAppChat: React.FC = () => {
               onClick={() => setHideStatus(!hideStatus)}
               startIcon={<ArrowBackIosIcon></ArrowBackIosIcon>}
             >
-              All Chanels
+              All Channels
             </Button>
             <ListRooms idChanel={idChanel} />
           </Box>

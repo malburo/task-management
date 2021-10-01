@@ -16,6 +16,12 @@ const roomApi = {
   removeMember(payload?: any): Promise<any> {
     return axiosClient.delete(`/rooms/board/${payload.boardId}/member`, payload);
   },
+  getAllChannel(): Promise<any> {
+    return axiosClient.get(`/rooms/channel`);
+  },
+  search(params?: any): Promise<any> {
+    return axiosClient.get(`/rooms/channel/search`, { params });
+  },
 };
 
 export default roomApi;

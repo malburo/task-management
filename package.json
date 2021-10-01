@@ -15,6 +15,7 @@
     "@testing-library/react": "^12.1.0",
     "@testing-library/user-event": "^13.2.1",
     "@types/jest": "^27.0.1",
+    "@types/lodash.debounce": "^4.0.6",
     "@types/node": "^16.9.1",
     "@types/query-string": "^6.3.0",
     "@types/react": "^17.0.20",
