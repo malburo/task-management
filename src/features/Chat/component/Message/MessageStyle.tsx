@@ -23,6 +23,7 @@ export default makeStyles({
     display: 'flex',
     height: '20px',
     marginBottom: '1%',
+    minWidth: '200px',
   },
   name: {
     margin: '0 3% 0 2%!important',

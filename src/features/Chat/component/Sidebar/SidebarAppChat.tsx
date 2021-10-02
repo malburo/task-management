@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Button, Slide, Typography } from '@material-ui/core';
+import { Box, Button, Slide } from '@material-ui/core';
 import SidebarAppChatStyle from './SidebarAppChatStyle';
 import ListRooms from '../ListRooms/ListRooms';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';

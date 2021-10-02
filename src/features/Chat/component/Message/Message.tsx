@@ -3,6 +3,7 @@ import MessageStyle from './MessageStyle';
 import Typography from '@material-ui/core/Typography';
 import dateUtil from 'utilities/dateUtil';
 import TimeLine from '../HorizontalRule/TimeLine';
+import { Box } from '@material-ui/system';
 
 interface IMessagePros {
   name: string;
@@ -27,12 +28,14 @@ const Message: React.FC<IMessagePros> = ({ name, postedDate, content, profilePic
           <img className={style.avatarImg} alt="none" src={profilePictureUrl}></img>
         </div>
         <div>
-          <div className={style.messageContent}>
-            <Typography variant="body2">{content}</Typography>
-          </div>
+          <Box sx={{ display: 'flex' }}>
+            <div className={style.messageContent}>
+              <Typography variant="body2">{content}</Typography>
+            </div>
+          </Box>
           <div className={style.accountInfor}>
             <Typography variant="subtitle2" className={style.name}>
-              {name} -
+              {name},
             </Typography>
             <Typography variant="subtitle2">{dateUtil.fortmatDate(postedDate)}</Typography>
           </div>

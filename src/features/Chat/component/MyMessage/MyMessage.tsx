@@ -10,6 +10,12 @@ import { Box } from '@material-ui/system';
 import CancelIcon from '@material-ui/icons/Cancel';
 import SaveIcon from '@material-ui/icons/Save';
 import Edit from '@material-ui/icons/Edit';
+import messageApi from 'api/messageApi';
+import * as yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import InputField from 'components/form-control/InputField';
+
 interface IMessagePros {
   postedDate: Date;
   content: string;
@@ -19,18 +25,30 @@ interface IMessagePros {
   _id: string;
 }
 
+const scheme = yup.object().shape({
+  msgContent: yup.string().required('Please enter message').max(100, 'Please enter up to 100 characters'),
+});
+
 const MyMessage: React.FC<IMessagePros> = ({ _id, postedDate, content, profilePictureUrl, renderTimeLine, time }) => {
   const style = MyMessageStyle();
   const [timeline, setTimeline] = useState<ReactElement>();
   const [deleteDialog, setDeleteDialog] = useState<boolean>(false);
   const [editDialog, setEditDialog] = useState<boolean>(false);
+  const [contentMsg, setContentMsg] = useState<string>(content);
+  const form = useForm({
+    resolver: yupResolver(scheme),
+  });
   const handleDelete = () => {
     console.log(_id);
     setDeleteDialog(false);
   };
-  const handleEdit = () => {
-    console.log(_id);
-    setEditDialog(false);
+  const handleEdit = (data: any) => {
+    if (!data.msgContent) return;
+    messageApi.update({ messageId: _id, data: data.msgContent }).then((res) => {
+      console.log(res);
+      setContentMsg(res.data.updatedMessage.content);
+      setEditDialog(false);
+    });
   };
   const handleClose = () => {
     setDeleteDialog(false);
@@ -55,7 +73,7 @@ const MyMessage: React.FC<IMessagePros> = ({ _id, postedDate, content, profilePi
         >
           Confirm
         </DialogTitle>
-        <Typography variant="body2" className={style.messageContent}>
+        <Typography variant="body2" sx={{ margin: '0 20px 20px 20px ', textAlign: 'center' }}>
           Are you sure to delete this message?
         </Typography>
         <Box
@@ -95,36 +113,37 @@ const MyMessage: React.FC<IMessagePros> = ({ _id, postedDate, content, profilePi
           Edit Message
         </DialogTitle>
         <Box>
-          <FormControl sx={{ width: '40vw', padding: '0 2vw 2vw 2vw' }}>
-            <TextField placeholder="type a new message here" />
-          </FormControl>
-        </Box>
-
-        <Box
-          sx={{
-            height: '50px',
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-          }}
-        >
-          <IconButton
-            onClick={handleEdit}
-            sx={{
-              width: '40%',
-            }}
-          >
-            <SaveIcon />
-          </IconButton>
-          <IconButton
-            onClick={handleClose}
-            sx={{
-              width: '40%',
-              backgroundColor: 'red',
-            }}
-          >
-            <CancelIcon />
-          </IconButton>
+          <form className={style.editForm} onSubmit={form.handleSubmit(handleEdit)}>
+            <InputField name="msgContent" placeholder="type a new message here" form={form} />
+            <Box
+              sx={{
+                marginTop: '20px',
+                height: '50px',
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+              }}
+            >
+              <IconButton
+                type="submit"
+                onClick={handleEdit}
+                sx={{
+                  width: '40%',
+                }}
+              >
+                <SaveIcon />
+              </IconButton>
+              <IconButton
+                onClick={handleClose}
+                sx={{
+                  width: '40%',
+                  backgroundColor: 'red',
+                }}
+              >
+                <CancelIcon />
+              </IconButton>
+            </Box>
+          </form>
         </Box>
       </Dialog>
       {timeline}
@@ -135,6 +154,7 @@ const MyMessage: React.FC<IMessagePros> = ({ _id, postedDate, content, profilePi
             display: 'flex',
             flexDirection: 'row',
           }}
+          arrow
           title={
             <React.Fragment>
               <IconButton className={style.iconButtonTool} onClick={handleOpenDelete}>
@@ -150,7 +170,7 @@ const MyMessage: React.FC<IMessagePros> = ({ _id, postedDate, content, profilePi
           <div>
             <div>
               <Typography variant="body2" className={style.messageContent}>
-                {content}
+                {contentMsg}
               </Typography>
             </div>
             <div className={style.accountInfor}>

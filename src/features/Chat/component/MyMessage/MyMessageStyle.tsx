@@ -45,4 +45,8 @@ export default makeStyles({
       backgroundColor: 'gray !important',
     },
   },
+  editForm: {
+    width: '40vw',
+    padding: '0 2vw 2vw 2vw',
+  },
 });
