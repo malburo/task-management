@@ -26,11 +26,6 @@ const SidebarAppChat: React.FC = () => {
     });
   }, []);
 
-  const getAvatar = (name: string) => {
-    let lstName = name.split(' ');
-    return lstName.length > 1 ? lstName[0][0] + lstName[1][0] : lstName[0][0];
-  };
-
   const clickHandler = (e: React.MouseEvent<HTMLElement>) => {
     let chanel = e.currentTarget;
     setIdChanel((chanel as HTMLInputElement).value);
@@ -40,7 +35,6 @@ const SidebarAppChat: React.FC = () => {
   const fetchDataFromSearch = async (term: string) => {
     const res = await roomApi.search({ term: term });
     setChannels({ lstChannel: res.data.channels });
-    console.log(term);
   };
 
   const debounceCall = debounce((term) => fetchDataFromSearch(term), 500);
@@ -67,6 +61,8 @@ const SidebarAppChat: React.FC = () => {
                 onChange={submitChange}
                 className={style.searchInput}
                 ref={searchInput}
+                autoComplete="off"
+                maxLength={20}
               ></input>
             </div>
             <div className={style.listChanels}>
@@ -79,9 +75,11 @@ const SidebarAppChat: React.FC = () => {
                     className={style.chanelLink}
                     onClick={clickHandler}
                   >
-                    <Typography variant="subtitle1" className={style.avatar}>
-                      {getAvatar(i.title)}
-                    </Typography>
+                    <img
+                      src={`https://avatars.dicebear.com/4.5/api/initials/${i.title}.svg`}
+                      className={style.avatar}
+                      alt=""
+                    />
                     {i.title}
                   </Button>
                 ))}

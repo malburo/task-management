@@ -42,6 +42,9 @@ export default makeStyles({
     borderRadius: '10px',
     width: '70%',
     fontSize: '1rem',
+    '&::-internal-autofill-selected': {
+      backgroundColor: '0 0 0px 1000px white inset',
+    },
   },
   searchIcon: {
     height: '6vh!important',
@@ -61,7 +64,8 @@ export default makeStyles({
   chanelLink: {
     display: 'flex  !important',
     width: '85%  !important',
-    margin: '3vh 7.5% 3vh 7.5%  !important',
+    margin: '10px 7.5% 10px 7.5%  !important',
+    height: '50px !important',
     padding: '5px 2px 5px 2px  !important',
     justifyContent: 'flex-start  !important',
     backgroundColor: 'rgb(18, 15, 19)  !important',
@@ -75,12 +79,10 @@ export default makeStyles({
     },
   },
   avatar: {
-    backgroundColor: 'gray',
-    padding: '.25em ',
-    width: '12%',
     borderRadius: '5px',
     textTransform: 'uppercase',
     marginRight: '1em  !important',
     textAlign: 'center',
+    width: '40px',
   },
 });

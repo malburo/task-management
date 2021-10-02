@@ -17,15 +17,6 @@ import { setAnyRoom, setMenuOpen } from 'features/Chat/ReduxSlice/SidebarAppChat
 import { AppDispatch } from 'app/store';
 import { IMessage } from 'models/messages';
 import messageApi from 'api/messageApi';
-import { Timeline } from '@material-ui/icons';
-import TimeLine from '../HorizontalRule/TimeLine';
-
-let message = {
-  name: 'Andrew',
-  postedDate: new Date(),
-  content:
-    'Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur',
-};
 
 interface IParamChatRoom {
   id: string;
@@ -102,6 +93,7 @@ const ChatRoom: React.FC = () => {
                 content={item.content}
                 renderTimeLine={renderTimeline}
                 time={new Date(timeLine)}
+                _id={item._id}
               />
             );
         })}

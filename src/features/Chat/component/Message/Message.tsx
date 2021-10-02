@@ -17,7 +17,6 @@ const Message: React.FC<IMessagePros> = ({ name, postedDate, content, profilePic
   const style = MessageStyle();
   const [timeline, setTimeline] = useState<ReactElement>();
   useEffect(() => {
-    console.log(new Date(time));
     if (renderTimeLine === true) setTimeline(<TimeLine time={new Date(time)} />);
   }, [renderTimeLine]);
   return (

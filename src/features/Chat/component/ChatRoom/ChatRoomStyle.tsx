@@ -47,7 +47,7 @@ export default makeStyles({
     marginLeft: '5%',
     width: '90%',
     backgroundColor: 'rgb(60, 57, 63)',
-    height: '40px',
+    height: '50px',
     display: 'inline-block',
     borderRadius: '10px',
     overflow: 'hidden',
@@ -57,6 +57,7 @@ export default makeStyles({
     justifyContent: 'space-between',
   },
   messageTextField: {
+    fontSize: '15px',
     border: 'none',
     outline: 'none',
     width: '90%',
@@ -65,9 +66,9 @@ export default makeStyles({
     paddingLeft: '1%',
   },
   messageSubmit: {
-    height: '5vh',
+    height: '45px !important',
     borderRadius: '10px!important',
     marginRight: '.5vh!important',
-    marginTop: '.5vh!important',
+    marginTop: '2.5px!important',
   },
 });

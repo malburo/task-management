@@ -11,10 +11,10 @@ export default makeStyles({
   hrElement: {
     backgroundColor: 'gray',
     border: 'none',
-    height: '1.2px',
+    height: '1px',
     // eslint-disable-next-line
     ['@media (min-width:780px)']: {
-      width: '40%',
+      width: '35%',
     },
     // eslint-disable-next-line
     ['@media (max-width:780px)']: {

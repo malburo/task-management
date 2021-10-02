@@ -2,16 +2,17 @@ import { makeStyles } from '@material-ui/styles';
 
 export default makeStyles({
   roomLink: {
-    margin: '3vh 7.5% 3vh 7.5%',
     display: 'flex',
+    height: '60px !important',
+    // eslint-disable-next-line
+    margin: '10px 7.5% 10px 7.5%',
   },
   avatarImg: {
-    height: '5vh',
-    width: '5vh',
-    borderRadius: '5px',
+    width: '45px',
+    borderRadius: '13px !important',
   },
   roomName: {
-    lineHeight: '5vh !important',
+    lineHeight: '60px !important',
     marginLeft: '5%!important',
     color: 'white',
   },

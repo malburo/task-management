@@ -21,6 +21,9 @@ export default makeStyles({
       backgroundColor: 'rgb(10, 7, 9)  !important',
     },
   },
+  expandIcon: {
+    fontSize: '2rem',
+  },
   profileOptionList: {
     backgroundColor: 'rgb(37, 35, 41) !important',
     borderRadius: '10px',

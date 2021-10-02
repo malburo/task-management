@@ -1,36 +1,33 @@
 import { Menu, MenuItem, Typography, Button } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import HomeIcon from '@material-ui/icons/Home';
 import SidebarAppChatFooterStyle from './SidebarAppChatFooterStyle';
 import { Box } from '@material-ui/system';
-import authApi, { GetMeResponse } from 'api/authApi';
-import { useSelector } from 'react-redux';
-import { RootState } from 'app/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from 'app/store';
 import { IUser } from 'models/user';
-import { Redirect } from 'react-router';
+import { Redirect, useHistory } from 'react-router';
+import { logout } from 'features/Auth/authSlice';
 const SidebarAppChatFooter: React.FC = () => {
-  //const currentUser = useSelector((state: RootState) => state.auth );
+  const dispatch = useDispatch<AppDispatch>();
+  const currentUser = useSelector((state: RootState) => state.auth.currentUser) as IUser;
   const [anchor, setAnchor] = useState<null | HTMLElement>(null);
-  const [me, setMe] = useState<IUser>();
+  const history = useHistory();
   const style = SidebarAppChatFooterStyle();
 
-  useEffect(() => {
-    (async () => {
-      let res = await authApi.getMe();
-      console.log(res);
-      setMe(res.data.currentUser.currentUser);
-    })();
-    console.log(me);
-  }, []);
   const openProfileOptionHanlder = (e: React.MouseEvent<HTMLElement>) => {
     setAnchor(e.currentTarget);
   };
 
   const closeProfileOptionHandler = () => {
     setAnchor(null);
+  };
+  const handleLogout = () => {
+    dispatch(logout());
+    history.push('/auth/login');
   };
 
   return (
@@ -41,12 +38,10 @@ const SidebarAppChatFooter: React.FC = () => {
         onClick={openProfileOptionHanlder}
         endIcon={<ExpandMoreIcon />}
       >
-        <img
-          alt="none"
-          className={style.avatarImg}
-          src="https://znews-photo.zadn.vn/w660/Uploaded/ngogtn/2021_04_25/avatar_movie_Cropped.jpg"
-        ></img>
-        <Typography variant="body1" className={style.username}></Typography>
+        <img alt="none" className={style.avatarImg} src={currentUser.profilePictureUrl}></img>
+        <Typography variant="body1" className={style.username}>
+          {currentUser.fullname}
+        </Typography>
       </Button>
       <Menu
         id="profile-option"
@@ -65,7 +60,7 @@ const SidebarAppChatFooter: React.FC = () => {
           Home
         </MenuItem>
         <hr className={style.profileOptionHr} />
-        <MenuItem className={style.profileLogOutOptionItem}>
+        <MenuItem className={style.profileLogOutOptionItem} onClick={handleLogout}>
           <ExitToAppIcon className={style.profileOptionIcon} />
           Log Out
         </MenuItem>

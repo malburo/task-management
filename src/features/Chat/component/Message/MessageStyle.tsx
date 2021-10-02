@@ -15,8 +15,8 @@ export default makeStyles({
     marginRight: '2%',
   },
   avatarImg: {
-    height: '5vh',
-    width: '5vh',
+    height: '45px',
+    width: '45px',
     borderRadius: '5px',
   },
   accountInfor: {
