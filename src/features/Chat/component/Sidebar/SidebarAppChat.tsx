@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Button, Slide } from '@material-ui/core';
+
 import SidebarAppChatStyle from './SidebarAppChatStyle';
 import ListRooms from '../ListRooms/ListRooms';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import SearchIcon from '@material-ui/icons/Search';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import SearchIcon from '@mui/icons-material/Search';
 import SidebarAppChatFooter from '../SidebarFooter/SidebarAppChatFooter';
 import { IBoard } from 'models/board';
 import { debounce } from 'lodash';
 import roomApi from 'api/roomApi';
+import { Button, Slide } from '@mui/material';
+import { Box } from '@mui/system';
 
 interface IChannelList {
   lstChannel: Array<IBoard>;
@@ -87,7 +89,13 @@ const SidebarAppChat: React.FC = () => {
           </Box>
         </Slide>
         <Slide direction="left" timeout={{ enter: 300, exit: 0 }} in={!hideStatus} unmountOnExit mountOnEnter>
-          <Box>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              height: '98%',
+            }}
+          >
             <Button
               variant="contained"
               className={style.backButton}

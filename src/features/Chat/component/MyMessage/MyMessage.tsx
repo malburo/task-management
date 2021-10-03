@@ -1,15 +1,15 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import Typography from '@material-ui/core/Typography';
+
 import MyMessageStyle from './MyMessageStyle';
 import dateUtil from 'utilities/dateUtil';
 import TimeLine from '../HorizontalRule/TimeLine';
-import { Dialog, DialogTitle, FormControl, IconButton, TextField, Tooltip } from '@material-ui/core';
-import Delete from '@material-ui/icons/Delete';
-import CheckIcon from '@material-ui/icons/Check';
-import { Box } from '@material-ui/system';
-import CancelIcon from '@material-ui/icons/Cancel';
-import SaveIcon from '@material-ui/icons/Save';
-import Edit from '@material-ui/icons/Edit';
+import { Dialog, DialogTitle, FormControl, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import Delete from '@mui/icons-material/Delete';
+import CheckIcon from '@mui/icons-material/Check';
+import { Box } from '@mui/system';
+import CancelIcon from '@mui/icons-material/Cancel';
+import SaveIcon from '@mui/icons-material/Save';
+import Edit from '@mui/icons-material/Edit';
 import messageApi from 'api/messageApi';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';

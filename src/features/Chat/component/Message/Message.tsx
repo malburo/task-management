@@ -1,9 +1,10 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import MessageStyle from './MessageStyle';
-import Typography from '@material-ui/core/Typography';
+
 import dateUtil from 'utilities/dateUtil';
 import TimeLine from '../HorizontalRule/TimeLine';
-import { Box } from '@material-ui/system';
+import { Box } from '@mui/system';
+import { Typography } from '@mui/material';
 
 interface IMessagePros {
   name: string;

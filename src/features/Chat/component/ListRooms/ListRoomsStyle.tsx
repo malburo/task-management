@@ -1,11 +1,16 @@
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@mui/styles';
 
 export default makeStyles({
   link: {
     textDecoration: 'none !important',
   },
   title: {
-    margin: '3vh 7.5% 1vh 7.5% !important',
+    color: 'white',
+    fontWeight: 'bolder',
+  },
+  titleRoom: {
+    paddingBottom: '10px',
+    textAlign: 'center',
     textTransform: 'uppercase',
     color: 'white',
     fontWeight: 'bolder',
@@ -13,11 +18,11 @@ export default makeStyles({
   description: {
     marginLeft: '7.5%!important',
     marginRight: '7.5%!important',
-    height: '15vh',
+    maxHeight: '15vh',
     overflow: 'hidden',
   },
   listMember: {
-    height: '50vh',
+    marginBottom: '20px',
     overflowY: 'scroll',
     '&::-webkit-scrollbar': {
       width: '0.4em',

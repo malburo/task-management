@@ -1,24 +1,20 @@
-import Typography from '@material-ui/core/Typography';
 import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
-import SendIcon from '@material-ui/icons/Send';
 import Message from '../Message/Message';
-import HorizontalRule from '../HorizontalRule/TimeLine';
 import MyMessage from '../MyMessage/MyMessage';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Hidden, IconButton } from '@material-ui/core';
-import ListIcon from '@material-ui/icons/List';
 import ChatRoomStyle from './ChatRoomStyle';
-import { IRoom } from 'models/room';
-import roomApi from 'api/roomApi';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setAnyRoom, setMenuOpen } from 'features/Chat/ReduxSlice/SidebarAppChatSlice';
-import { AppDispatch } from 'app/store';
+import { AppDispatch, RootState } from 'app/store';
 import { IMessage } from 'models/messages';
 import messageApi from 'api/messageApi';
+import { Button, Hidden, IconButton, Typography } from '@mui/material';
+import ListIcon from '@mui/icons-material/List';
+import SendIcon from '@mui/icons-material/Send';
+import { getOneRoom } from 'features/Chat/ReduxSlice/RoomSlice';
 
-interface IParamChatRoom {
+export interface IParamChatRoom {
   id: string;
 }
 
@@ -29,11 +25,11 @@ interface IListMessage {
 const ChatRoom: React.FC = () => {
   let timeLine = 0;
   const dispatch = useDispatch<AppDispatch>();
-  const [room, setRoom] = useState<IRoom>();
   const [messages, setMessages] = useState<IListMessage>({ lstMsg: [] });
   const { id } = useParams<IParamChatRoom>();
   const style = ChatRoomStyle();
   const myRef = React.useRef<HTMLDivElement>(null);
+  const room = useSelector((state: RootState) => state.room);
 
   useEffect(() => {
     dispatch(setAnyRoom(true));
@@ -41,12 +37,15 @@ const ChatRoom: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    roomApi.getOne(id).then((res) => setRoom(res.data.room));
-    messageApi.getAllInRoom(id).then((res) => {
+    dispatch(getOneRoom({ id }));
+    myRef.current?.scrollIntoView();
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    messageApi.getAllInRoom(room._id).then((res) => {
       setMessages({ lstMsg: res.data.rs });
     });
-    myRef.current?.scrollIntoView();
-  }, [id]);
+  }, [room]);
 
   const clickHandler = () => {
     dispatch(setMenuOpen(true));
