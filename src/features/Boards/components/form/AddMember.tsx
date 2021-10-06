@@ -2,8 +2,6 @@ import { Avatar, Box, Button, Popover, Typography } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import SearchIcon from '@material-ui/icons/Search';
-import memberApi from 'api/memberApi';
-import userApi from 'api/userApi';
 import { AppDispatch } from 'app/store';
 import InputBaseField from 'components/form-control/InputBaseField';
 import { addMember } from 'features/Boards/boardSlice';
@@ -44,12 +42,11 @@ const AddMember: React.FC = () => {
   });
 
   const onSubmit = async ({ search }: FormValues) => {
-    const { data } = await userApi.getAll({ search });
-    setUser(data.users[0]);
+    // const { data } = await userApi.getAll({ search });
+    // setUser(data.users[0] as any);
   };
   const handleInviteClick = async (userId: string) => {
-    const { data } = await memberApi.create({ userId, boardId });
-    dispatch(addMember({ newMember: data.newMember }));
+    await dispatch(addMember({ userId, boardId }));
   };
   return (
     <Box sx={{ marginLeft: '10px' }}>
