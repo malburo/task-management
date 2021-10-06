@@ -1,77 +1,87 @@
-import { createAsyncThunk, createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createEntityAdapter, createSlice, EntityState, PayloadAction } from '@reduxjs/toolkit';
 import boardApi from 'api/boardApi';
-import columnApi from 'api/columnApi';
+import memberApi from 'api/memberApi';
 import { RootState } from 'app/store';
-import { mapOrder } from 'utilities/sorts';
-import { IColumn } from './../../models/column';
-import { ITask } from './../../models/task';
+import { IColumn } from 'models/column';
+import { ITask } from 'models/task';
+import { IUser } from 'models/user';
 
-export const getOneBoard = createAsyncThunk('board/getOneBoard', async (payload: any) => {
+export const getOneBoard = createAsyncThunk('board/getOneBoard', async (payload: { boardId: string }) => {
   const { data } = await boardApi.getOne(payload);
-  const columns = mapOrder(data.columns, data.board.columnOrder, '_id');
+  const { board, columns, members } = data as any;
   const tasks = columns.reduce((prev: any, curr: any) => [...prev, curr.tasks], []).flat();
-  return { board: data.board, columns, tasks, members: data.members };
+  delete columns.tasks;
+  return { board, columns, tasks, members };
 });
 
-export const updateColumnOrder = createAsyncThunk('board/updateColumnOrder', async (payload: any) => {
-  const response = await boardApi.update({
-    boardId: payload.boardId,
-    data: { columnOrder: payload.newColumnOrder },
-  });
-  return response;
-});
-
-export const updateTaskOrder = createAsyncThunk('board/updateTaskOrder', async (payload: any) => {
-  const response = await columnApi.update({
-    columnId: payload.columnId,
-    data: {
-      taskOrder: payload.taskOrder,
-      taskId: payload.taskId || null,
-    },
-  });
-  return response;
+export const addMember = createAsyncThunk('board/addMember', async (payload: any) => {
+  const response = await memberApi.create(payload);
+  return response.data;
 });
 
 export const columnsAdapter = createEntityAdapter({
   selectId: (column: IColumn) => column._id,
-  sortComparer: false,
 });
 export const tasksAdapter = createEntityAdapter({
   selectId: (task: ITask) => task._id,
 });
 export const membersAdapter = createEntityAdapter({
-  selectId: (column: IColumn) => column._id,
+  selectId: (member: IUser) => member._id,
 });
+
+interface BoardState {
+  isPrivate: boolean;
+  columnOrder: string[];
+  createdAt: string;
+  updatedAt: string;
+  columns: EntityState<IColumn>;
+  tasks: EntityState<ITask>;
+  members: EntityState<IUser>;
+}
+
+const initialState: BoardState = {
+  isPrivate: false,
+  columnOrder: [],
+  createdAt: '',
+  updatedAt: '',
+  columns: columnsAdapter.getInitialState(),
+  tasks: tasksAdapter.getInitialState(),
+  members: membersAdapter.getInitialState(),
+};
 
 const boardSlice = createSlice({
   name: 'board',
-  initialState: {
-    isPrivate: false,
-    columns: columnsAdapter.getInitialState(),
-    tasks: tasksAdapter.getInitialState(),
-    members: membersAdapter.getInitialState(),
-  },
+  initialState,
   reducers: {
-    addMember: (state: any, { payload }: PayloadAction<any>) => {
-      columnsAdapter.addOne(state.members, payload.newMember);
+    updateBoard: (state, { payload }: PayloadAction<any>) => {
+      return (state = { ...state, ...payload.changes });
     },
-    dropColumn: (state: any, { payload }: PayloadAction<any>) => {
-      columnsAdapter.setAll(state.columns, payload.newColumns);
+    addColumn: (state, { payload }: PayloadAction<any>) => {
+      columnsAdapter.addOne(state.columns, payload.newColumn);
     },
-    drogTask: (state: any, { payload }: PayloadAction<any>) => {
+    updateColumn: (state, { payload }: PayloadAction<any>) => {
       columnsAdapter.updateOne(state.columns, { id: payload.columnId, changes: payload.changes });
-      if (payload.taskId) {
-        tasksAdapter.updateOne(state.tasks, { id: payload.taskId, changes: { columnId: payload.columnId } });
-      }
+    },
+    addTask: (state, { payload }: PayloadAction<any>) => {
+      tasksAdapter.addOne(state.tasks, payload.newTask);
+    },
+    updateTask: (state, { payload }: PayloadAction<any>) => {
+      tasksAdapter.updateOne(state.tasks, { id: payload.taskId, changes: payload.changes });
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getOneBoard.pending, (state) => {});
-    builder.addCase(getOneBoard.rejected, (state) => {});
     builder.addCase(getOneBoard.fulfilled, (state, { payload }: PayloadAction<any>) => {
+      state.isPrivate = payload.board.isPrivate;
+      state.columnOrder = payload.board.columnOrder;
+      state.createdAt = payload.board.createdAt;
+      state.updatedAt = payload.board.updatedAt;
       columnsAdapter.setAll(state.columns, payload.columns);
-      tasksAdapter.setAll(state.tasks, payload.tasks);
       membersAdapter.setAll(state.members, payload.members);
+      tasksAdapter.setAll(state.tasks, payload.tasks);
+    });
+
+    builder.addCase(addMember.fulfilled, (state, { payload }: PayloadAction<any>) => {
+      membersAdapter.addOne(state.members, payload.newMember);
     });
   },
 });
@@ -81,5 +91,5 @@ export const tasksSelector = tasksAdapter.getSelectors((state: RootState) => sta
 export const membersSelector = membersAdapter.getSelectors((state: RootState) => state.board.members);
 
 const { reducer: boardReducer, actions } = boardSlice;
-export const { dropColumn, drogTask, addMember } = actions;
+export const { updateBoard, addTask, addColumn, updateColumn, updateTask } = actions;
 export default boardReducer;
