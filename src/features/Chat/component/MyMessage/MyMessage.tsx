@@ -16,7 +16,7 @@ import InputField from 'components/form-control/InputField';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from 'app/store';
 import { clearResponse } from 'features/Chat/ReduxSlice/MessagesSlice';
-import useChat from 'features/Chat/customHook/useChat';
+import useChat from 'hooks/useChat';
 
 interface IMessagePros {
   postedDate: Date;

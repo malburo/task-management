@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from 'features/Auth/authSlice';
 import boardReducer from 'features/Boards/boardSlice';
+import messagesReducer from 'features/Chat/ReduxSlice/MessagesSlice';
 import roomReducer from 'features/Chat/ReduxSlice/RoomSlice';
 import appchatUIReducer from 'features/Chat/ReduxSlice/SidebarAppChatSlice';
 
@@ -9,6 +10,7 @@ const rootReducer = {
   board: boardReducer,
   appchatUI: appchatUIReducer,
   room: roomReducer,
+  message: messagesReducer,
 };
 
 const store = configureStore({

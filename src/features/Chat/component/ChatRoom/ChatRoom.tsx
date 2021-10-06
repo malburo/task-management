@@ -17,7 +17,7 @@ import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { getMessageInRoom, messagesSeletor } from 'features/Chat/ReduxSlice/MessagesSlice';
-import useChat from 'features/Chat/customHook/useChat';
+import useChat from 'hooks/useChat';
 import { DateCount } from 'utilities/dateUtil';
 
 export interface IParamChatRoom {
@@ -168,7 +168,6 @@ const ChatRoom: React.FC = () => {
                 <SendIcon />
               </Button>
             )}
-
             {errors.msgContent && (
               <Button className={style.messageSubmit} variant="contained" disabled>
                 <SendIcon />

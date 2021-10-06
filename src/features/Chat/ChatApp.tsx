@@ -3,12 +3,13 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ChatRoom from './component/ChatRoom/ChatRoom';
 import SidebarAppChat from './component/Sidebar/SidebarAppChat';
 import CloseIcon from '@mui/icons-material/Close';
-import { makeStyles } from '@mui/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from 'app/store';
 import { setMenuOpen } from './ReduxSlice/SidebarAppChatSlice';
 import { Hidden } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
+import { makeStyles } from '@mui/styles';
+
 const useStyles = makeStyles({
   chatRoom: {
     // eslint-disable-next-line
