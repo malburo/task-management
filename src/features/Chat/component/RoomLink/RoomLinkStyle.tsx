@@ -10,7 +10,7 @@ export default makeStyles({
   roomLinkHightLight: {
     display: 'flex',
     height: '60px !important',
-    backgroundColor: '#2F80ED',
+    backgroundColor: 'rgb(37, 35, 41)',
     borderRadius: '13px',
     // eslint-disable-next-line
     margin: '10px 7.5% 10px 7.5%',

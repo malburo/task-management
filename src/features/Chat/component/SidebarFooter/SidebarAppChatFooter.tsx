@@ -8,7 +8,7 @@ import SidebarAppChatFooterStyle from './SidebarAppChatFooterStyle';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from 'app/store';
 import { IUser } from 'models/user';
-import { Redirect, useHistory } from 'react-router';
+import { useHistory } from 'react-router';
 import { logout } from 'features/Auth/authSlice';
 import Box from '@mui/material/Box';
 const SidebarAppChatFooter: React.FC = () => {
@@ -39,7 +39,16 @@ const SidebarAppChatFooter: React.FC = () => {
         endIcon={<ExpandMoreIcon />}
       >
         <img alt="none" className={style.avatarImg} src={currentUser.profilePictureUrl}></img>
-        <Typography variant="body1" className={style.username}>
+        <Typography
+          sx={{
+            display: 'inline-block',
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
+          }}
+          variant="body1"
+          className={style.username}
+        >
           {currentUser.fullname}
         </Typography>
       </Button>

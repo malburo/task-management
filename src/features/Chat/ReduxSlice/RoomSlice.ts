@@ -1,6 +1,5 @@
-import { createAsyncThunk, createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import roomApi from 'api/roomApi';
-import { RootState } from 'app/store';
 import { IBoard } from 'models/board';
 import { IRoom } from 'models/room';
 
@@ -9,13 +8,13 @@ export const getOneRoom = createAsyncThunk('room/getOneRoom', async (payload: an
   return { room: data.room };
 });
 
-const initialState: IRoom = {
-  _id: '',
-  board: {} as IBoard,
-  image: '',
-  isGeneral: false,
-  members: [],
-  name: '',
+interface IRoomState {
+  roomInfor: IRoom;
+  isLoading: Boolean;
+}
+const initialState: IRoomState = {
+  roomInfor: { _id: '', board: {} as IBoard, image: '', isGeneral: false, members: [], name: '' },
+  isLoading: true,
 };
 
 const roomSlice = createSlice({
@@ -23,17 +22,22 @@ const roomSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getOneRoom.pending, (state) => {});
-    builder.addCase(getOneRoom.rejected, (state) => {});
+    builder.addCase(getOneRoom.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getOneRoom.rejected, (state) => {
+      state.isLoading = true;
+    });
     builder.addCase(getOneRoom.fulfilled, (state, { payload }: PayloadAction<any>) => {
-      state._id = payload.room._id;
-      state.board = payload.room.board;
-      state.isGeneral = payload.room.isGeneral;
-      state.members = payload.room.members;
-      state.name = payload.room.name;
+      state.roomInfor._id = payload.room._id;
+      state.roomInfor.board = payload.room.board;
+      state.roomInfor.isGeneral = payload.room.isGeneral;
+      state.roomInfor.members = payload.room.members;
+      state.roomInfor.name = payload.room.name;
+      state.isLoading = false;
     });
   },
 });
-
+// eslint-disable-next-line
 const { actions, reducer: roomReducer } = roomSlice;
 export default roomReducer;

@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { Box, Button, Slide, Typography } from '@mui/material';
+import React, { useEffect, useRef, useState } from 'react';
 import SidebarAppChatStyle from './SidebarAppChatStyle';
 import ListRooms from '../ListRooms/ListRooms';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';

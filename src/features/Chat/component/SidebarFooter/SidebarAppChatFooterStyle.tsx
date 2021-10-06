@@ -25,6 +25,7 @@ export default makeStyles({
     fontSize: '2rem',
   },
   profileOptionList: {
+    border: 'none !important',
     backgroundColor: 'rgb(37, 35, 41) !important',
     borderRadius: '10px',
     padding: '5px',

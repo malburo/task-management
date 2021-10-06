@@ -1,20 +1,22 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import Typography from '@mui/material/Typography';
 import MyMessageStyle from './MyMessageStyle';
 import dateUtil from 'utilities/dateUtil';
 import TimeLine from '../HorizontalRule/TimeLine';
-import { Dialog, DialogTitle, FormControl, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { Alert, Dialog, DialogTitle, IconButton, Snackbar, Tooltip, Typography } from '@mui/material';
 import Delete from '@mui/icons-material/Delete';
 import CheckIcon from '@mui/icons-material/Check';
 import { Box } from '@mui/system';
 import CancelIcon from '@mui/icons-material/Cancel';
 import SaveIcon from '@mui/icons-material/Save';
 import Edit from '@mui/icons-material/Edit';
-import messageApi from 'api/messageApi';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import InputField from 'components/form-control/InputField';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from 'app/store';
+import { clearResponse } from 'features/Chat/ReduxSlice/MessagesSlice';
+import useChat from 'features/Chat/customHook/useChat';
 
 interface IMessagePros {
   postedDate: Date;
@@ -25,30 +27,45 @@ interface IMessagePros {
   _id: string;
 }
 
-const scheme = yup.object().shape({
-  msgContent: yup.string().required('Please enter message').max(100, 'Please enter up to 100 characters'),
-});
+const scheme = yup
+  .object()
+  .shape({
+    msgContent: yup.string().required('Please enter message').max(100, 'Please enter up to 100 characters'),
+  })
+  .required();
 
 const MyMessage: React.FC<IMessagePros> = ({ _id, postedDate, content, profilePictureUrl, renderTimeLine, time }) => {
   const style = MyMessageStyle();
+  const dispatch = useDispatch<AppDispatch>();
+  const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
   const [timeline, setTimeline] = useState<ReactElement>();
   const [deleteDialog, setDeleteDialog] = useState<boolean>(false);
   const [editDialog, setEditDialog] = useState<boolean>(false);
   const [contentMsg, setContentMsg] = useState<string>(content);
+  const response = useSelector((state: RootState) => state.message.response);
+  const { sendDeleteMessage, sendEditMessage } = useChat();
+
   const form = useForm({
+    defaultValues: {
+      msgContent: contentMsg,
+    },
     resolver: yupResolver(scheme),
   });
+
+  useEffect(() => {
+    setContentMsg(content);
+  }, [content]);
+
   const handleDelete = () => {
-    console.log(_id);
+    sendDeleteMessage(_id);
+    //dispatch(deleteOne({ messageId: _id }));
     setDeleteDialog(false);
   };
   const handleEdit = (data: any) => {
     if (!data.msgContent) return;
-    messageApi.update({ messageId: _id, data: data.msgContent }).then((res) => {
-      console.log(res);
-      setContentMsg(res.data.updatedMessage.content);
-      setEditDialog(false);
-    });
+    sendEditMessage(_id, data.msgContent);
+    //dispatch(updateOne({ messageId: _id, msgContent: data.msgContent, roomId: room._id }));
+    setEditDialog(false);
   };
   const handleClose = () => {
     setDeleteDialog(false);
@@ -61,10 +78,36 @@ const MyMessage: React.FC<IMessagePros> = ({ _id, postedDate, content, profilePi
     setEditDialog(true);
   };
   useEffect(() => {
-    if (renderTimeLine == true) setTimeline(<TimeLine time={new Date(time)} />);
-  }, [renderTimeLine]);
+    if (renderTimeLine === true) setTimeline(<TimeLine time={new Date(time)} />);
+  }, [renderTimeLine, time]);
+
+  const closeSnackbar = () => {
+    setOpenSnackBar(false);
+    dispatch(clearResponse());
+  };
+  useEffect(() => {
+    if (response.status === 0) setOpenSnackBar(false);
+    else setOpenSnackBar(true);
+  }, [response]);
+
   return (
     <React.Fragment>
+      {response.message && (
+        <Snackbar
+          open={openSnackBar}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          onClose={closeSnackbar}
+          sx={{
+            opacity: '0.3',
+            marginTop: '6vh',
+          }}
+        >
+          <Alert severity={`${response.status === -1 ? 'error' : 'success'}`} sx={{ width: '100%' }}>
+            {response.message}
+          </Alert>
+        </Snackbar>
+      )}
       <Dialog open={deleteDialog}>
         <DialogTitle
           sx={{
@@ -114,7 +157,7 @@ const MyMessage: React.FC<IMessagePros> = ({ _id, postedDate, content, profilePi
         </DialogTitle>
         <Box>
           <form className={style.editForm} onSubmit={form.handleSubmit(handleEdit)}>
-            <InputField name="msgContent" placeholder="type a new message here" form={form} />
+            <InputField autoComplete="off" name="msgContent" placeholder="type a new message here" form={form} />
             <Box
               sx={{
                 marginTop: '20px',
