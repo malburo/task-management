@@ -1,9 +1,6 @@
-import { Box, CardMedia, Grid, IconButton } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import AddIcon from '@material-ui/icons/Add';
-import CloseIcon from '@material-ui/icons/Close';
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
+import { Box, CardMedia, Grid, IconButton, Button, Dialog, DialogActions } from '@mui/material';
 import InputField from 'components/form-control/InputField';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';

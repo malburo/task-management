@@ -11,7 +11,7 @@ const axiosClient = axios.create({
 });
 
 axiosClient.interceptors.request.use(
-  (config) => {
+  (config: any) => {
     const token = localStorage.getItem('access_token');
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
@@ -22,7 +22,7 @@ axiosClient.interceptors.request.use(
 );
 
 axiosClient.interceptors.response.use(
-  (response) => {
+  (response: any) => {
     if (response && response.data) {
       return response.data;
     }

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Box, Button, Slide, Typography } from '@material-ui/core';
+import { Box, Button, Slide, Typography } from '@mui/material';
 import SidebarAppChatStyle from './SidebarAppChatStyle';
 import ListRooms from '../ListRooms/ListRooms';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import SearchIcon from '@material-ui/icons/Search';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import SearchIcon from '@mui/icons-material/Search';
 import SidebarAppChatFooter from '../SidebarFooter/SidebarAppChatFooter';
 
 interface ISidebarAppChatProps {

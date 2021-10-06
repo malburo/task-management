@@ -1,8 +1,8 @@
-import { Box, Grid, Popover, Typography } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import LockIcon from '@material-ui/icons/Lock';
+import LockIcon from '@mui/icons-material/Lock';
+import PublicIcon from '@mui/icons-material/Public';
+import { Box, Grid, Popover, Typography } from '@mui/material';
+import Button from '@mui/material/Button';
 import React, { useState } from 'react';
-import PublicIcon from '@material-ui/icons/Public';
 
 interface VisibilityProps {
   onChange: (value: boolean) => void;

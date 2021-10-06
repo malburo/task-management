@@ -1,7 +1,7 @@
-import { createTheme } from '@material-ui/core/styles';
+import { createTheme } from '@mui/material/styles';
 import React from 'react';
 
-declare module '@material-ui/core/styles' {
+declare module '@mui/material/styles' {
   interface TypographyVariants {
     regular1: React.CSSProperties;
     regular2: React.CSSProperties;
@@ -49,7 +49,7 @@ declare module '@material-ui/core/styles' {
   }
 }
 
-declare module '@material-ui/core/Typography' {
+declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
     regular1: true;
     regular2: true;

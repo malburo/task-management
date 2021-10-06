@@ -1,5 +1,5 @@
-import { Box, Button, Grid } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
+import { Box, Button, Grid } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import columnApi from 'api/columnApi';
 import InputBaseField from 'components/form-control/InputBaseField';
 import { useState } from 'react';

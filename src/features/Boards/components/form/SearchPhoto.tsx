@@ -1,6 +1,6 @@
-import { Box, Button, CardMedia, Grid, IconButton, Popover, Typography } from '@material-ui/core';
-import ImageIcon from '@material-ui/icons/Image';
-import SearchIcon from '@material-ui/icons/Search';
+import { Box, Button, CardMedia, Grid, IconButton, Popover, Typography } from '@mui/material';
+import ImageIcon from '@mui/icons-material/Image';
+import SearchIcon from '@mui/icons-material/Search';
 import InputBaseField from 'components/form-control/InputBaseField';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';

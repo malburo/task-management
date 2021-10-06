@@ -1,6 +1,6 @@
 import React from 'react';
 import MessageStyle from './MessageStyle';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 
 interface IMessagePros {
   name: string;

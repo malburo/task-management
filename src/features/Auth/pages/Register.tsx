@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@mui/styles';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { AppDispatch } from 'app/store';
 import { useDispatch } from 'react-redux';

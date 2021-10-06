@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Typography } from '@material-ui/core';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import { Box, Typography } from '@mui/material';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { Container, Draggable, DropResult } from '@richardrout/react-smooth-dnd';
 import columnApi from 'api/columnApi';
 import { AppDispatch, RootState } from 'app/store';

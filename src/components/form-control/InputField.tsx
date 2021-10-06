@@ -1,6 +1,6 @@
-import { FormHelperText } from '@material-ui/core';
-import FormControl from '@material-ui/core/FormControl';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
+import { FormHelperText } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import OutlinedInput from '@mui/material/OutlinedInput';
 import { Controller, UseFormReturn } from 'react-hook-form';
 
 interface InputFieldProps {

@@ -1,6 +1,6 @@
-import { Avatar, AvatarGroup, Box } from '@material-ui/core';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
+import { Avatar, AvatarGroup, Box } from '@mui/material';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
 import { IBoard } from 'models/board';
 import { Link } from 'react-router-dom';
 

@@ -1,7 +1,7 @@
-import { Avatar, Box, Button, Popover, Typography } from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
-import AddIcon from '@material-ui/icons/Add';
-import SearchIcon from '@material-ui/icons/Search';
+import { Avatar, Box, Button, Popover, Typography } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import AddIcon from '@mui/icons-material/Add';
+import SearchIcon from '@mui/icons-material/Search';
 import { AppDispatch } from 'app/store';
 import InputBaseField from 'components/form-control/InputBaseField';
 import { addMember } from 'features/Boards/boardSlice';

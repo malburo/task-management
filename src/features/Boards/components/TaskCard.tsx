@@ -1,6 +1,6 @@
-import { Avatar, AvatarGroup, Box, Chip, Typography } from '@material-ui/core';
-import CommentIcon from '@material-ui/icons/Comment';
-import { makeStyles } from '@material-ui/styles';
+import { Avatar, AvatarGroup, Box, Chip, Typography } from '@mui/material';
+import CommentIcon from '@mui/icons-material/Comment';
+import { makeStyles } from '@mui/styles';
 import { ITask } from 'models/task';
 
 const useStyles = makeStyles({

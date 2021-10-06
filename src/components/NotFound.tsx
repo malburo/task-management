@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@mui/styles';
 import { Link } from 'react-router-dom';
 import Header from './Header';
 

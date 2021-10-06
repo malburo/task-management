@@ -1,9 +1,9 @@
-import { Menu, MenuItem, Typography, Button } from '@material-ui/core';
+import { Menu, MenuItem, Typography, Button } from '@mui/material';
 import React, { useState } from 'react';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import HomeIcon from '@material-ui/icons/Home';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import HomeIcon from '@mui/icons-material/Home';
 import SidebarAppChatFooterStyle from './SidebarAppChatFooterStyle';
 
 const SidebarAppChatFooter: React.FC = () => {

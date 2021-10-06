@@ -1,5 +1,5 @@
-import { Box, Button } from '@material-ui/core';
-import InputBase from '@material-ui/core/InputBase';
+import { Box, Button } from '@mui/material';
+import InputBase from '@mui/material/InputBase';
 
 const Search: React.FC = () => {
   return (

@@ -1,11 +1,11 @@
-import { Drawer, Hidden, Theme } from '@material-ui/core';
+import { Drawer, Hidden, Theme } from '@mui/material';
 import React, { useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ChatRoom from './component/ChatRoom/ChatRoom';
 import SidebarAppChat from './component/Sidebar/SidebarAppChat';
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from '@mui/icons-material/Close';
 import { useEffect } from 'react';
-import { makeStyles, createStyles } from '@material-ui/styles';
+import { makeStyles, createStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

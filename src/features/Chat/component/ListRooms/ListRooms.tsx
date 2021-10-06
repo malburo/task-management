@@ -1,4 +1,4 @@
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import RoomLink from '../RoomLink/RoomLink';

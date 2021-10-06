@@ -1,4 +1,4 @@
-import { Container, Grid, Pagination, Typography } from '@material-ui/core';
+import { Container, Grid, Pagination, Typography } from '@mui/material';
 import boardApi from 'api/boardApi';
 import { IBoard } from 'models/board';
 import { IParams } from 'models/common';

@@ -1,4 +1,4 @@
-import { Avatar, AvatarGroup, Box } from '@material-ui/core';
+import { Avatar, AvatarGroup, Box } from '@mui/material';
 import { Container, Draggable, DropResult } from '@richardrout/react-smooth-dnd';
 import boardApi from 'api/boardApi';
 import { socketClient } from 'api/socketClient';

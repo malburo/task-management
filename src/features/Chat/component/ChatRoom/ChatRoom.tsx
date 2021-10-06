@@ -1,14 +1,14 @@
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import SendIcon from '@material-ui/icons/Send';
+import Button from '@mui/material/Button';
+import SendIcon from '@mui/icons-material/Send';
 import Message from '../Message/Message';
 import HorizontalRule from '../HorizontalRule/HorizontalRule';
 import MyMessage from '../MyMessage/MyMessage';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Hidden, IconButton } from '@material-ui/core';
-import ListIcon from '@material-ui/icons/List';
+import { Hidden, IconButton } from '@mui/material';
+import ListIcon from '@mui/icons-material/List';
 import ChatRoomStyle from './ChatRoomStyle';
 
 let message = {
