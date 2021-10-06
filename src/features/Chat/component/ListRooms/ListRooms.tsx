@@ -22,7 +22,7 @@ const ListRooms: React.FC<IListRoomsPros> = ({ idChanel }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [privateRooms, setPrivateRooms] = useState<IListRoom>({ lstRoom: [] });
   const [generalRoom, setGeneralRoom] = useState<IRoom>();
-  const room = useSelector((state: RootState) => state.room);
+  const room = useSelector((state: RootState) => state.room.roomInfor);
   const style = ListRoomsStyle();
 
   useEffect(() => {
@@ -45,7 +45,6 @@ const ListRooms: React.FC<IListRoomsPros> = ({ idChanel }) => {
           margin: '20px 7.5% 20px 7.5%',
           borderRadius: '20px',
           backgroundColor: 'rgb(37, 35, 41)',
-          boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
         }}
       >
         <Link to={'/appchat/room/' + generalRoom?._id} onClick={closeMenu} className={style.link}>
@@ -63,7 +62,7 @@ const ListRooms: React.FC<IListRoomsPros> = ({ idChanel }) => {
           marginBottom: '2vh',
         }}
       >
-        <Typography variant="h6" className={style.title}>
+        <Typography variant="subtitle1" className={style.title}>
           Members
         </Typography>
       </Box>
@@ -71,7 +70,7 @@ const ListRooms: React.FC<IListRoomsPros> = ({ idChanel }) => {
         {privateRooms.lstRoom.map((i) => {
           let hightlight = false;
           let isOnline = false;
-          if (i._id == room._id) hightlight = true;
+          if (i._id === room._id) hightlight = true;
           return (
             <Link key={i._id} to={'/appchat/room/' + i._id} onClick={closeMenu} className={style.link}>
               <RoomLink isOnline={isOnline} hightlight={hightlight} roomInfor={i} />

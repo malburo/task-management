@@ -20,6 +20,7 @@ const Message: React.FC<IMessagePros> = ({ name, postedDate, content, profilePic
   const [timeline, setTimeline] = useState<ReactElement>();
   useEffect(() => {
     if (renderTimeLine === true) setTimeline(<TimeLine time={new Date(time)} />);
+    // eslint-disable-next-line
   }, [renderTimeLine]);
   return (
     <React.Fragment>
