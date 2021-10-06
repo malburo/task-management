@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import authApi, { GetMeResponse } from 'api/authApi';
+import authApi from 'api/authApi';
 import { Response } from 'models/common';
 import { IUser } from 'models/user';
 import { LoginFormValues } from './components/LoginForm';
@@ -46,9 +46,9 @@ const authSlice = createSlice({
     builder.addCase(getMe.rejected, (state) => {
       state.isAuth = false;
     });
-    builder.addCase(getMe.fulfilled, (state, action: PayloadAction<Response<GetMeResponse>>) => {
+    builder.addCase(getMe.fulfilled, (state, { payload }: PayloadAction<Response<any>>) => {
       state.isAuth = true;
-      state.currentUser = action.payload.data.currentUser;
+      state.currentUser = payload.data.currentUser;
     });
 
     builder.addCase(login.pending, (state) => {});

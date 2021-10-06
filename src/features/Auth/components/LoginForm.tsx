@@ -71,11 +71,19 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
           <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
             Login now
           </Button>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={loginWithGithub}
+            style={{ marginTop: 12, backgroundColor: 'black', color: 'white' }}
+          >
+            login with github
+          </Button>
           <Typography variant="subtitle1" align="center">
             Not registered yet?
             <Link to="/auth/register">Register</Link>
           </Typography>
-          <p onClick={loginWithGithub}>login with github</p>
         </form>
       </Box>
     </Container>

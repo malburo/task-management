@@ -48,13 +48,12 @@ const Header = () => {
             color="inherit"
             startIcon={<ViewListIcon />}
             onClick={() => history.push('/boards')}
-            sx={{ display: { xs: 'none', md: 'flex' } }}
           >
             All Boards
           </Button>
         </Stack>
         <Typography variant="regular5" sx={{ marginX: 3, display: { xs: 'block', md: 'none' } }}>
-          Devchanllenge Board
+          Malburo Board
         </Typography>
         <Stack direction="row">
           <Box sx={{ marginRight: 3, display: { xs: 'none', md: 'block' } }}>
