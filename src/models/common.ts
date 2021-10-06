@@ -1,20 +1,20 @@
-export interface ListParams {
-  _page?: number;
-  _limit?: number;
-  _sort?: string;
-  _order?: 'asc' | 'desc';
+export interface IParams {
+  page: string;
+  limit: string;
+  sort?: string;
+  order?: 'asc' | 'desc';
   [key: string]: any;
 }
 export interface Response<T> {
   data: {
     [key: string]: T;
   };
-  message: string;
+  status: string;
 }
 export interface ResponseList<T> {
   data: {
-    [key: string]: T;
+    [key: string]: T | IParams;
+    pagination: IParams;
   };
-  message: string;
-  pagination: ListParams;
+  status: string;
 }

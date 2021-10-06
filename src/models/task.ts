@@ -1,9 +1,13 @@
-import { IUser } from './user';
-
 export interface ITask {
   _id: string;
-  content: string;
+  title: string;
+  description: string;
   coverUrl: string;
   columnId: string;
-  members?: IUser;
+  repicipentsId: string[];
+  labelsId: string[];
+  deadlineDay: Date;
+  reminderDay: Date;
+  createAt: Date;
+  updatedAt: Date;
 }
