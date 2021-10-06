@@ -9688,11 +9688,6 @@ react-error-overlay@^6.0.9:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.9.tgz#3c743010c9359608c375ecd6bc76f35d93995b0a"
   integrity sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==
 
-react-github-login@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/react-github-login/-/react-github-login-1.0.3.tgz#e3fdc29c1162ecc0704d9fe6096c69d6f53315e7"
-  integrity sha1-4/3CnBFi7MBwTZ/mCWxp1vUzFec=
-
 react-hook-form@^7.15.3:
   version "7.15.3"
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.15.3.tgz#7d222dcfd43137be127dca2843149f09bd25d4b1"
@@ -9707,11 +9702,6 @@ react-is@^16.13.1, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
-
-react-login-github@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/react-login-github/-/react-login-github-1.0.7.tgz#97b9ca5a612e6faa3dec3fafdb6702a8dcce8e0d"
-  integrity sha512-pXJ4LTESA2VP7VU+p7JXpAZ61aGp8UjQVbqA4F6e7R1V5P95jDgl2OVWfd9zhJdEMTejYPwJO/xmRy2hitAdgQ==
 
 react-redux@^7.2.5:
   version "7.2.5"
