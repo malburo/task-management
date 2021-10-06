@@ -46,10 +46,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   const form = useForm<any>({
     mode: 'onSubmit',
     reValidateMode: 'onChange',
-    // defaultValues: {
-    //   account: '',
-    //   password: '',
-    // },
+    defaultValues: {
+      account: '',
+      password: '',
+    },
     resolver: yupResolver(schema),
   });
   const loginWithGithub = async () => {
