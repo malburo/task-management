@@ -1,13 +1,13 @@
-import { Avatar, Box, Button, Divider, Stack } from '@material-ui/core';
-import AppBar from '@material-ui/core/AppBar';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import AppsIcon from '@material-ui/icons/Apps';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import ViewListIcon from '@material-ui/icons/ViewList';
+import { Avatar, Box, Button, Divider, Stack } from '@mui/material';
+import AppBar from '@mui/material/AppBar';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AppsIcon from '@mui/icons-material/Apps';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import ViewListIcon from '@mui/icons-material/ViewList';
 import { AppDispatch } from 'app/store';
 import { logout } from 'features/Auth/authSlice';
 import { useState } from 'react';
@@ -48,13 +48,12 @@ const Header = () => {
             color="inherit"
             startIcon={<ViewListIcon />}
             onClick={() => history.push('/boards')}
-            sx={{ display: { xs: 'none', md: 'flex' } }}
           >
             All Boards
           </Button>
         </Stack>
         <Typography variant="regular5" sx={{ marginX: 3, display: { xs: 'block', md: 'none' } }}>
-          Devchanllenge Board
+          Malburo Board
         </Typography>
         <Stack direction="row">
           <Box sx={{ marginRight: 3, display: { xs: 'none', md: 'block' } }}>

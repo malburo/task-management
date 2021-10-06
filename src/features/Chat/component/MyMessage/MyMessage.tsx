@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-
+import Typography from '@mui/material/Typography';
 import MyMessageStyle from './MyMessageStyle';
 import dateUtil from 'utilities/dateUtil';
 import TimeLine from '../HorizontalRule/TimeLine';

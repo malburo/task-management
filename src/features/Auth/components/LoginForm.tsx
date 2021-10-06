@@ -1,12 +1,12 @@
 /* eslint-disable no-useless-escape */
 import { yupResolver } from '@hookform/resolvers/yup';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import LockIcon from '@material-ui/icons/Lock';
-import MailIcon from '@material-ui/icons/Mail';
-import { makeStyles } from '@material-ui/styles';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import LockIcon from '@mui/icons-material/Lock';
+import MailIcon from '@mui/icons-material/Mail';
+import { makeStyles } from '@mui/styles';
 import InputField from 'components/form-control/InputField';
 import PasswordField from 'components/form-control/PasswordField';
 import { useForm } from 'react-hook-form';
@@ -43,7 +43,7 @@ export interface LoginFormValues {
 
 const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   const classes = useStyles();
-  const form = useForm({
+  const form = useForm<any>({
     mode: 'onSubmit',
     reValidateMode: 'onChange',
     // defaultValues: {
@@ -71,11 +71,19 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
           <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
             Login now
           </Button>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={loginWithGithub}
+            style={{ marginTop: 12, backgroundColor: 'black', color: 'white' }}
+          >
+            login with github
+          </Button>
           <Typography variant="subtitle1" align="center">
             Not registered yet?
             <Link to="/auth/register">Register</Link>
           </Typography>
-          <p onClick={loginWithGithub}>login with github</p>
         </form>
       </Box>
     </Container>

@@ -1,5 +1,5 @@
-import { FormHelperText, InputBase } from '@material-ui/core';
-import FormControl from '@material-ui/core/FormControl';
+import { FormHelperText, InputBase } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
 import { Controller, UseFormReturn } from 'react-hook-form';
 
 interface InputBaseProps {

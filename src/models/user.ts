@@ -5,4 +5,6 @@ export interface IUser {
   email: string;
   profilePictureUrl: string;
   bio: string;
+  createAt: Date;
+  updatedAt: Date;
 }

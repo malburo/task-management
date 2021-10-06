@@ -1,14 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Typography } from '@material-ui/core';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import { Box, Typography } from '@mui/material';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { Container, Draggable, DropResult } from '@richardrout/react-smooth-dnd';
+import columnApi from 'api/columnApi';
 import { AppDispatch, RootState } from 'app/store';
 import { IColumn } from 'models/column';
 import { ITask } from 'models/task';
 import { useDispatch, useSelector } from 'react-redux';
 import { applyDrag } from 'utilities/dragDrop';
 import { mapOrder } from 'utilities/sorts';
-import { drogTask, tasksSelector, updateTaskOrder } from '../boardSlice';
+import { tasksSelector, updateColumn, updateTask } from '../boardSlice';
+import AddTask from './form/AddTask';
 import TaskCard from './TaskCard';
 
 interface ColumnProps {
@@ -18,7 +20,7 @@ interface ColumnProps {
 const Column: React.FC<ColumnProps> = ({ column }) => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const tasks = useSelector((state: RootState) => {
+  const tasks: ITask[] = useSelector((state: RootState) => {
     const allTasks = tasksSelector.selectAll(state).filter((task: ITask) => task.columnId === column._id);
     return mapOrder(allTasks, column.taskOrder, '_id');
   });
@@ -31,14 +33,16 @@ const Column: React.FC<ColumnProps> = ({ column }) => {
     const newTaskOrder = newTasks.map((task: ITask) => task._id);
 
     if (dropResult.addedIndex !== null && dropResult.removedIndex !== null) {
-      dispatch(drogTask({ columnId, changes: { taskOrder: newTaskOrder } }));
-      dispatch(updateTaskOrder({ columnId, taskOrder: newTaskOrder }));
+      dispatch(updateColumn({ columnId, changes: { taskOrder: newTaskOrder } }));
+      await columnApi.update({ columnId, data: { taskOrder: newTaskOrder, taskId: null } });
       return;
     }
 
     if (dropResult.addedIndex !== null) {
-      dispatch(drogTask({ columnId, changes: { taskOrder: newTaskOrder }, taskId: dropResult.payload._id }));
-      dispatch(updateTaskOrder({ columnId, taskOrder: newTaskOrder, taskId: dropResult.payload._id }));
+      const taskId = dropResult.payload._id;
+      dispatch(updateColumn({ columnId, changes: { taskOrder: newTaskOrder } }));
+      dispatch(updateTask({ taskId, changes: { columnId } }));
+      await columnApi.update({ columnId, data: { taskOrder: newTaskOrder, taskId } });
       return;
     }
   };
@@ -70,6 +74,7 @@ const Column: React.FC<ColumnProps> = ({ column }) => {
             </Draggable>
           ))}
         </Container>
+        <AddTask columnId={column._id} />
       </Box>
     </Box>
   );

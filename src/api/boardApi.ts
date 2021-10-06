@@ -1,15 +1,19 @@
+import { AddBoardFormValues } from 'features/Boards/components/form/AddBoard';
 import { IBoard } from 'models/board';
-import { Response, ResponseList } from 'models/common';
+import { Response, ResponseList, IParams } from 'models/common';
 import axiosClient from './axiosClient';
 
 const boardApi = {
-  getAll(params?: any): Promise<ResponseList<any>> {
+  getAll(params?: IParams): Promise<ResponseList<IBoard[]>> {
     return axiosClient.get('/boards', { params });
   },
-  getOne(payload: any): Promise<Response<IBoard>> {
+  getOne(payload: { boardId: string }): Promise<Response<IBoard>> {
     return axiosClient.get(`/boards/${payload.boardId}`);
   },
-  update(payload: any): Promise<Response<IBoard>> {
+  create(payload: AddBoardFormValues): Promise<Response<IBoard>> {
+    return axiosClient.post('/boards', payload);
+  },
+  update(payload: { boardId: string; data: Partial<IBoard> }): Promise<Response<IBoard>> {
     return axiosClient.put(`/boards/${payload.boardId}`, payload.data);
   },
 };

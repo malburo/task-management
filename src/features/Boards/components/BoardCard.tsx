@@ -1,6 +1,6 @@
-import { Avatar, AvatarGroup, Box } from '@material-ui/core';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
+import { Avatar, AvatarGroup, Box } from '@mui/material';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
 import { IBoard } from 'models/board';
 import { Link } from 'react-router-dom';
 
@@ -24,7 +24,7 @@ const BoardCard: React.FC<Props> = ({ data }) => {
       </Box>
       <Box display="flex">
         <AvatarGroup max={3}>
-          {data.members?.map((member, index) => (
+          {data.members.map((member, index) => (
             <Avatar variant="rounded" src={member.profilePictureUrl} key={index} />
           ))}
         </AvatarGroup>

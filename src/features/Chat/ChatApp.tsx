@@ -1,20 +1,31 @@
-import React from 'react';
+import { Drawer, Hidden, Theme } from '@mui/material';
+import React, { useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ChatRoom from './component/ChatRoom/ChatRoom';
 import SidebarAppChat from './component/Sidebar/SidebarAppChat';
 import CloseIcon from '@mui/icons-material/Close';
-import { makeStyles } from '@mui/styles';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from 'app/store';
-import { setMenuOpen } from './ReduxSlice/SidebarAppChatSlice';
-import { Hidden } from '@mui/material';
-import Drawer from '@mui/material/Drawer';
-const useStyles = makeStyles({
-  chatRoom: {
-    // eslint-disable-next-line
-    ['@media (min-width:780px)']: {
-      width: '80%',
-      marginLeft: '20%',
+import { makeStyles, createStyles } from '@mui/styles';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    chatRoom: {
+      //   [theme.breakpoints.down('md')]: {
+      //     width: '100%',
+      //     marginLeft: '0%',
+      //   },
+      //   [theme.breakpoints.up('md')]: {
+      //     width: '80%',
+      //     marginLeft: '20%',
+      //   },
+    },
+    sideBar: {
+      //   [theme.breakpoints.down('md')]: {
+      //     width: '100%',
+      //   },
+      //   [theme.breakpoints.up('md')]: {
+      //     width: '20%',
+      //   },
+      border: 'none !important',
     },
     // eslint-disable-next-line
     ['@media (max-width:780px)']: {

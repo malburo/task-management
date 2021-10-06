@@ -1,6 +1,6 @@
-import { Avatar, AvatarGroup, Box, Chip, Typography } from '@material-ui/core';
-import CommentIcon from '@material-ui/icons/Comment';
-import { makeStyles } from '@material-ui/styles';
+import { Avatar, AvatarGroup, Box, Chip, Typography } from '@mui/material';
+import CommentIcon from '@mui/icons-material/Comment';
+import { makeStyles } from '@mui/styles';
 import { ITask } from 'models/task';
 
 const useStyles = makeStyles({
@@ -26,10 +26,14 @@ interface TaskCardProps {
 const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
   const classes = useStyles();
   return (
-    <Box width="260px" bgcolor="yellow" margin="12px">
+    <Box width="260px" bgcolor="#e4e4e4" margin="12px" padding="12px">
       <Box>
-        <img src="https://avatars3.githubusercontent.com/u/22362391?v=4" alt="asd" className={classes.cover} />
-        <Typography variant="regular4">{task.content}</Typography>
+        <img
+          src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/623df143063739.57e2065f398da.jpg"
+          alt="asd"
+          className={classes.cover}
+        />
+        <Typography variant="regular4">{task.title}</Typography>
         <Box>
           <Chip label="javascript" className={classes.label} />
           <Chip label="java" className={classes.label} />

@@ -1,14 +1,13 @@
-import { IColumn } from './column';
 import { IUser } from './user';
 
 export interface IBoard {
   _id: string;
-  isPrivate: boolean;
   title: string;
   description: string;
   coverUrl: string;
-  admin?: IUser;
-  members: IUser[] | [];
+  isPrivate: boolean;
   columnOrder: string[] | [];
-  columns: IColumn[] | [];
+  createAt: Date;
+  updatedAt: Date;
+  members: IUser[] | [];
 }

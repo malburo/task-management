@@ -1,4 +1,4 @@
-import { Box } from '@material-ui/core';
+import { Box } from '@mui/material';
 
 const TaskDetail: React.FC = () => {
   return <Box>Task Detail</Box>;

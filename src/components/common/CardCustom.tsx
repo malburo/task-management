@@ -1,4 +1,4 @@
-import { Card } from '@material-ui/core';
+import { Card } from '@mui/material';
 
 const CardCustom: React.FC<any> = ({ children, width }: any) => {
   return (

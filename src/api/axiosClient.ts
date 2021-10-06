@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { IParams } from 'models/common';
 import queryString from 'query-string';
 
 const axiosClient = axios.create({
@@ -6,11 +7,11 @@ const axiosClient = axios.create({
   headers: {
     'content-type': 'application/json',
   },
-  paramsSerializer: (params: any) => queryString.stringify(params),
+  paramsSerializer: (params: IParams) => queryString.stringify(params),
 });
 
 axiosClient.interceptors.request.use(
-  (config) => {
+  (config: any) => {
     const token = localStorage.getItem('access_token');
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
@@ -21,7 +22,7 @@ axiosClient.interceptors.request.use(
 );
 
 axiosClient.interceptors.response.use(
-  (response) => {
+  (response: any) => {
     if (response && response.data) {
       return response.data;
     }

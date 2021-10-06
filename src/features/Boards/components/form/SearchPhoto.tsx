@@ -1,6 +1,6 @@
-import { Box, Button, CardMedia, Grid, IconButton, Popover, Typography } from '@material-ui/core';
-import ImageIcon from '@material-ui/icons/Image';
-import SearchIcon from '@material-ui/icons/Search';
+import { Box, Button, CardMedia, Grid, IconButton, Popover, Typography } from '@mui/material';
+import ImageIcon from '@mui/icons-material/Image';
+import SearchIcon from '@mui/icons-material/Search';
 import InputBaseField from 'components/form-control/InputBaseField';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -19,7 +19,9 @@ interface Photo {
 interface SearchPhotoProps {
   onSelectPhoto: (photoUrl: string) => any;
 }
-
+interface FormValues {
+  search: string;
+}
 const SearchPhoto: React.FC<SearchPhotoProps> = ({ onSelectPhoto }) => {
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -42,7 +44,7 @@ const SearchPhoto: React.FC<SearchPhotoProps> = ({ onSelectPhoto }) => {
     },
   });
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async (values: FormValues) => {
     try {
       const response = await fetch(
         `https://api.unsplash.com/search/photos?query=${values.search}&client_id=W303w_kojjo6CfWav2VMJTtRKB1H2rMKGx6HKxU404Y`
@@ -93,7 +95,7 @@ const SearchPhoto: React.FC<SearchPhotoProps> = ({ onSelectPhoto }) => {
             <Typography variant="bold2">Photos search</Typography>
           </Box>
           <Box>
-            <Typography variant="regular1">Search Unsplash for photos.</Typography>
+            <Typography variant="regular1">Search photos.</Typography>
           </Box>
           <Box boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)" borderRadius={2} marginTop={3} marginBottom={5}>
             <form onSubmit={form.handleSubmit(onSubmit)}>

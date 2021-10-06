@@ -1,12 +1,12 @@
-import { Container, Grid, Pagination, Typography } from '@material-ui/core';
+import { Container, Grid, Pagination, Typography } from '@mui/material';
 import boardApi from 'api/boardApi';
 import { IBoard } from 'models/board';
-import { ListParams } from 'models/common';
+import { IParams } from 'models/common';
 import queryString from 'query-string';
 import { useEffect, useMemo, useState } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import BoardCard from '../components/BoardCard';
-import AddBoard from '../components/form/AddBoard';
+import AddBoard, { AddBoardFormValues } from '../components/form/AddBoard';
 
 const Boards = () => {
   const [boardList, setBoardList] = useState<IBoard[]>([]);
@@ -14,10 +14,9 @@ const Boards = () => {
 
   const location = useLocation();
   const history = useHistory();
-  const [pagination, setPagination] = useState<ListParams>({
-    count: 0,
-    limit: 0,
-    page: 0,
+  const [pagination, setPagination] = useState<IParams>({
+    limit: '0',
+    page: '0',
   });
 
   const queryParams = useMemo<any>(() => {
@@ -25,7 +24,7 @@ const Boards = () => {
     return {
       ...params,
       page: Number(params.page) || 1,
-      limit: Number(params.limit) || 5,
+      limit: Number(params.limit) || 8,
     };
   }, [location.search]);
 
@@ -34,7 +33,7 @@ const Boards = () => {
       try {
         setIsLoading(true);
         const { data } = await boardApi.getAll(queryParams);
-        setBoardList(data.boards);
+        setBoardList(data.boards as IBoard[]);
         setPagination(data.pagination);
       } catch (error) {
         console.log(error);
@@ -42,9 +41,9 @@ const Boards = () => {
       setIsLoading(false);
     };
     fetchBoardsData();
-  }, [queryParams]);
+  }, [queryParams, boardList.length]);
 
-  const handlePageChange = (e: any, page: number) => {
+  const handlePageChange = (e: React.ChangeEvent<unknown>, page: number) => {
     const filters = {
       ...queryParams,
       page,
@@ -55,6 +54,10 @@ const Boards = () => {
     });
   };
 
+  const handleAddBoard = async (value: AddBoardFormValues) => {
+    await boardApi.create(value);
+    setBoardList([]);
+  };
   return (
     <Container>
       <Grid container justifyContent="space-between" alignItems="center" style={{ marginBottom: 20, marginTop: 100 }}>
@@ -64,18 +67,20 @@ const Boards = () => {
           </Typography>
         </Grid>
         <Grid item>
-          <AddBoard />
+          <AddBoard onSubmit={handleAddBoard} />
         </Grid>
       </Grid>
       <Grid container spacing={4}>
-        {boardList.map((board) => (
-          <Grid item xs={6} sm={4} md={3} key={board._id}>
-            <BoardCard data={board} />
-          </Grid>
-        ))}
+        {isLoading
+          ? 'fetch data'
+          : boardList.map((board) => (
+              <Grid item xs={6} sm={4} md={3} key={board._id}>
+                <BoardCard data={board} />
+              </Grid>
+            ))}
         <Pagination
           color="primary"
-          count={Math.ceil(pagination.total / pagination.limit) || 0}
+          count={Math.ceil(pagination.total / parseInt(pagination.limit)) || 0}
           page={parseInt(pagination.page)}
           onChange={handlePageChange}
         />

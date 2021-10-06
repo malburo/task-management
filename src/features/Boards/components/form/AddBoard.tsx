@@ -1,22 +1,23 @@
-import { Box, CardMedia, Grid, IconButton } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import AddIcon from '@material-ui/icons/Add';
-import CloseIcon from '@material-ui/icons/Close';
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
+import { Box, CardMedia, Grid, IconButton, Button, Dialog, DialogActions } from '@mui/material';
 import InputField from 'components/form-control/InputField';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Visibility from '../Visibility';
 import SearchPhoto from './SearchPhoto';
 
-interface FormValues {
+export interface AddBoardFormValues {
   title: string;
   isPrivate: boolean;
   coverUrl: string;
 }
 
-const AddBoard = () => {
+interface AddBoardProps {
+  onSubmit: (values: AddBoardFormValues) => void;
+}
+
+const AddBoard: React.FC<AddBoardProps> = ({ onSubmit }) => {
   const [open, setOpen] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState<string>('');
   const form = useForm({
@@ -41,8 +42,9 @@ const AddBoard = () => {
     setSelectedPhoto(photoUrl);
     form.setValue('coverUrl', photoUrl);
   };
-  const onSubmit = (value: FormValues) => {
-    console.log(value);
+  const handleSubmit = (value: AddBoardFormValues) => {
+    onSubmit(value);
+    setOpen(false);
   };
   return (
     <Box>
@@ -79,7 +81,7 @@ const AddBoard = () => {
             <CloseIcon />
           </IconButton>
           <Box>
-            <form id="update-form" onSubmit={form.handleSubmit(onSubmit)}>
+            <form id="update-form" onSubmit={form.handleSubmit(handleSubmit)}>
               <InputField name="title" form={form} placeholder="Add board title" />
             </form>
             <Box marginY={5}>
