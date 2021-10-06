@@ -4,20 +4,15 @@ import { Response } from 'models/common';
 import { IUser } from 'models/user';
 import axiosClient from './axiosClient';
 
-export interface GetMeResponse {
-  currentUser: IUser;
-  message: string;
-}
-
 const authApi = {
-  getMe(): Promise<Response<GetMeResponse>> {
+  getMe(): Promise<Response<IUser>> {
     return axiosClient.get('/auth/getMe');
   },
-  login(data: LoginFormValues): Promise<Response<string>> {
-    return axiosClient.post('/auth/login', data);
+  login(payload: LoginFormValues): Promise<Response<string>> {
+    return axiosClient.post('/auth/login', payload);
   },
-  register(data: RegisterFormValues): Promise<Response<string>> {
-    return axiosClient.post('/auth/register', data);
+  register(payload: RegisterFormValues): Promise<Response<string>> {
+    return axiosClient.post('/auth/register', payload);
   },
   logout(): Promise<Response<string>> {
     return axiosClient.get('/auth/logout');

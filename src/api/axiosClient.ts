@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { IParams } from 'models/common';
 import queryString from 'query-string';
 
 const axiosClient = axios.create({
@@ -6,7 +7,7 @@ const axiosClient = axios.create({
   headers: {
     'content-type': 'application/json',
   },
-  paramsSerializer: (params: any) => queryString.stringify(params),
+  paramsSerializer: (params: IParams) => queryString.stringify(params),
 });
 
 axiosClient.interceptors.request.use(
