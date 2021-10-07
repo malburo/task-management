@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Message from '../Message/Message';
 import MyMessage from '../MyMessage/MyMessage';
 import { useEffect } from 'react';
@@ -8,17 +8,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setAnyRoom, setMenuOpen } from 'features/Chat/ReduxSlice/SidebarAppChatSlice';
 import { AppDispatch, RootState } from 'app/store';
 import { IMessage } from 'models/messages';
-import { Button, CircularProgress, Hidden, IconButton, Typography } from '@mui/material';
+import { Alert, Button, Hidden, IconButton, Snackbar, Typography } from '@mui/material';
 import ListIcon from '@mui/icons-material/List';
 import SendIcon from '@mui/icons-material/Send';
 import { getOneRoom } from 'features/Chat/ReduxSlice/RoomSlice';
-import { Box } from '@mui/system';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { getMessageInRoom, messagesSeletor } from 'features/Chat/ReduxSlice/MessagesSlice';
+import { clearResponse, createOne, getMessageInRoom, messagesSeletor } from 'features/Chat/ReduxSlice/MessagesSlice';
 import useChat from 'hooks/useChat';
 import { DateCount } from 'utilities/dateUtil';
+import { IUser } from 'models/user';
 
 export interface IParamChatRoom {
   id: string;
@@ -42,10 +42,12 @@ const ChatRoom: React.FC = () => {
   const style = ChatRoomStyle();
   const myRef = React.useRef<HTMLDivElement>(null);
   const room = useSelector((state: RootState) => state.room.roomInfor);
-  const idLoading = useSelector((state: RootState) => state.room.isLoading);
+  const me = useSelector((state: RootState) => state.auth.currentUser) as IUser;
   const messages = useSelector(messagesSeletor.selectAll);
-  const seed = useSelector((state: RootState) => state.message.seed);
-  const { sendMessage } = useChat();
+  const [seed, setSeed] = useState(0);
+  const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
+  const chat = useChat();
+  const response = useSelector((state: RootState) => state.message.response);
 
   const {
     register,
@@ -77,17 +79,43 @@ const ChatRoom: React.FC = () => {
     // eslint-disable-next-line
   }, [messages]);
 
+  useEffect(() => {
+    if (response.status === 0) setOpenSnackBar(false);
+    else setOpenSnackBar(true);
+  }, [response]);
+
+  const closeSnackbar = () => {
+    setOpenSnackBar(false);
+    dispatch(clearResponse());
+  };
+
   const clickHandler = () => {
     dispatch(setMenuOpen(true));
   };
 
   const sendMessageHandler = (data: IInputMessage) => {
-    sendMessage(data.msgContent);
+    dispatch(createOne({ roomId: room._id, content: data.msgContent }));
     reset();
   };
 
   return (
     <React.Fragment>
+      {response.message && (
+        <Snackbar
+          open={openSnackBar}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          onClose={closeSnackbar}
+          sx={{
+            opacity: '0.3',
+            marginTop: '6vh',
+          }}
+        >
+          <Alert severity={`${response.status === -1 ? 'error' : 'success'}`} sx={{ width: '100%' }}>
+            {response.message}
+          </Alert>
+        </Snackbar>
+      )}
       <div className={style.roomHeader}>
         <Hidden mdUp>
           <IconButton className={style.menuIcon} aria-label="open-menu" onClick={clickHandler}>
@@ -98,25 +126,6 @@ const ChatRoom: React.FC = () => {
           {room?.name}
         </Typography>
       </div>
-      {idLoading && (
-        <Box
-          sx={{
-            display: 'flex',
-            position: 'fixed',
-            width: '100%',
-            // eslint-disable-next-line
-            ['@media (min-width: 900px)']: {
-              marginLeft: '36%',
-            },
-            // eslint-disable-next-line
-            ['@media (max-width: 900px)']: {
-              justifyContent: 'space-around',
-            },
-          }}
-        >
-          <CircularProgress />
-        </Box>
-      )}
       <div className={style.chatRoom}>
         {messages.map((item: IMessage) => {
           let date = new Date(item.createdAt);
@@ -125,7 +134,7 @@ const ChatRoom: React.FC = () => {
             timeLine = date.getTime();
             renderTimeline = true;
           }
-          if (!item.isMe)
+          if (item.postedBy._id !== me._id)
             return (
               <Message
                 key={item._id}

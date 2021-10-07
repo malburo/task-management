@@ -2,7 +2,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import MyMessageStyle from './MyMessageStyle';
 import dateUtil from 'utilities/dateUtil';
 import TimeLine from '../HorizontalRule/TimeLine';
-import { Alert, Dialog, DialogTitle, IconButton, Snackbar, Tooltip, Typography } from '@mui/material';
+import { Dialog, DialogTitle, IconButton, Tooltip, Typography } from '@mui/material';
 import Delete from '@mui/icons-material/Delete';
 import CheckIcon from '@mui/icons-material/Check';
 import { Box } from '@mui/system';
@@ -15,8 +15,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import InputField from 'components/form-control/InputField';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from 'app/store';
-import { clearResponse } from 'features/Chat/ReduxSlice/MessagesSlice';
-import useChat from 'hooks/useChat';
+import { deleteOne, updateOne } from 'features/Chat/ReduxSlice/MessagesSlice';
 
 interface IMessagePros {
   postedDate: Date;
@@ -37,13 +36,12 @@ const scheme = yup
 const MyMessage: React.FC<IMessagePros> = ({ _id, postedDate, content, profilePictureUrl, renderTimeLine, time }) => {
   const style = MyMessageStyle();
   const dispatch = useDispatch<AppDispatch>();
-  const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
+
   const [timeline, setTimeline] = useState<ReactElement>();
   const [deleteDialog, setDeleteDialog] = useState<boolean>(false);
   const [editDialog, setEditDialog] = useState<boolean>(false);
   const [contentMsg, setContentMsg] = useState<string>(content);
-  const response = useSelector((state: RootState) => state.message.response);
-  const { sendDeleteMessage, sendEditMessage } = useChat();
+  const room = useSelector((state: RootState) => state.room.roomInfor);
 
   const form = useForm({
     defaultValues: {
@@ -57,14 +55,12 @@ const MyMessage: React.FC<IMessagePros> = ({ _id, postedDate, content, profilePi
   }, [content]);
 
   const handleDelete = () => {
-    sendDeleteMessage(_id);
-    //dispatch(deleteOne({ messageId: _id }));
+    dispatch(deleteOne({ messageId: _id }));
     setDeleteDialog(false);
   };
   const handleEdit = (data: any) => {
     if (!data.msgContent) return;
-    sendEditMessage(_id, data.msgContent);
-    //dispatch(updateOne({ messageId: _id, msgContent: data.msgContent, roomId: room._id }));
+    dispatch(updateOne({ messageId: _id, msgContent: data.msgContent, roomId: room._id }));
     setEditDialog(false);
   };
   const handleClose = () => {
@@ -81,33 +77,8 @@ const MyMessage: React.FC<IMessagePros> = ({ _id, postedDate, content, profilePi
     if (renderTimeLine === true) setTimeline(<TimeLine time={new Date(time)} />);
   }, [renderTimeLine, time]);
 
-  const closeSnackbar = () => {
-    setOpenSnackBar(false);
-    dispatch(clearResponse());
-  };
-  useEffect(() => {
-    if (response.status === 0) setOpenSnackBar(false);
-    else setOpenSnackBar(true);
-  }, [response]);
-
   return (
     <React.Fragment>
-      {response.message && (
-        <Snackbar
-          open={openSnackBar}
-          autoHideDuration={3000}
-          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          onClose={closeSnackbar}
-          sx={{
-            opacity: '0.3',
-            marginTop: '6vh',
-          }}
-        >
-          <Alert severity={`${response.status === -1 ? 'error' : 'success'}`} sx={{ width: '100%' }}>
-            {response.message}
-          </Alert>
-        </Snackbar>
-      )}
       <Dialog open={deleteDialog}>
         <DialogTitle
           sx={{

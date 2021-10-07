@@ -1,11 +1,12 @@
 import { createAsyncThunk, createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import messageApi from 'api/messageApi';
 import { RootState } from 'app/store';
+import { Response } from 'models/common';
 import { IMessage } from 'models/messages';
 
 export const getMessageInRoom = createAsyncThunk('room/getMessageInRoom', async (payload: any) => {
   const { data } = await messageApi.getAllInRoom({ id: payload.id, seed: payload.seed });
-  return { messages: data.rs };
+  return { messages: data.messages };
 });
 export const updateOne = createAsyncThunk('room/updateOne', async (payload: any) => {
   const { data } = await messageApi.update({
@@ -13,6 +14,13 @@ export const updateOne = createAsyncThunk('room/updateOne', async (payload: any)
     data: { msgContent: payload.msgContent, roomId: payload.roomId },
   });
   return { id: payload.messageId, content: data.updatedMessage.content };
+});
+export const createOne = createAsyncThunk('room/createOne', async (payload: any) => {
+  const { data } = await messageApi.create({
+    roomId: payload.roomId,
+    content: payload.content,
+  });
+  return data.message as IMessage;
 });
 export const deleteOne = createAsyncThunk('room/deleteOne', async (payload: any) => {
   await messageApi.deleteOne({ messageId: payload.messageId });
@@ -28,8 +36,6 @@ export const messagesSeletor = messagesAdapter.getSelectors((state: RootState) =
 const messagesSlice = createSlice({
   name: 'room',
   initialState: {
-    isLoading: true,
-    seed: 0,
     response: {
       message: '',
       status: 0,
@@ -39,9 +45,6 @@ const messagesSlice = createSlice({
   reducers: {
     clearResponse: (state) => {
       state.response = { message: '', status: 0 };
-    },
-    increaseSeed: (state) => {
-      state.seed++;
     },
     addNewMessage: (state, action: PayloadAction<IMessage>) => {
       messagesAdapter.addOne(state.messages, action.payload);
@@ -53,53 +56,41 @@ const messagesSlice = createSlice({
       const { _id, ...changes } = action.payload;
       messagesAdapter.updateOne(state.messages, { id: _id, changes });
     },
-    throwErr: (state, action: PayloadAction<string>) => {
-      state.response = { message: action.payload, status: -1 };
-    },
-    throwNotification: (state, action: PayloadAction<string>) => {
-      state.response = { message: action.payload, status: 1 };
-    },
   },
   extraReducers: (builder) => {
-    builder.addCase(getMessageInRoom.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(getMessageInRoom.rejected, (state) => {
-      state.isLoading = true;
-    });
+    builder.addCase(getMessageInRoom.pending, (state) => {});
+    builder.addCase(getMessageInRoom.rejected, (state) => {});
     builder.addCase(getMessageInRoom.fulfilled, (state, { payload }: PayloadAction<any>) => {
       messagesAdapter.removeAll(state.messages);
       messagesAdapter.setAll(state.messages, payload.messages);
-      state.isLoading = false;
     });
-    builder.addCase(updateOne.pending, (state) => {
-      state.isLoading = true;
-    });
+    builder.addCase(updateOne.pending, (state) => {});
     builder.addCase(updateOne.rejected, (state) => {
-      state.isLoading = false;
       state.response = { message: 'Failed to update this message', status: -1 };
     });
     builder.addCase(updateOne.fulfilled, (state, { payload }: PayloadAction<any>) => {
       const { id, ...changes } = payload;
       messagesAdapter.updateOne(state.messages, { id, changes });
-      state.isLoading = false;
       state.response = { message: 'Updated', status: 1 };
     });
-    builder.addCase(deleteOne.pending, (state) => {
-      state.isLoading = true;
-    });
+    builder.addCase(deleteOne.pending, (state) => {});
     builder.addCase(deleteOne.rejected, (state) => {
-      state.isLoading = false;
       state.response = { message: 'Failed to delete this message', status: -1 };
     });
     builder.addCase(deleteOne.fulfilled, (state, { payload }: PayloadAction<any>) => {
       messagesAdapter.removeOne(state.messages, payload.id);
-      state.isLoading = false;
       state.response = { message: 'Deleted', status: 1 };
+    });
+    builder.addCase(createOne.pending, (state) => {});
+    builder.addCase(createOne.rejected, (state) => {
+      state.response = { message: 'Failed to send this message', status: -1 };
+    });
+    builder.addCase(createOne.fulfilled, (state, { payload }: PayloadAction<any>) => {
+      messagesAdapter.addOne(state.messages, payload);
     });
   },
 });
 // eslint-disable-next-line
 const { actions, reducer: messagesReducer } = messagesSlice;
-export const { addNewMessage, clearResponse, removeOneMessage, editOneMessage, throwErr, throwNotification } = actions;
+export const { addNewMessage, clearResponse, removeOneMessage, editOneMessage } = actions;
 export default messagesReducer;

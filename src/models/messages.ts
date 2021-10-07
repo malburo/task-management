@@ -5,5 +5,4 @@ export interface IMessage {
   content: string;
   createdAt: Date;
   postedBy: IUser;
-  isMe: boolean;
 }

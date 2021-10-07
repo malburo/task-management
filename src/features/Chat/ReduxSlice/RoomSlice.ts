@@ -10,11 +10,9 @@ export const getOneRoom = createAsyncThunk('room/getOneRoom', async (payload: an
 
 interface IRoomState {
   roomInfor: IRoom;
-  isLoading: Boolean;
 }
 const initialState: IRoomState = {
   roomInfor: { _id: '', board: {} as IBoard, image: '', isGeneral: false, members: [], name: '' },
-  isLoading: true,
 };
 
 const roomSlice = createSlice({
@@ -22,19 +20,14 @@ const roomSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getOneRoom.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(getOneRoom.rejected, (state) => {
-      state.isLoading = true;
-    });
+    builder.addCase(getOneRoom.pending, (state) => {});
+    builder.addCase(getOneRoom.rejected, (state) => {});
     builder.addCase(getOneRoom.fulfilled, (state, { payload }: PayloadAction<any>) => {
       state.roomInfor._id = payload.room._id;
       state.roomInfor.board = payload.room.board;
       state.roomInfor.isGeneral = payload.room.isGeneral;
       state.roomInfor.members = payload.room.members;
       state.roomInfor.name = payload.room.name;
-      state.isLoading = false;
     });
   },
 });
