@@ -1,12 +1,11 @@
 import { createAsyncThunk, createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import messageApi from 'api/messageApi';
 import { RootState } from 'app/store';
-import { Response } from 'models/common';
 import { IMessage } from 'models/messages';
 
 export const getMessageInRoom = createAsyncThunk('room/getMessageInRoom', async (payload: any) => {
   const { data } = await messageApi.getAllInRoom({ id: payload.id, seed: payload.seed });
-  return { messages: data.messages };
+  return { messages: data.messages, seed: payload.seed };
 });
 export const updateOne = createAsyncThunk('room/updateOne', async (payload: any) => {
   const { data } = await messageApi.update({
@@ -61,8 +60,8 @@ const messagesSlice = createSlice({
     builder.addCase(getMessageInRoom.pending, (state) => {});
     builder.addCase(getMessageInRoom.rejected, (state) => {});
     builder.addCase(getMessageInRoom.fulfilled, (state, { payload }: PayloadAction<any>) => {
-      messagesAdapter.removeAll(state.messages);
-      messagesAdapter.setAll(state.messages, payload.messages);
+      if (payload.seed === 0) messagesAdapter.removeAll(state.messages);
+      messagesAdapter.addMany(state.messages, payload.messages);
     });
     builder.addCase(updateOne.pending, (state) => {});
     builder.addCase(updateOne.rejected, (state) => {

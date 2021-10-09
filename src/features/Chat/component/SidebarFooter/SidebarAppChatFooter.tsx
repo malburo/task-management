@@ -30,6 +30,10 @@ const SidebarAppChatFooter: React.FC = () => {
     history.push('/auth/login');
   };
 
+  const handleGotoBoards = () => {
+    history.push('/');
+  };
+
   return (
     <Box className={style.footerLayout}>
       <Button
@@ -64,7 +68,7 @@ const SidebarAppChatFooter: React.FC = () => {
           <AccountCircleIcon className={style.profileOptionIcon} />
           My Profile
         </MenuItem>
-        <MenuItem className={style.profileNormalOptionItem}>
+        <MenuItem className={style.profileNormalOptionItem} onClick={handleGotoBoards}>
           <HomeIcon className={style.profileOptionIcon} />
           Home
         </MenuItem>

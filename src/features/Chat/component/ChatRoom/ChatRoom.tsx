@@ -19,6 +19,7 @@ import { clearResponse, createOne, getMessageInRoom, messagesSeletor } from 'fea
 import useChat from 'hooks/useChat';
 import { DateCount } from 'utilities/dateUtil';
 import { IUser } from 'models/user';
+import Loader from '../Loader/Loader';
 
 export interface IParamChatRoom {
   id: string;
@@ -45,6 +46,7 @@ const ChatRoom: React.FC = () => {
   const me = useSelector((state: RootState) => state.auth.currentUser) as IUser;
   const messages = useSelector(messagesSeletor.selectAll);
   const [seed, setSeed] = useState(0);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
   const chat = useChat();
   const response = useSelector((state: RootState) => state.message.response);
@@ -65,7 +67,8 @@ const ChatRoom: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(getOneRoom({ id }));
+    setIsLoading(true);
+    dispatch(getOneRoom({ id })).then(() => setIsLoading(false));
   }, [dispatch, id]);
 
   useEffect(() => {
@@ -75,6 +78,7 @@ const ChatRoom: React.FC = () => {
   }, [room]);
 
   useEffect(() => {
+    if (seed !== 0) return;
     myRef.current?.scrollIntoView();
     // eslint-disable-next-line
   }, [messages]);
@@ -126,6 +130,7 @@ const ChatRoom: React.FC = () => {
           {room?.name}
         </Typography>
       </div>
+      {isLoading && <Loader />}
       <div className={style.chatRoom}>
         {messages.map((item: IMessage) => {
           let date = new Date(item.createdAt);

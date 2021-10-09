@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import ChatRoom from './component/ChatRoom/ChatRoom';
 import SidebarAppChat from './component/Sidebar/SidebarAppChat';
 import CloseIcon from '@mui/icons-material/Close';
@@ -61,39 +61,37 @@ const ChatFeature: React.FC = () => {
 
   return (
     <React.Fragment>
-      <BrowserRouter>
-        {/* For Small Size */}
-        <Hidden smUp>
-          <Drawer
-            variant="temporary"
-            anchor="left"
-            className={styles.background}
-            open={menuOpen}
-            classes={{ paper: styles.sideBarSmall, root: styles.background }}
-          >
-            <SidebarAppChat />
-            {anyRoom && (
-              <button className={styles.floatingButton} onClick={() => dispatch(setMenuOpen(false))}>
-                <CloseIcon />
-              </button>
-            )}
-          </Drawer>
-        </Hidden>
-        {/* For Large Size */}
-        <Hidden mdDown>
-          <Drawer variant="permanent" anchor="left" classes={{ paper: styles.sideBarLarge }}>
-            <SidebarAppChat />
-          </Drawer>
-        </Hidden>
+      {/* For Small Size */}
+      <Hidden smUp>
+        <Drawer
+          variant="temporary"
+          anchor="left"
+          className={styles.background}
+          open={menuOpen}
+          classes={{ paper: styles.sideBarSmall, root: styles.background }}
+        >
+          <SidebarAppChat />
+          {anyRoom && (
+            <button className={styles.floatingButton} onClick={() => dispatch(setMenuOpen(false))}>
+              <CloseIcon />
+            </button>
+          )}
+        </Drawer>
+      </Hidden>
+      {/* For Large Size */}
+      <Hidden mdDown>
+        <Drawer variant="permanent" anchor="left" classes={{ paper: styles.sideBarLarge }}>
+          <SidebarAppChat />
+        </Drawer>
+      </Hidden>
 
-        <div className={styles.chatRoom}>
-          <Switch>
-            <Route exact path="/appchat/room/:id">
-              <ChatRoom />
-            </Route>
-          </Switch>
-        </div>
-      </BrowserRouter>
+      <div className={styles.chatRoom}>
+        <Switch>
+          <Route exact path="/appchat/room/:id">
+            <ChatRoom />
+          </Route>
+        </Switch>
+      </div>
     </React.Fragment>
   );
 };

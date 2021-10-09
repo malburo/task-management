@@ -1,20 +1,29 @@
+import { CircularProgress } from '@mui/material';
+import { Box } from '@mui/system';
 import React from 'react';
-import '../Loader/LoaderStyle.css';
-
 export interface IParamChatRoom {
   id: string;
 }
 
 const Loader: React.FC = () => {
   return (
-    <div className="wrap-loader">
-      <div className="lds-ellipsis">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-    </div>
+    <Box
+      sx={{
+        display: 'flex',
+        position: 'fixed',
+        width: '100%',
+        // eslint-disable-next-line
+        ['@media (min-width: 900px)']: {
+          marginLeft: '36%',
+        },
+        // eslint-disable-next-line
+        ['@media (max-width: 900px)']: {
+          justifyContent: 'space-around',
+        },
+      }}
+    >
+      <CircularProgress />
+    </Box>
   );
 };
 

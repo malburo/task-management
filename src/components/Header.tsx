@@ -13,6 +13,7 @@ import { logout } from 'features/Auth/authSlice';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import ChatIcon from '@mui/icons-material/Chat';
 
 import Search from './Search';
 
@@ -31,6 +32,9 @@ const Header = () => {
     dispatch(logout());
     history.push('/auth/login');
     setAnchorEl(null);
+  };
+  const gotoChatApp = () => {
+    history.push('/appchat');
   };
   return (
     <AppBar position="fixed" color="inherit">
@@ -85,6 +89,10 @@ const Header = () => {
         <MenuItem onClick={handleClose}>
           <AppsIcon fontSize="small" sx={{ fill: '#4F4F4F' }} />
           <Typography variant="regular2"> All boards</Typography>
+        </MenuItem>
+        <MenuItem onClick={gotoChatApp}>
+          <ChatIcon fontSize="small" sx={{ fill: '#4F4F4F' }} />
+          <Typography variant="regular2"> Chat app</Typography>
         </MenuItem>
         <Divider style={{ margin: '10px 0px' }} />
         <MenuItem onClick={handleLogout}>
