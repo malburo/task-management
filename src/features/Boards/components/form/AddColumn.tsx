@@ -1,4 +1,4 @@
-import { Box, Button, Grid } from '@mui/material';
+import { Box, Button, Card, Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import columnApi from 'api/columnApi';
 import InputBaseField from 'components/form-control/InputBaseField';
@@ -58,6 +58,7 @@ const AddColumn = () => {
             width: '260px',
             padding: '8px 15px',
             boxShadow: 'none',
+            marginX: '24px',
             span: {
               justifyContent: 'space-between',
             },
@@ -67,7 +68,7 @@ const AddColumn = () => {
         </Button>
       )}
       {isToggle && (
-        <Box width="260px">
+        <Card sx={{ width: '280px', border: '2px solid #0000000a', marginX: '24px' }}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <Grid container direction="column" justifyContent="center" alignItems="flex-start">
               <InputBaseField form={form} name="title" placeholder="Enter a title for this column..." />
@@ -81,7 +82,7 @@ const AddColumn = () => {
               </Box>
             </Grid>
           </form>
-        </Box>
+        </Card>
       )}
     </div>
   );
