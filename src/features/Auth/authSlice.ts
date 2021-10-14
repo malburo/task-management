@@ -6,11 +6,11 @@ import { LoginFormValues } from './components/LoginForm';
 import { RegisterFormValues } from './components/RegisterForm';
 
 export interface AuthState {
-  currentUser: IUser;
+  currentUser: IUser | null;
   isAuth: boolean;
 }
-const initialState = {
-  currentUser: {},
+const initialState: AuthState = {
+  currentUser: null,
   isAuth: !!localStorage.getItem('access_token'),
 };
 

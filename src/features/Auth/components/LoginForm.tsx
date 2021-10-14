@@ -1,23 +1,16 @@
-/* eslint-disable no-useless-escape */
 import { yupResolver } from '@hookform/resolvers/yup';
-import Box from '@mui/material/Box';
+import LockIcon from '@mui/icons-material/Lock';
+import MailIcon from '@mui/icons-material/Mail';
+import { Divider } from '@mui/material';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import LockIcon from '@mui/icons-material/Lock';
-import MailIcon from '@mui/icons-material/Mail';
-import { makeStyles } from '@mui/styles';
+import { Box } from '@mui/system';
 import InputField from 'components/form-control/InputField';
 import PasswordField from 'components/form-control/PasswordField';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
 import * as yup from 'yup';
-
-const useStyles = makeStyles((theme: any) => ({
-  submit: {
-    margin: 2,
-  },
-}));
+import LoginWithGitHub from './LoginWithGitHub';
 
 const schema = yup.object().shape({
   account: yup
@@ -42,7 +35,6 @@ export interface LoginFormValues {
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
-  const classes = useStyles();
   const form = useForm<any>({
     mode: 'onSubmit',
     reValidateMode: 'onChange',
@@ -52,40 +44,21 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
     },
     resolver: yupResolver(schema),
   });
-  const loginWithGithub = async () => {
-    window.open('http://localhost:8000/api/auth/github', '_self');
-  };
+
   return (
-    <Container component="main" maxWidth="xs">
-      <Box
-        sx={{
-          border: '1px solid #bdbdbd',
-          borderRadius: '24px',
-          padding: '32px 48px',
-        }}
-      >
-        <Typography variant="subtitle1">Bullo app</Typography>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <InputField name="account" placeholder="Your Email or Username*" startIcon={<MailIcon />} form={form} />
-          <PasswordField name="password" placeholder="Your password*" startIcon={<LockIcon />} form={form} />
-          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-            Login now
-          </Button>
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            onClick={loginWithGithub}
-            style={{ marginTop: 12, backgroundColor: 'black', color: 'white' }}
-          >
-            login with github
-          </Button>
-          <Typography variant="subtitle1" align="center">
-            Not registered yet?
-            <Link to="/auth/register">Register</Link>
-          </Typography>
-        </form>
+    <Container maxWidth="xs">
+      <Typography sx={{ fontSize: '2rem', fontWeight: '700' }}>Log in</Typography>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <InputField name="account" placeholder="Your Email or Username*" startIcon={<MailIcon />} form={form} />
+        <PasswordField name="password" placeholder="Your password*" startIcon={<LockIcon />} form={form} />
+        <Button type="submit" fullWidth variant="contained" color="primary" sx={{ height: '48px', marginTop: '12px' }}>
+          Login now
+        </Button>
+      </form>
+      <Box marginY="24px">
+        <Divider>OR</Divider>
       </Box>
+      <LoginWithGitHub />
     </Container>
   );
 };

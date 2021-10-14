@@ -38,17 +38,21 @@ const PasswordField: React.FC<PasswordFieldProps> = (props) => {
             disabled={disabled}
             placeholder={placeholder}
             id={name}
-            sx={{
-              borderRadius: '8px',
-              border: '1px solid #E0E0E0',
-              boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.05)',
-              fontSize: '12px',
-              fontWeight: '500',
-            }}
             type={isHidden ? 'text' : 'password'}
             endAdornment={
               <InputAdornment position="end">
-                <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} edge="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  sx={{
+                    backgroundColor: 'white',
+                    color: 'rgba(0, 0, 0, 0.54)',
+                    borderRadius: '50%',
+                    '&:hover': {
+                      backgroundColor: '#e4e4e4',
+                    },
+                  }}
+                >
                   {isHidden ? <Visibility /> : <VisibilityOff />}
                 </IconButton>
               </InputAdornment>
