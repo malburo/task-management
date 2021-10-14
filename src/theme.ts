@@ -198,6 +198,7 @@ const theme = createTheme({
           color: 'white',
           '&:hover': {
             backgroundColor: '#2d79e1',
+            color: 'white',
           },
         },
       },
@@ -213,6 +214,15 @@ const theme = createTheme({
           '&:hover': {
             backgroundColor: '#2d79e1',
           },
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          borderRadius: '8px',
+          fontSize: '12px',
+          fontWeight: 500,
         },
       },
     },
@@ -245,15 +255,6 @@ const theme = createTheme({
           fontSize: 10,
           borderRadius: 8,
           fontWeight: 500,
-        },
-      },
-    },
-    MuiAppBar: {
-      styleOverrides: {
-        root: {
-          boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.05)',
-          zIndex: 1201,
-          padding: '0px 12px',
         },
       },
     },
@@ -295,6 +296,28 @@ const theme = createTheme({
       styleOverrides: {
         paper: {
           borderRadius: '8px',
+        },
+      },
+    },
+    MuiToolbar: {
+      styleOverrides: {
+        root: {
+          paddingLeft: '24px',
+          paddingRight: '24px',
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          padding: '16px',
+          borderRadius: '12px',
+          boxShadow: '0px 2px 12px rgba(0, 0, 0, 0.05)',
+          whiteSpace: 'normal',
+          boxSizing: 'border-box',
+          '&:hover': {
+            opacity: 0.8,
+          },
         },
       },
     },
