@@ -1,4 +1,4 @@
-import { Avatar, AvatarGroup, Box, Chip, Typography } from '@mui/material';
+import { Avatar, AvatarGroup, Box, Card, Chip, Typography } from '@mui/material';
 import CommentIcon from '@mui/icons-material/Comment';
 import { makeStyles } from '@mui/styles';
 import { ITask } from 'models/task';
@@ -26,33 +26,31 @@ interface TaskCardProps {
 const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
   const classes = useStyles();
   return (
-    <Box width="260px" bgcolor="#e4e4e4" margin="12px" padding="12px">
+    <Card sx={{ border: '2px solid #0000000a', marginBottom: '24px' }}>
+      <img
+        src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/623df143063739.57e2065f398da.jpg"
+        alt="asd"
+        className={classes.cover}
+      />
+      <Typography variant="regular4">{task.title}</Typography>
       <Box>
-        <img
-          src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/623df143063739.57e2065f398da.jpg"
-          alt="asd"
-          className={classes.cover}
-        />
-        <Typography variant="regular4">{task.title}</Typography>
-        <Box>
-          <Chip label="javascript" className={classes.label} />
-          <Chip label="java" className={classes.label} />
-          <Chip label="java" className={classes.label} />
-        </Box>
-        <Box display="flex" alignItems="center" justifyContent="space-between">
-          <AvatarGroup max={3}>
-            <Avatar variant="rounded" src="https://avatars3.githubusercontent.com/u/22362391?v=4" />
-            <Avatar variant="rounded" src="https://avatars3.githubusercontent.com/u/22362391?v=4" />
-            <Avatar variant="rounded" src="https://avatars3.githubusercontent.com/u/22362391?v=4" />
-            <Avatar variant="rounded" src="https://avatars3.githubusercontent.com/u/22362391?v=4" />
-          </AvatarGroup>
-          <Box display="flex" alignItems="center">
-            <CommentIcon style={{ width: 14, height: 14, color: '#BDBDB' }} />
-            <Typography variant="regular1">6</Typography>
-          </Box>
+        <Chip label="javascript" className={classes.label} />
+        <Chip label="java" className={classes.label} />
+        <Chip label="java" className={classes.label} />
+      </Box>
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        <AvatarGroup max={3}>
+          <Avatar variant="rounded" src="https://avatars3.githubusercontent.com/u/22362391?v=4" />
+          <Avatar variant="rounded" src="https://avatars3.githubusercontent.com/u/22362391?v=4" />
+          <Avatar variant="rounded" src="https://avatars3.githubusercontent.com/u/22362391?v=4" />
+          <Avatar variant="rounded" src="https://avatars3.githubusercontent.com/u/22362391?v=4" />
+        </AvatarGroup>
+        <Box display="flex" alignItems="center">
+          <CommentIcon style={{ width: 14, height: 14, color: '#BDBDB' }} />
+          <Typography variant="regular1">6</Typography>
         </Box>
       </Box>
-    </Box>
+    </Card>
   );
 };
 

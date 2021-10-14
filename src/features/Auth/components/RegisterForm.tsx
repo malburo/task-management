@@ -1,25 +1,17 @@
 /* eslint-disable no-useless-escape */
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Theme } from '@mui/material';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
 import LockIcon from '@mui/icons-material/Lock';
 import MailIcon from '@mui/icons-material/Mail';
 import PersonIcon from '@mui/icons-material/Person';
-import { makeStyles } from '@mui/styles';
+import { Divider, Typography } from '@mui/material';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import { Box } from '@mui/system';
 import InputField from 'components/form-control/InputField';
 import PasswordField from 'components/form-control/PasswordField';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
 import * as yup from 'yup';
-
-const useStyles = makeStyles((theme: Theme) => ({
-  submit: {
-    margin: 4,
-  },
-}));
+import LoginWithGitHub from './LoginWithGitHub';
 
 const schema = yup.object().shape({
   fullname: yup
@@ -62,7 +54,6 @@ export interface RegisterFormValues {
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
-  const classes = useStyles();
   const form = useForm<any>({
     mode: 'onSubmit',
     reValidateMode: 'onSubmit',
@@ -77,32 +68,26 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
   });
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Box
-        sx={{
-          border: '1px solid #bdbdbd',
-          borderRadius: '24px',
-          padding: '32px 48px',
-        }}
-      >
-        <Typography variant="subtitle1">Bullo app</Typography>
-
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <InputField name="fullname" placeholder="Your fullname*" startIcon={<PersonIcon />} form={form} />
+    <Container maxWidth="xs">
+      <Typography sx={{ fontSize: '2rem', fontWeight: '700' }}>Sign up</Typography>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <Box display="flex">
+          <Box marginRight="12px" width="100%">
+            <InputField name="fullname" placeholder="Your fullname*" startIcon={<PersonIcon />} form={form} />
+          </Box>
           <InputField name="username" placeholder="Your username*" startIcon={<PersonIcon />} form={form} />
-          <InputField name="email" placeholder="Your email*" startIcon={<MailIcon />} form={form} />
-          <PasswordField name="password" placeholder="Your password*" startIcon={<LockIcon />} form={form} />
-          <PasswordField name="retypePassword" placeholder="Retype password*" startIcon={<LockIcon />} form={form} />
-
-          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-            Register now
-          </Button>
-          <Typography variant="subtitle1" align="center">
-            Already registered?
-            <Link to="/auth/login">Login</Link>
-          </Typography>
-        </form>
+        </Box>
+        <InputField name="email" placeholder="Your email*" startIcon={<MailIcon />} form={form} />
+        <PasswordField name="password" placeholder="Your password*" startIcon={<LockIcon />} form={form} />
+        <PasswordField name="retypePassword" placeholder="Retype password*" startIcon={<LockIcon />} form={form} />
+        <Button type="submit" fullWidth variant="contained" color="primary" sx={{ height: '48px', marginTop: '12px' }}>
+          Register now
+        </Button>
+      </form>
+      <Box marginY="24px">
+        <Divider>OR</Divider>
       </Box>
+      <LoginWithGitHub />
     </Container>
   );
 };
