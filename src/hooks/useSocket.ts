@@ -1,3 +1,4 @@
+import { addMember } from './../features/Boards/boardSlice';
 import { socketClient } from 'api/socketClient';
 import { AppDispatch } from 'app/store';
 import { addColumn, addTask, updateBoard, updateColumn, updateTask } from 'features/Boards/boardSlice';
@@ -29,6 +30,13 @@ const useSocket = () => {
       });
       socketClient.on('task:update', (updatedTask) => {
         dispatch(updateTask({ taskId: updatedTask._id, changes: updatedTask }));
+      });
+
+      socketClient.on('member:create', (newMember) => {
+        dispatch(addMember({ newMember }));
+      });
+      socketClient.on('member:remove', (newMember) => {
+        dispatch(addMember({ newMember }));
       });
     })();
     return () => {

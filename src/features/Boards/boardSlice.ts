@@ -1,6 +1,5 @@
 import { createAsyncThunk, createEntityAdapter, createSlice, EntityState, PayloadAction } from '@reduxjs/toolkit';
 import boardApi from 'api/boardApi';
-import memberApi from 'api/memberApi';
 import { RootState } from 'app/store';
 import { IColumn } from 'models/column';
 import { ITask } from 'models/task';
@@ -12,11 +11,6 @@ export const getOneBoard = createAsyncThunk('board/getOneBoard', async (payload:
   const tasks = columns.reduce((prev: any, curr: any) => [...prev, curr.tasks], []).flat();
   delete columns.tasks;
   return { board, columns, tasks, members };
-});
-
-export const addMember = createAsyncThunk('board/addMember', async (payload: any) => {
-  const response = await memberApi.create(payload);
-  return response.data;
 });
 
 export const columnsAdapter = createEntityAdapter({
@@ -68,6 +62,9 @@ const boardSlice = createSlice({
     updateTask: (state, { payload }: PayloadAction<any>) => {
       tasksAdapter.updateOne(state.tasks, { id: payload.taskId, changes: payload.changes });
     },
+    addMember: (state, { payload }: PayloadAction<any>) => {
+      membersAdapter.addOne(state.members, payload.newMember);
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getOneBoard.fulfilled, (state, { payload }: PayloadAction<any>) => {
@@ -79,10 +76,6 @@ const boardSlice = createSlice({
       membersAdapter.setAll(state.members, payload.members);
       tasksAdapter.setAll(state.tasks, payload.tasks);
     });
-
-    builder.addCase(addMember.fulfilled, (state, { payload }: PayloadAction<any>) => {
-      membersAdapter.addOne(state.members, payload.newMember);
-    });
   },
 });
 
@@ -91,5 +84,5 @@ export const tasksSelector = tasksAdapter.getSelectors((state: RootState) => sta
 export const membersSelector = membersAdapter.getSelectors((state: RootState) => state.board.members);
 
 const { reducer: boardReducer, actions } = boardSlice;
-export const { updateBoard, addTask, addColumn, updateColumn, updateTask } = actions;
+export const { updateBoard, addTask, addColumn, updateColumn, updateTask, addMember } = actions;
 export default boardReducer;

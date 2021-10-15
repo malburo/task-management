@@ -1,14 +1,14 @@
-import { Avatar, Box, Button, Popover, Typography } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
-import { AppDispatch } from 'app/store';
+import { Avatar, Box, Button, Popover, Typography } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import memberApi from 'api/memberApi';
+import searchApi from 'api/searchApi';
 import InputBaseField from 'components/form-control/InputBaseField';
-import { addMember } from 'features/Boards/boardSlice';
+import { IParams } from 'models/common';
 import { IUser } from 'models/user';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 interface FormValues {
@@ -19,9 +19,8 @@ interface Params {
 }
 const AddMember: React.FC = () => {
   const { boardId } = useParams<Params>();
-  const dispatch = useDispatch<AppDispatch>();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [user, setUser] = useState<IUser>();
+  const [users, setUsers] = useState<IUser[] | []>([]);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -42,11 +41,12 @@ const AddMember: React.FC = () => {
   });
 
   const onSubmit = async ({ search }: FormValues) => {
-    // const { data } = await userApi.getAll({ search });
-    // setUser(data.users[0] as any);
+    const params: IParams = { limit: '5', page: '0', q: search };
+    const { data } = await searchApi.searchNewMembers(boardId, params);
+    setUsers(data.users);
   };
   const handleInviteClick = async (userId: string) => {
-    await dispatch(addMember({ userId, boardId }));
+    await memberApi.create({ userId, boardId });
   };
   return (
     <Box sx={{ marginLeft: '10px' }}>
@@ -92,13 +92,14 @@ const AddMember: React.FC = () => {
               />
             </form>
           </Box>
-          {user && (
-            <Box>
-              <Avatar variant="rounded" src={user.profilePictureUrl} />
-              <Typography>{user.fullname}</Typography>
-              <Button onClick={() => handleInviteClick(user._id)}>Invite</Button>
-            </Box>
-          )}
+          {users.length > 0 &&
+            users.map((user) => (
+              <Box>
+                <Avatar variant="rounded" src={user.profilePictureUrl} />
+                <Typography>{user.fullname}</Typography>
+                <Button onClick={() => handleInviteClick(user._id)}>Invite</Button>
+              </Box>
+            ))}
         </Box>
       </Popover>
     </Box>
