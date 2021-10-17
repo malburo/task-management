@@ -4,6 +4,10 @@ export default makeStyles({
   link: {
     textDecoration: 'none !important',
   },
+  generalLink: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
   title: {
     color: 'white',
     fontWeight: 'bolder',

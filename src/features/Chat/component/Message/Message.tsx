@@ -13,9 +13,18 @@ interface IMessagePros {
   profilePictureUrl: string;
   renderTimeLine: Boolean;
   time: Date;
+  type: Number;
 }
 
-const Message: React.FC<IMessagePros> = ({ name, postedDate, content, profilePictureUrl, renderTimeLine, time }) => {
+const Message: React.FC<IMessagePros> = ({
+  name,
+  postedDate,
+  content,
+  profilePictureUrl,
+  renderTimeLine,
+  time,
+  type,
+}) => {
   const style = MessageStyle();
   const [timeline, setTimeline] = useState<ReactElement>();
   useEffect(() => {
@@ -31,9 +40,15 @@ const Message: React.FC<IMessagePros> = ({ name, postedDate, content, profilePic
         </div>
         <div>
           <Box sx={{ display: 'flex' }}>
-            <div className={style.messageContent}>
-              <Typography variant="body2">{content}</Typography>
-            </div>
+            {type === 1 ? (
+              <div className={style.messageContent}>
+                <Typography variant="body2">{content}</Typography>
+              </div>
+            ) : (
+              <div className={`${style.messageContent} ${style.imageContent}`}>
+                <img src={content} className={style.image} alt="failed to load" />
+              </div>
+            )}
           </Box>
           <div className={style.accountInfor}>
             <Typography variant="subtitle2" className={style.name}>

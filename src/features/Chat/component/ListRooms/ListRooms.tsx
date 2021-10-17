@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setMenuOpen } from 'features/Chat/ReduxSlice/SidebarAppChatSlice';
 import { AppDispatch, RootState } from 'app/store';
 import { Box } from '@mui/material';
+import useChat from 'hooks/useChat';
+import { socketClient } from 'api/socketClient';
 
 interface IListRoomsPros {
   idChanel: string;
@@ -24,16 +26,35 @@ const ListRooms: React.FC<IListRoomsPros> = ({ idChanel }) => {
   const [generalRoom, setGeneralRoom] = useState<IRoom>();
   const room = useSelector((state: RootState) => state.room.roomInfor);
   const style = ListRoomsStyle();
+  const { joinChannel } = useChat();
 
   useEffect(() => {
+    socketClient.on('channel:new-message', (data) => {
+      roomApi.getAllYourRoomInBoard({ boardId: idChanel }).then((res) => {
+        setPrivateRooms({ lstRoom: res.data.rooms.filter((i: IRoom) => i.isGeneral === false) });
+        setGeneralRoom(res.data.rooms.filter((i: IRoom) => i.isGeneral === true)[0]);
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    joinChannel(idChanel);
     roomApi.getAllYourRoomInBoard({ boardId: idChanel }).then((res) => {
       setPrivateRooms({ lstRoom: res.data.rooms.filter((i: IRoom) => i.isGeneral === false) });
       setGeneralRoom(res.data.rooms.filter((i: IRoom) => i.isGeneral === true)[0]);
     });
+    // eslint-disable-next-line
   }, [idChanel]);
 
   const closeMenu = () => {
     dispatch(setMenuOpen(false));
+  };
+
+  const resetRoomList = () => {
+    roomApi.getAllYourRoomInBoard({ boardId: idChanel }).then((res) => {
+      setPrivateRooms({ lstRoom: res.data.rooms.filter((i: IRoom) => i.isGeneral === false) });
+      setGeneralRoom(res.data.rooms.filter((i: IRoom) => i.isGeneral === true)[0]);
+    });
   };
 
   return (
@@ -47,9 +68,30 @@ const ListRooms: React.FC<IListRoomsPros> = ({ idChanel }) => {
           backgroundColor: 'rgb(37, 35, 41)',
         }}
       >
-        <Link to={'/appchat/room/' + generalRoom?._id} onClick={closeMenu} className={style.link}>
+        <Link
+          to={'/appchat/room/' + generalRoom?._id}
+          onClick={closeMenu}
+          className={`${style.link} ${style.generalLink}`}
+        >
           <Typography variant="subtitle1" className={style.titleRoom}>
             {generalRoom?.name}
+          </Typography>
+          <Typography
+            sx={{
+              backgroundColor: 'red',
+              height: '30px',
+              color: 'white',
+              lineHeight: '30px',
+              textAlign: 'center',
+              marginLeft: '10px !important',
+              width: '30px',
+              borderRadius: '50%',
+              display: `${generalRoom && generalRoom.newMessage > 0 ? 'block' : 'none'}`,
+            }}
+          >
+            {generalRoom &&
+              generalRoom?.newMessage > 0 &&
+              `${generalRoom?.newMessage > 5 ? '5+' : generalRoom?.newMessage}`}
           </Typography>
         </Link>
         <Typography variant="body2" className={style.description}>
@@ -72,8 +114,14 @@ const ListRooms: React.FC<IListRoomsPros> = ({ idChanel }) => {
           let isOnline = false;
           if (i._id === room._id) hightlight = true;
           return (
-            <Link key={i._id} to={'/appchat/room/' + i._id} onClick={closeMenu} className={style.link}>
-              <RoomLink isOnline={isOnline} hightlight={hightlight} roomInfor={i} />
+            <Link
+              onClickCapture={resetRoomList}
+              key={i._id}
+              to={'/appchat/room/' + i._id}
+              onClick={closeMenu}
+              className={style.link}
+            >
+              <RoomLink isOnline={isOnline} newMessage={i.newMessage} hightlight={hightlight} roomInfor={i} />
             </Link>
           );
         })}

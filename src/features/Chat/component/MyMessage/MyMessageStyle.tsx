@@ -36,6 +36,9 @@ export default makeStyles({
     borderRadius: '20px',
     textAlign: 'right',
   },
+  imageContent: {
+    maxWidth: '50vw',
+  },
   iconButtonTool: {
     backgroundColor: 'transparent !important',
     width: '20px  !important',
@@ -44,6 +47,9 @@ export default makeStyles({
     '&:hover': {
       backgroundColor: 'gray !important',
     },
+  },
+  image: {
+    maxWidth: '50vw',
   },
   editForm: {
     width: '40vw',

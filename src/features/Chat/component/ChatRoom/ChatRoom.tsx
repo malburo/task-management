@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import Message from '../Message/Message';
 import MyMessage from '../MyMessage/MyMessage';
 import { useEffect } from 'react';
@@ -8,18 +8,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setAnyRoom, setMenuOpen } from 'features/Chat/ReduxSlice/SidebarAppChatSlice';
 import { AppDispatch, RootState } from 'app/store';
 import { IMessage } from 'models/messages';
-import { Alert, Button, Hidden, IconButton, Snackbar, Typography } from '@mui/material';
+import { Alert, Button, Fab, Hidden, IconButton, Snackbar, Typography } from '@mui/material';
 import ListIcon from '@mui/icons-material/List';
 import SendIcon from '@mui/icons-material/Send';
 import { getOneRoom } from 'features/Chat/ReduxSlice/RoomSlice';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { clearResponse, createOne, getMessageInRoom, messagesSeletor } from 'features/Chat/ReduxSlice/MessagesSlice';
+import {
+  clearResponse,
+  createOne,
+  getMessageInRoom,
+  messagesSeletor,
+  throwNotification,
+} from 'features/Chat/ReduxSlice/MessagesSlice';
 import useChat from 'hooks/useChat';
 import { DateCount } from 'utilities/dateUtil';
 import { IUser } from 'models/user';
 import Loader from '../Loader/Loader';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import messageApi from 'api/messageApi';
 
 export interface IParamChatRoom {
   id: string;
@@ -45,9 +53,11 @@ const ChatRoom: React.FC = () => {
   const room = useSelector((state: RootState) => state.room.roomInfor);
   const me = useSelector((state: RootState) => state.auth.currentUser) as IUser;
   const messages = useSelector(messagesSeletor.selectAll);
+  // eslint-disable-next-line
   const [seed, setSeed] = useState(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
+  // eslint-disable-next-line
   const chat = useChat();
   const response = useSelector((state: RootState) => state.message.response);
 
@@ -71,13 +81,14 @@ const ChatRoom: React.FC = () => {
     dispatch(getOneRoom({ id })).then(() => setIsLoading(false));
   }, [dispatch, id]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    if (room._id === '') return;
     dispatch(getMessageInRoom({ id: room._id, seed: seed }));
     myRef.current?.scrollIntoView();
     // eslint-disable-next-line
   }, [room]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (seed !== 0) return;
     myRef.current?.scrollIntoView();
     // eslint-disable-next-line
@@ -102,6 +113,14 @@ const ChatRoom: React.FC = () => {
     reset();
   };
 
+  const submitImage = (event: React.FormEvent<HTMLInputElement>) => {
+    if (event.currentTarget.files) {
+      const file = event.currentTarget.files[0];
+      if (file && file.type.match(/(png|jpg|jpge)/)) messageApi.createImageMessage({ roomId: room._id, file: file });
+      else dispatch(throwNotification('Please choose an image file'));
+    }
+  };
+
   return (
     <React.Fragment>
       {response.message && (
@@ -111,7 +130,7 @@ const ChatRoom: React.FC = () => {
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
           onClose={closeSnackbar}
           sx={{
-            opacity: '0.3',
+            opacity: '0.5',
             marginTop: '6vh',
           }}
         >
@@ -149,6 +168,7 @@ const ChatRoom: React.FC = () => {
                 content={item.content}
                 renderTimeLine={renderTimeline}
                 time={new Date(timeLine)}
+                type={item.type ? item.type : 1}
               />
             );
           else
@@ -161,15 +181,28 @@ const ChatRoom: React.FC = () => {
                 renderTimeLine={renderTimeline}
                 time={new Date(timeLine)}
                 _id={item._id}
+                type={item.type ? item.type : 1}
               />
             );
         })}
-
         <div ref={myRef}></div>
       </div>
       <div className={style.messageSender}>
         <div className={style.messageInput}>
           <form className={style.messageField} onSubmit={handleSubmit(sendMessageHandler)}>
+            <input
+              accept="image/png, image/gif, image/jpeg"
+              className={style.imageInput}
+              id="contained-button-file"
+              onChange={submitImage}
+              multiple
+              type="file"
+            />
+            <label htmlFor="contained-button-file">
+              <Fab component="span" className={style.imageButton}>
+                <AddPhotoAlternateIcon />
+              </Fab>
+            </label>
             <input
               autoComplete="off"
               className={style.messageTextField}

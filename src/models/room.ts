@@ -8,4 +8,5 @@ export interface IRoom {
   members: IUser[] | [];
   board: IBoard;
   image: string;
+  newMessage: number;
 }

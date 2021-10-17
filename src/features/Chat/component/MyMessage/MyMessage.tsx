@@ -24,6 +24,7 @@ interface IMessagePros {
   renderTimeLine: Boolean;
   time: Date;
   _id: string;
+  type: Number;
 }
 
 const scheme = yup
@@ -33,7 +34,15 @@ const scheme = yup
   })
   .required();
 
-const MyMessage: React.FC<IMessagePros> = ({ _id, postedDate, content, profilePictureUrl, renderTimeLine, time }) => {
+const MyMessage: React.FC<IMessagePros> = ({
+  _id,
+  postedDate,
+  content,
+  profilePictureUrl,
+  renderTimeLine,
+  time,
+  type,
+}) => {
   const style = MyMessageStyle();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -163,37 +172,47 @@ const MyMessage: React.FC<IMessagePros> = ({ _id, postedDate, content, profilePi
       {timeline}
 
       <div className={style.message}>
-        <Tooltip
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-          }}
-          arrow
-          title={
-            <React.Fragment>
-              <IconButton className={style.iconButtonTool} onClick={handleOpenDelete}>
-                <Delete />
-              </IconButton>
-              <IconButton className={style.iconButtonTool} onClick={handleOpenEdit}>
-                <Edit />
-              </IconButton>
-            </React.Fragment>
-          }
-          placement="left-start"
-        >
+        <div>
           <div>
-            <div>
-              <Typography variant="body2" className={style.messageContent}>
-                {contentMsg}
-              </Typography>
-            </div>
-            <div className={style.accountInfor}>
-              <Typography variant="subtitle2" className={style.date}>
-                {dateUtil.fortmatDate(postedDate)}
-              </Typography>
-            </div>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Tooltip
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                }}
+                arrow
+                title={
+                  <React.Fragment>
+                    <IconButton className={style.iconButtonTool} onClick={handleOpenDelete}>
+                      <Delete />
+                    </IconButton>
+                    {type === 1 && (
+                      <IconButton className={style.iconButtonTool} onClick={handleOpenEdit}>
+                        <Edit />
+                      </IconButton>
+                    )}
+                  </React.Fragment>
+                }
+                placement="left-start"
+              >
+                {type === 1 ? (
+                  <div className={style.messageContent}>
+                    <Typography variant="body2">{contentMsg}</Typography>
+                  </div>
+                ) : (
+                  <div className={`${style.messageContent} ${style.imageContent}`}>
+                    <img className={style.image} src={contentMsg} alt="failed to load" />
+                  </div>
+                )}
+              </Tooltip>
+            </Box>
           </div>
-        </Tooltip>
+          <div className={style.accountInfor}>
+            <Typography variant="subtitle2" className={style.date}>
+              {dateUtil.fortmatDate(postedDate)}
+            </Typography>
+          </div>
+        </div>
 
         <div className={style.avatar}>
           <img className={style.avatarImg} alt="none" src={profilePictureUrl}></img>

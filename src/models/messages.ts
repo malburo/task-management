@@ -5,4 +5,5 @@ export interface IMessage {
   content: string;
   createdAt: Date;
   postedBy: IUser;
+  type: Number;
 }

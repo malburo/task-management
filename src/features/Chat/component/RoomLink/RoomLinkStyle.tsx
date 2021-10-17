@@ -28,12 +28,25 @@ export default makeStyles({
     },
   },
   avatarImg: {
-    transform: 'scale(0.75,0.75) ',
+    transform: 'scale(0.75,0.75)',
     borderRadius: '10px',
   },
   roomName: {
     lineHeight: '60px !important',
     marginLeft: '5%!important',
     color: 'white',
+    display: 'flex',
+    alignItems: 'center',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden !important',
+    textOverflow: 'ellipsis',
+  },
+  newMessage: {
+    backgroundColor: 'red',
+    height: '30px',
+    textAlign: 'center',
+    marginLeft: '10px !important',
+    width: '30px',
+    borderRadius: '50%',
   },
 });

@@ -3,7 +3,6 @@ import { makeStyles } from '@mui/styles';
 export default makeStyles({
   message: {
     boxSizing: 'border-box',
-    width: '100%',
     display: 'flex',
     marginTop: '4vh',
     marginBottom: '4vh',
@@ -13,6 +12,9 @@ export default makeStyles({
   avatar: {
     height: '5vh',
     marginRight: '2%',
+  },
+  imageContent: {
+    maxWidth: '50vw',
   },
   avatarImg: {
     height: '45px',
@@ -24,6 +26,10 @@ export default makeStyles({
     height: '20px',
     marginBottom: '1%',
     minWidth: '200px',
+  },
+
+  image: {
+    maxWidth: '50vw',
   },
   name: {
     margin: '0 3% 0 2%!important',

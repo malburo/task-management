@@ -12,7 +12,7 @@ interface IRoomState {
   roomInfor: IRoom;
 }
 const initialState: IRoomState = {
-  roomInfor: { _id: '', board: {} as IBoard, image: '', isGeneral: false, members: [], name: '' },
+  roomInfor: { _id: '', board: {} as IBoard, newMessage: 0, image: '', isGeneral: false, members: [], name: '' },
 };
 
 const roomSlice = createSlice({

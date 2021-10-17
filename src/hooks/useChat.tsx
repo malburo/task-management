@@ -5,6 +5,7 @@ import { IUser } from 'models/user';
 import { useEffect, useRef } from 'react';
 import { IMessage } from 'models/messages';
 import { socketClient } from 'api/socketClient';
+import messageApi from 'api/messageApi';
 
 const useChat = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -15,10 +16,20 @@ const useChat = () => {
 
   useEffect(() => {
     ref.current = room._id;
+    if (room._id === '') return;
     leaveRoom(prevRoom);
     joinRoom(room._id);
+    messageApi.read({ roomId: room._id });
     // eslint-disable-next-line
   }, [room]);
+
+  const joinChannel = (data: string) => {
+    socketClient.emit('channel:join', { boardId: data });
+  };
+
+  const leaveChannel = (data: string | undefined) => {
+    socketClient.emit('channel:leave', { boardId: data });
+  };
 
   const joinRoom = (data: string) => {
     socketClient.emit('chat:join', { roomId: data });
@@ -38,6 +49,7 @@ const useChat = () => {
           content: message.content,
           createdAt: message.createdAt,
           postedBy: message.postedBy,
+          type: message.type != null ? message.type : 1,
         })
       );
     });
@@ -63,6 +75,7 @@ const useChat = () => {
           content: message.content,
           createdAt: message.createdAt,
           postedBy: message.postedBy,
+          type: message.type != null ? message.type : 1,
         })
       );
     });
@@ -79,6 +92,10 @@ const useChat = () => {
     recieveMessage,
     recieveDeleteMessage,
     recieveEditMessage,
+    joinChannel,
+    joinRoom,
+    leaveChannel,
+    leaveRoom,
   };
 };
 

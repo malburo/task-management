@@ -55,6 +55,10 @@ const messagesSlice = createSlice({
       const { _id, ...changes } = action.payload;
       messagesAdapter.updateOne(state.messages, { id: _id, changes });
     },
+    throwNotification: (state, action: PayloadAction<string>) => {
+      state.response.message = action.payload;
+      state.response.status = -1;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getMessageInRoom.pending, (state) => {});
@@ -91,5 +95,5 @@ const messagesSlice = createSlice({
 });
 // eslint-disable-next-line
 const { actions, reducer: messagesReducer } = messagesSlice;
-export const { addNewMessage, clearResponse, removeOneMessage, editOneMessage } = actions;
+export const { addNewMessage, clearResponse, removeOneMessage, editOneMessage, throwNotification } = actions;
 export default messagesReducer;
