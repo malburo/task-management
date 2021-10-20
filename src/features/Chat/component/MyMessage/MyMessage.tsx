@@ -16,6 +16,8 @@ import InputField from 'components/form-control/InputField';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from 'app/store';
 import { deleteOne, updateOne } from 'features/Chat/ReduxSlice/MessagesSlice';
+import ImageLoading from '../Loader/ImageLoading';
+import ImageFailed from '../Loader/ImageFailed';
 
 interface IMessagePros {
   postedDate: Date;
@@ -50,6 +52,9 @@ const MyMessage: React.FC<IMessagePros> = ({
   const [deleteDialog, setDeleteDialog] = useState<boolean>(false);
   const [editDialog, setEditDialog] = useState<boolean>(false);
   const [contentMsg, setContentMsg] = useState<string>(content);
+  const [isLoading, setIsLoading] = useState<Boolean>(true);
+  const [isError, setIsError] = useState<Boolean>(false);
+
   const room = useSelector((state: RootState) => state.room.roomInfor);
 
   const form = useForm({
@@ -201,7 +206,20 @@ const MyMessage: React.FC<IMessagePros> = ({
                   </div>
                 ) : (
                   <div className={`${style.messageContent} ${style.imageContent}`}>
-                    <img className={style.image} src={contentMsg} alt="failed to load" />
+                    {isLoading && <ImageLoading />}
+                    {isError && <ImageFailed />}
+                    <img
+                      className={style.image}
+                      onLoad={() => {
+                        setIsLoading(false);
+                      }}
+                      onError={() => {
+                        setIsLoading(false);
+                        setIsError(true);
+                      }}
+                      src={contentMsg}
+                      alt=""
+                    />
                   </div>
                 )}
               </Tooltip>

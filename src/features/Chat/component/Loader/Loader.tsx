@@ -12,6 +12,7 @@ const Loader: React.FC = () => {
         display: 'flex',
         position: 'fixed',
         width: '100%',
+        marginTop: '8px',
         // eslint-disable-next-line
         ['@media (min-width: 900px)']: {
           marginLeft: '36%',

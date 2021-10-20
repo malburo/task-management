@@ -35,6 +35,7 @@ const ListRooms: React.FC<IListRoomsPros> = ({ idChanel }) => {
         setGeneralRoom(res.data.rooms.filter((i: IRoom) => i.isGeneral === true)[0]);
       });
     });
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Message from '../Message/Message';
 import MyMessage from '../MyMessage/MyMessage';
 import { useEffect } from 'react';
@@ -28,6 +28,7 @@ import { IUser } from 'models/user';
 import Loader from '../Loader/Loader';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import messageApi from 'api/messageApi';
+import { debounce } from 'lodash';
 
 export interface IParamChatRoom {
   id: string;
@@ -79,20 +80,17 @@ const ChatRoom: React.FC = () => {
   useEffect(() => {
     setIsLoading(true);
     dispatch(getOneRoom({ id })).then(() => setIsLoading(false));
+    setSeed(0);
   }, [dispatch, id]);
 
-  useLayoutEffect(() => {
-    if (room._id === '') return;
-    dispatch(getMessageInRoom({ id: room._id, seed: seed }));
-    myRef.current?.scrollIntoView();
+  useEffect(() => {
+    (async () => {
+      if (room._id === '') return;
+      await dispatch(getMessageInRoom({ id: room._id, seed: seed }));
+      myRef.current?.scroll({ top: myRef.current.scrollHeight });
+    })();
     // eslint-disable-next-line
   }, [room]);
-
-  useLayoutEffect(() => {
-    if (seed !== 0) return;
-    myRef.current?.scrollIntoView();
-    // eslint-disable-next-line
-  }, [messages]);
 
   useEffect(() => {
     if (response.status === 0) setOpenSnackBar(false);
@@ -109,16 +107,43 @@ const ChatRoom: React.FC = () => {
   };
 
   const sendMessageHandler = (data: IInputMessage) => {
-    dispatch(createOne({ roomId: room._id, content: data.msgContent }));
-    reset();
+    (async () => {
+      await dispatch(createOne({ roomId: room._id, content: data.msgContent }));
+      reset();
+      myRef.current?.scroll({ top: myRef.current.scrollHeight });
+    })();
   };
 
   const submitImage = (event: React.FormEvent<HTMLInputElement>) => {
-    if (event.currentTarget.files) {
-      const file = event.currentTarget.files[0];
-      if (file && file.type.match(/(png|jpg|jpge)/)) messageApi.createImageMessage({ roomId: room._id, file: file });
-      else dispatch(throwNotification('Please choose an image file'));
-    }
+    (async () => {
+      if (event.currentTarget.files) {
+        const file = event.currentTarget.files[0];
+        if (file && file.type.match(/(png|jpg|jpge)/)) {
+          await messageApi.createImageMessage({ roomId: room._id, file: file });
+          myRef.current?.scroll({ top: myRef.current.scrollHeight });
+        } else await dispatch(throwNotification('Please choose an image file'));
+      }
+    })();
+  };
+
+  const fetchMoreMsg = (scrollPosition: Number) => {
+    (async () => {
+      if (scrollPosition !== 0) return;
+      if (room._id === '') return;
+      setIsLoading(true);
+      const positionScroll = myRef.current?.scrollHeight || 0;
+      await dispatch(getMessageInRoom({ id: room._id, seed: seed + 1 }));
+      setIsLoading(false);
+      console.log(positionScroll);
+      await myRef.current?.scroll({ top: myRef.current?.scrollHeight - positionScroll });
+      setSeed(seed + 1);
+    })();
+  };
+
+  const debounceCall = debounce((scrollPosition) => fetchMoreMsg(scrollPosition), 500);
+
+  const scrollDetect = (event: React.UIEvent<HTMLDivElement>) => {
+    debounceCall(event.currentTarget.scrollTop);
   };
 
   return (
@@ -150,7 +175,7 @@ const ChatRoom: React.FC = () => {
         </Typography>
       </div>
       {isLoading && <Loader />}
-      <div className={style.chatRoom}>
+      <div className={style.chatRoom} ref={myRef} onScroll={scrollDetect}>
         {messages.map((item: IMessage) => {
           let date = new Date(item.createdAt);
           let renderTimeline = false;
@@ -185,7 +210,6 @@ const ChatRoom: React.FC = () => {
               />
             );
         })}
-        <div ref={myRef}></div>
       </div>
       <div className={style.messageSender}>
         <div className={style.messageInput}>

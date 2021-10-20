@@ -26,8 +26,9 @@ export const deleteOne = createAsyncThunk('room/deleteOne', async (payload: any)
   return { id: payload.messageId };
 });
 
-const messagesAdapter = createEntityAdapter({
-  selectId: (message: IMessage) => message._id,
+const messagesAdapter = createEntityAdapter<IMessage>({
+  selectId: (message) => message._id,
+  sortComparer: (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
 });
 
 export const messagesSeletor = messagesAdapter.getSelectors((state: RootState) => state.message.messages);

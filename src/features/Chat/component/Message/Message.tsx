@@ -5,6 +5,8 @@ import dateUtil from 'utilities/dateUtil';
 import TimeLine from '../HorizontalRule/TimeLine';
 import { Box } from '@mui/system';
 import { Typography } from '@mui/material';
+import ImageLoading from '../Loader/ImageLoading';
+import ImageFailed from '../Loader/ImageFailed';
 
 interface IMessagePros {
   name: string;
@@ -27,6 +29,9 @@ const Message: React.FC<IMessagePros> = ({
 }) => {
   const style = MessageStyle();
   const [timeline, setTimeline] = useState<ReactElement>();
+  const [isLoading, setIsLoading] = useState<Boolean>(true);
+  const [isError, setIsError] = useState<Boolean>(false);
+
   useEffect(() => {
     if (renderTimeLine === true) setTimeline(<TimeLine time={new Date(time)} />);
     // eslint-disable-next-line
@@ -46,7 +51,21 @@ const Message: React.FC<IMessagePros> = ({
               </div>
             ) : (
               <div className={`${style.messageContent} ${style.imageContent}`}>
-                <img src={content} className={style.image} alt="failed to load" />
+                {isLoading && <ImageLoading />}
+                {isError && <ImageFailed />}
+                <img
+                  style={isLoading || isError ? { height: '0' } : {}}
+                  onLoad={() => {
+                    setIsLoading(false);
+                  }}
+                  onError={() => {
+                    setIsLoading(false);
+                    setIsError(true);
+                  }}
+                  src={content}
+                  className={style.image}
+                  alt=""
+                />
               </div>
             )}
           </Box>

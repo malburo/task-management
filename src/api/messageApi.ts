@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { Response } from 'models/common';
 import { IMessage } from 'models/messages';
 import axiosClient from './axiosClient';
