@@ -1,7 +1,6 @@
 import { Response } from 'models/common';
 import { IMessage } from 'models/messages';
 import axiosClient from './axiosClient';
-import axiosFileClient from './axiosFileClient';
 
 const messageApi = {
   getAllInRoom(payload: any): Promise<any> {
@@ -11,10 +10,10 @@ const messageApi = {
   create(payload: any): Promise<Response<IMessage>> {
     return axiosClient.post(`messages/`, payload);
   },
-  createImageMessage(payload: any): Promise<any> {
+  createImageMessage(payload: any): Promise<Response<IMessage>> {
     const data = new FormData();
-    data.append('file', payload.file);
-    return axiosFileClient.post(`messages/image/${payload.roomId}`, data);
+    data.append('file', payload.file, payload.file.name);
+    return axiosClient.post(`messages/image/${payload.roomId}`, data);
   },
   update(payload: any): Promise<Response<IMessage>> {
     return axiosClient.put(`messages/${payload.messageId}`, payload);
