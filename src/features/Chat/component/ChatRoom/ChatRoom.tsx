@@ -118,7 +118,8 @@ const ChatRoom: React.FC = () => {
     (async () => {
       if (event.currentTarget.files) {
         const file = event.currentTarget.files[0];
-        if (file && file.type.match(/(png|jpg|jpge)/)) {
+        console.log(file.type);
+        if (file && file.type.match(/(png|jpg|jpeg)/)) {
           await messageApi.createImageMessage({ roomId: room._id, file: file });
           myRef.current?.scroll({ top: myRef.current.scrollHeight });
         } else await dispatch(throwNotification('Please choose an image file'));
