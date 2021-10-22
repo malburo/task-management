@@ -47,6 +47,7 @@ const AddMember: React.FC = () => {
   };
   const handleInviteClick = async (userId: string) => {
     await memberApi.create({ userId, boardId });
+    setAnchorEl(null);
   };
   return (
     <Box sx={{ marginLeft: '10px' }}>
@@ -65,7 +66,7 @@ const AddMember: React.FC = () => {
         }}
         transformOrigin={{
           vertical: 'top',
-          horizontal: 'left',
+          horizontal: 'center',
         }}
         sx={{
           marginTop: '12px',
@@ -78,7 +79,7 @@ const AddMember: React.FC = () => {
           <Box>
             <Typography variant="regular2">Search users you want to invite.</Typography>
           </Box>
-          <Box boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)" borderRadius="12px" marginTop="12px">
+          <Box boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)" marginTop="12px">
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <InputBaseField
                 form={form}
@@ -94,10 +95,23 @@ const AddMember: React.FC = () => {
           </Box>
           {users.length > 0 &&
             users.map((user) => (
-              <Box>
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+                padding="12px"
+                border="1px solid #E0E0E0"
+                marginY="24px"
+                boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)"
+                borderRadius="12px"
+              >
                 <Avatar variant="rounded" src={user.profilePictureUrl} />
-                <Typography>{user.fullname}</Typography>
-                <Button onClick={() => handleInviteClick(user._id)}>Invite</Button>
+                <Box marginX="12px">
+                  <Typography>{user.username}</Typography>
+                </Box>
+                <Button onClick={() => handleInviteClick(user._id)} variant="contained" color="primary">
+                  Invite
+                </Button>
               </Box>
             ))}
         </Box>

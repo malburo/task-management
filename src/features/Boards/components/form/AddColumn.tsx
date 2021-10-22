@@ -59,9 +59,7 @@ const AddColumn = () => {
             padding: '8px 15px',
             boxShadow: 'none',
             marginX: '24px',
-            span: {
-              justifyContent: 'space-between',
-            },
+            justifyContent: 'space-between',
           }}
         >
           Add new column
@@ -71,7 +69,7 @@ const AddColumn = () => {
         <Card sx={{ width: '280px', border: '2px solid #0000000a', marginX: '24px' }}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <Grid container direction="column" justifyContent="center" alignItems="flex-start">
-              <InputBaseField form={form} name="title" placeholder="Enter a title for this column..." />
+              <InputBaseField form={form} name="title" placeholder="Enter a title for this column..." autoFocus />
               <Box display="flex" alignItems="center" justifyContent="flex-end" width="100%" marginTop="12px">
                 <Button type="submit" variant="contained" color="primary" style={{ marginRight: 12 }}>
                   save

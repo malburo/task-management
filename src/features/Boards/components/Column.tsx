@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import AddIcon from '@mui/icons-material/Add';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Divider, Menu, MenuItem, Typography } from '@mui/material';
 import { Container, Draggable, DropResult } from '@richardrout/react-smooth-dnd';
 import columnApi from 'api/columnApi';
 import { AppDispatch, RootState } from 'app/store';
@@ -13,6 +13,8 @@ import { applyDrag } from 'utilities/dragDrop';
 import { mapOrder } from 'utilities/sorts';
 import { tasksSelector, updateColumn, updateTask } from '../boardSlice';
 import AddTask from './form/AddTask';
+import DeleteColumn from './form/DeleteColumn';
+import EditColumnTitle from './form/EditColumTitle';
 import TaskCard from './TaskCard';
 
 interface ColumnProps {
@@ -22,18 +24,19 @@ interface ColumnProps {
 const Column: React.FC<ColumnProps> = ({ column }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [showAddTaskForm, setShowAddTaskForm] = useState<boolean>(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const scrollBottomRef = useRef<null | HTMLDivElement>(null);
   const didMount = useRef(false);
-
-  useEffect(() => {
-    if (didMount.current) scrollBottomRef?.current?.scrollIntoView();
-    didMount.current = true;
-  }, [showAddTaskForm]);
 
   const tasks: ITask[] = useSelector((state: RootState) => {
     const allTasks = tasksSelector.selectAll(state).filter((task: ITask) => task.columnId === column._id);
     return mapOrder(allTasks, column.taskOrder, '_id');
   });
+
+  useEffect(() => {
+    if (didMount.current) scrollBottomRef?.current?.scrollIntoView();
+    didMount.current = true;
+  }, [showAddTaskForm]);
 
   const onTaskDrop = async (columnId: string, dropResult: DropResult) => {
     if (dropResult.addedIndex === dropResult.removedIndex) return;
@@ -57,15 +60,45 @@ const Column: React.FC<ColumnProps> = ({ column }) => {
     }
   };
 
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+  const handleClickAddNewTask = () => {
+    setAnchorEl(null);
+    setShowAddTaskForm(true);
+  };
   return (
-    <Box marginX={6} bgcolor="#f8f9fd" borderRadius="8px" padding="8px" border="2px solid #0000000a" width="280px">
+    <Box marginX={6} bgcolor="#f8f9fd" borderRadius="8px" paddingTop="8px" width="280px">
       <Box display="flex" justifyContent="space-between" height="40px">
-        <Typography variant="regular3" className="column-drag-handle">
-          {column.title}
-        </Typography>
-        <MoreHorizIcon />
+        <EditColumnTitle columnId={column._id} value={column.title} />
+        <Box onClick={handleMenuOpen} marginRight="12px" className="column-move" sx={{ cursor: 'move' }}>
+          <MoreHorizIcon />
+        </Box>
+        <Menu
+          id="column-menu"
+          disableAutoFocusItem
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
+          <MenuItem onClick={handleClickAddNewTask}>
+            <Typography variant="regular2">Add Task...</Typography>
+          </MenuItem>
+          <Divider sx={{ margin: '10px 0px' }} />
+          <DeleteColumn columnId={column._id} />
+        </Menu>
       </Box>
-      <Box sx={{ overflowY: 'scroll', overflowX: 'hidden' }} maxHeight="calc(100vh - 280px)" padding="0 4px 0 12px">
+      <Box
+        sx={{ overflowY: 'scroll', overflowX: 'hidden' }}
+        maxHeight="calc(100vh - 280px)"
+        padding="0 4px 0 12px"
+        marginRight="12px"
+      >
         <Container
           disableScrollOverlapDetection={true}
           orientation="vertical"
@@ -78,7 +111,6 @@ const Column: React.FC<ColumnProps> = ({ column }) => {
             animationDuration: 150,
             className: 'drop-preview',
           }}
-          style={{ minHeight: '50px' }}
         >
           {tasks.map((task: ITask) => (
             <Draggable key={task._id}>
@@ -91,21 +123,19 @@ const Column: React.FC<ColumnProps> = ({ column }) => {
       </Box>
       <Box height="40px" marginTop="12px">
         <Button
-          onClick={() => setShowAddTaskForm(true)}
+          onClick={handleClickAddNewTask}
           variant="contained"
           fullWidth
           disabled={showAddTaskForm}
           endIcon={<AddIcon />}
           sx={{
             background: '#DAE4FD',
-            borderRadius: '8px',
+            borderRadius: '0px 0px 8px 8px',
             color: '#2F80ED',
             height: '100%',
             padding: '8px 15px',
             boxShadow: 'none',
-            span: {
-              justifyContent: 'space-between',
-            },
+            justifyContent: 'space-between',
           }}
         >
           Add another card

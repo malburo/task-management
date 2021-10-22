@@ -34,7 +34,7 @@ const AddTask: React.FC<Props> = ({ columnId, setShowAddTaskForm }) => {
     <Card sx={{ marginBottom: '12px' }}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Grid container direction="column" justifyContent="center" alignItems="flex-start">
-          <InputBaseField form={form} name="title" placeholder="Enter a title for this task..." />
+          <InputBaseField form={form} name="title" placeholder="Enter a title for this task..." autoFocus />
           <Box display="flex" alignItems="center" justifyContent="flex-end" width="100%" marginTop="12px">
             <Button type="submit" variant="contained" color="primary" style={{ marginRight: 12 }}>
               save

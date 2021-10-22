@@ -6,7 +6,7 @@ import { AppDispatch, RootState } from 'app/store';
 import { IColumn } from 'models/column';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
+import { Route, Switch, useParams } from 'react-router';
 import { applyDrag } from 'utilities/dragDrop';
 import { mapOrder } from 'utilities/sorts';
 import { columnsSelector, getOneBoard, membersSelector, updateBoard } from '../boardSlice';
@@ -16,6 +16,7 @@ import AddMember from '../components/form/AddMember';
 import EditVisibility from '../components/form/EditVisibility';
 import Menu from '../components/Menu';
 import '../style.css';
+import TaskDetail from './TaskDetail';
 
 interface Params {
   boardId: string;
@@ -59,8 +60,11 @@ const BoardDetail = () => {
     }
   };
   return (
-    <Box height="100vh">
-      <Box height="65px">Header</Box>
+    <Box height="100vh" bgcolor="#fff">
+      <Switch>
+        <Route path={`/boards/:boardId/:taskId`} component={TaskDetail} />
+      </Switch>
+      <Box height="65px" />
       <Stack
         direction="row"
         height="55px"
@@ -84,10 +88,11 @@ const BoardDetail = () => {
       </Stack>
       <Box sx={{ flex: '1 1', overflow: 'auto', minWidth: 0, display: 'flex' }} height="calc(100vh - 145px)">
         <Container
-          disableScrollOverlapDetection={true}
-          orientation="horizontal"
-          onDrop={onColumnDrop}
           lockAxis="x"
+          orientation="horizontal"
+          dragHandleSelector=".column-move"
+          disableScrollOverlapDetection={true}
+          onDrop={onColumnDrop}
           getChildPayload={(index: number) => columns[index]}
           style={{
             minWidth: 0,

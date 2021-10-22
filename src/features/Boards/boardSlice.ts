@@ -50,18 +50,24 @@ const boardSlice = createSlice({
     updateBoard: (state, { payload }: PayloadAction<any>) => {
       return (state = { ...state, ...payload.changes });
     },
+
     addColumn: (state, { payload }: PayloadAction<any>) => {
       columnsAdapter.addOne(state.columns, payload.newColumn);
     },
     updateColumn: (state, { payload }: PayloadAction<any>) => {
       columnsAdapter.updateOne(state.columns, { id: payload.columnId, changes: payload.changes });
     },
+    deleteColumn: (state, { payload }: PayloadAction<any>) => {
+      columnsAdapter.removeOne(state.columns, payload.columnId);
+    },
+
     addTask: (state, { payload }: PayloadAction<any>) => {
       tasksAdapter.addOne(state.tasks, payload.newTask);
     },
     updateTask: (state, { payload }: PayloadAction<any>) => {
       tasksAdapter.updateOne(state.tasks, { id: payload.taskId, changes: payload.changes });
     },
+
     addMember: (state, { payload }: PayloadAction<any>) => {
       membersAdapter.addOne(state.members, payload.newMember);
     },
@@ -84,5 +90,5 @@ export const tasksSelector = tasksAdapter.getSelectors((state: RootState) => sta
 export const membersSelector = membersAdapter.getSelectors((state: RootState) => state.board.members);
 
 const { reducer: boardReducer, actions } = boardSlice;
-export const { updateBoard, addTask, addColumn, updateColumn, updateTask, addMember } = actions;
+export const { updateBoard, addColumn, updateColumn, deleteColumn, addTask, updateTask, addMember } = actions;
 export default boardReducer;
