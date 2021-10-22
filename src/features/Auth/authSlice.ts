@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import authApi from 'api/authApi';
+import userApi from 'api/userApi';
 import { Response } from 'models/common';
 import { IUser } from 'models/user';
 import { LoginFormValues } from './components/LoginForm';
@@ -30,6 +31,11 @@ export const register = createAsyncThunk('auth/register', async (payload: Regist
   localStorage.setItem('access_token', response.data.access_token);
   thunkAPI.dispatch(getMe());
   return response;
+});
+
+export const updateUserInfo = createAsyncThunk('auth/updateUserInfo', async (payload: any) => {
+  const response = await userApi.update(payload);
+  return response.data;
 });
 
 const authSlice = createSlice({
@@ -65,6 +71,10 @@ const authSlice = createSlice({
     });
     builder.addCase(register.fulfilled, (state) => {
       state.isAuth = true;
+    });
+
+    builder.addCase(updateUserInfo.fulfilled, (state, { payload }: PayloadAction<any>) => {
+      state.currentUser = payload.updatedUser;
     });
   },
 });

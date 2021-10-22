@@ -3,6 +3,7 @@ export interface IParams {
   limit: string;
   sort?: string;
   order?: 'asc' | 'desc';
+  q?: string;
   [key: string]: any;
 }
 export interface Response<T> {
@@ -17,4 +18,7 @@ export interface ResponseList<T> {
     pagination: IParams;
   };
   status: string;
+}
+export interface ErrorResponse {
+  message: string;
 }
