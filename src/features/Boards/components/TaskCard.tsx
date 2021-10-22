@@ -2,6 +2,7 @@ import { Avatar, AvatarGroup, Box, Card, Chip, Typography } from '@mui/material'
 import CommentIcon from '@mui/icons-material/Comment';
 import { makeStyles } from '@mui/styles';
 import { ITask } from 'models/task';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles({
   cover: {
@@ -25,10 +26,14 @@ interface TaskCardProps {
 
 const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
   const classes = useStyles();
+  const history = useHistory();
+  const handleClickTask = () => {
+    history.push('/boards/616bc72720845003622501e9/zxc');
+  };
   return (
-    <Card sx={{ border: '2px solid #0000000a', marginBottom: '24px' }}>
+    <Card sx={{ border: '2px solid #0000000a', marginBottom: '24px' }} onClick={handleClickTask}>
       <img
-        src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/623df143063739.57e2065f398da.jpg"
+        src="https://scontent.fsgn3-1.fna.fbcdn.net/v/t1.6435-9/245640291_2726439204317433_3912247688081488990_n.jpg?_nc_cat=104&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=FMnKEZNfGtUAX8D6abN&_nc_ht=scontent.fsgn3-1.fna&oh=52298cd7782ab16c1c883b825243130d&oe=6195EEFF"
         alt="asd"
         className={classes.cover}
       />

@@ -42,7 +42,7 @@ const Visibility: React.FC<VisibilityProps> = ({ onChange }) => {
         color="inherit"
         fullWidth
         startIcon={isPrivate ? <LockIcon /> : <PublicIcon />}
-        style={{ marginRight: '16px' }}
+        sx={{ justifyContent: 'flex-start', marginRight: '16px' }}
       >
         {isPrivate ? 'Private' : 'Public'}
       </Button>

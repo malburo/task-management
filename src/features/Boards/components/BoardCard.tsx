@@ -23,7 +23,7 @@ const BoardCard: React.FC<Props> = ({ data }) => {
         </Typography>
       </Box>
       <Box display="flex">
-        <AvatarGroup max={3}>
+        <AvatarGroup max={5}>
           {data.members.map((member, index) => (
             <Avatar variant="rounded" src={member.profilePictureUrl} key={index} />
           ))}
