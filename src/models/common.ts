@@ -19,6 +19,3 @@ export interface ResponseList<T> {
   };
   status: string;
 }
-export interface ErrorResponse {
-  message: string;
-}
