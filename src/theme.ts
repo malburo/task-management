@@ -286,9 +286,8 @@ const theme = createTheme({
     MuiPopover: {
       styleOverrides: {
         paper: {
-          boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.05)',
+          boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
           borderRadius: '12px',
-          border: '1px solid #E0E0E0',
         },
       },
     },
@@ -312,7 +311,7 @@ const theme = createTheme({
         root: {
           padding: '16px',
           borderRadius: '12px',
-          boxShadow: '0px 2px 12px rgba(0, 0, 0, 0.05)',
+          boxShadow: 'none',
           whiteSpace: 'normal',
           boxSizing: 'border-box',
           '&:hover': {
