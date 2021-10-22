@@ -3,7 +3,13 @@ import InputBase from '@mui/material/InputBase';
 
 const Search: React.FC = () => {
   return (
-    <Box boxShadow="0px 2px 12px rgba(0, 0, 0, 0.08)" borderRadius={2} width="400px" marginRight={8}>
+    <Box
+      borderRadius={2}
+      width="400px"
+      marginRight={8}
+      bgcolor="rgb(243, 246, 249)"
+      border="1px solid rgb(229, 232, 236)"
+    >
       <InputBase
         placeholder="Keyword..."
         fullWidth

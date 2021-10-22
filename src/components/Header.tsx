@@ -28,6 +28,10 @@ const Header = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleClickProfile = () => {
+    setAnchorEl(null);
+    history.push('/profile/general');
+  };
   const handleClickAllBoard = () => {
     setAnchorEl(null);
     history.push('/boards');
@@ -43,8 +47,8 @@ const Header = () => {
       color="inherit"
       sx={{
         backdropFilter: 'blur(20px)',
-        boxShadow: '0px 1px 2px rgb(0 0 0 / 10%)',
-        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        boxShadow: 'rgb(234 238 243) 0px -1px 1px inset',
+        backgroundColor: 'rgba(255, 255, 255, 0.72)',
         height: '65px',
       }}
     >
@@ -105,7 +109,7 @@ const Header = () => {
           marginTop: '12px',
         }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleClickProfile}>
           <AccountCircleIcon fontSize="small" sx={{ fill: '#4F4F4F' }} />
           <Typography variant="regular2">Profile</Typography>
         </MenuItem>

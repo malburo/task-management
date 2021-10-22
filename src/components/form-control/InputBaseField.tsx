@@ -7,6 +7,7 @@ interface InputBaseProps {
   name: string;
   label?: string;
   disabled?: boolean;
+  autoFocus?: boolean;
   placeholder?: string;
   size?: string;
   startIcon?: JSX.Element;
@@ -15,7 +16,7 @@ interface InputBaseProps {
 }
 
 const InputBaseField: React.FC<InputBaseProps> = (props) => {
-  const { form, name, placeholder, endAdornment } = props;
+  const { form, name, placeholder, endAdornment, autoFocus } = props;
   const { errors } = form.formState;
   const hasError = !!errors[name];
   return (
@@ -24,7 +25,7 @@ const InputBaseField: React.FC<InputBaseProps> = (props) => {
       control={form.control}
       render={({ field }) => (
         <FormControl error={hasError} fullWidth>
-          <InputBase {...field} placeholder={placeholder} endAdornment={endAdornment} fullWidth />
+          <InputBase {...field} placeholder={placeholder} endAdornment={endAdornment} fullWidth autoFocus={autoFocus} />
           {errors[name] && <FormHelperText>{errors[name]?.message}</FormHelperText>}
         </FormControl>
       )}
