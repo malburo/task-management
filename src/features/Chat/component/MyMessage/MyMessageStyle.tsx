@@ -37,7 +37,7 @@ export default makeStyles({
     textAlign: 'right',
   },
   imageContent: {
-    maxWidth: '50vw',
+    maxWidth: '40vw',
   },
   iconButtonTool: {
     backgroundColor: 'transparent !important',
@@ -49,7 +49,7 @@ export default makeStyles({
     },
   },
   image: {
-    maxWidth: '50vw',
+    maxWidth: '40vw',
   },
   editForm: {
     width: '40vw',

@@ -14,7 +14,7 @@ export default makeStyles({
     marginRight: '2%',
   },
   imageContent: {
-    maxWidth: '50vw',
+    maxWidth: '40vw',
   },
   avatarImg: {
     height: '45px',
@@ -29,7 +29,7 @@ export default makeStyles({
   },
 
   image: {
-    maxWidth: '50vw',
+    maxWidth: '40vw !important',
   },
   name: {
     margin: '0 3% 0 2%!important',
