@@ -23,7 +23,7 @@ export default makeStyles({
     height: '6vh !important',
     paddingLeft: '6%',
     boxShadow: 'rgb(26, 25, 30) 0px 3px',
-    zIndex: 0,
+    zIndex: 999,
   },
   menuIcon: {
     height: '100% !important',

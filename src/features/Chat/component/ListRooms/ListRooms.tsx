@@ -66,7 +66,7 @@ const ListRooms: React.FC<IListRoomsPros> = ({ idChanel }) => {
           paddingBottom: '20px',
           margin: '20px 7.5% 20px 7.5%',
           borderRadius: '20px',
-          backgroundColor: 'rgb(37, 35, 41)',
+          backgroundColor: `${generalRoom?._id === room._id ? '#2F80ED' : 'rgb(37, 35, 41)'}`,
         }}
       >
         <Link

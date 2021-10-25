@@ -40,4 +40,8 @@ export default makeStyles({
     padding: '1rem',
     borderRadius: '20px',
   },
+  linkPreview: {
+    width: '100%',
+    maxWidth: '80vw',
+  },
 });

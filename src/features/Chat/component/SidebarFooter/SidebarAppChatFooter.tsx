@@ -7,7 +7,6 @@ import HomeIcon from '@mui/icons-material/Home';
 import SidebarAppChatFooterStyle from './SidebarAppChatFooterStyle';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from 'app/store';
-import { IUser } from 'models/user';
 import { useHistory } from 'react-router';
 import { logout } from 'features/Auth/authSlice';
 import Box from '@mui/material/Box';

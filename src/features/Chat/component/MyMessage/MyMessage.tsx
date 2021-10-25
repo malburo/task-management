@@ -14,6 +14,8 @@ import { IUser } from 'models/user';
 import messageApi from 'api/messageApi';
 import ConfirmDeleteMessage from '../FormDialog/ConfirmDeleteMessage';
 import EditMessageForm from '../FormDialog/EditFormMessage';
+import { LinkPreview } from '@dhaiwat10/react-link-preview';
+import LinkPreviewSkeleteon from '../skeleton/LinkPreviewSkeletion';
 
 interface IMessagePros {
   postedDate: Date;
@@ -44,11 +46,16 @@ const MyMessage: React.FC<IMessagePros> = ({
   const [contentMsg, setContentMsg] = useState<string>(content);
   const [isLoading, setIsLoading] = useState<Boolean>(true);
   const [isError, setIsError] = useState<Boolean>(false);
+  const [url, setUrl] = useState<string>();
 
   const room = useSelector((state: RootState) => state.room.roomInfor);
 
   useEffect(() => {
     setContentMsg(content);
+    const urlRegex = /(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+/m;
+    const data = content.match(urlRegex);
+    if (data) setUrl(data[0]);
+    else setUrl(undefined);
   }, [content]);
 
   const handleOpenDelete = () => {
@@ -76,9 +83,11 @@ const MyMessage: React.FC<IMessagePros> = ({
   const renderMessage = () => {
     if (type === 1)
       return (
-        <div className={style.messageContent}>
-          <Typography variant="body2">{contentMsg}</Typography>
-        </div>
+        <Box className={style.messageContent}>
+          <Typography variant="body2" sx={{ maxWidth: '60vw', overflowX: 'hidden' }}>
+            {contentMsg}
+          </Typography>
+        </Box>
       );
     else if (type === 2)
       return (
@@ -157,32 +166,36 @@ const MyMessage: React.FC<IMessagePros> = ({
 
       <div className={style.message}>
         <Box sx={{ width: '100%' }}>
-          <div>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <Tooltip
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                }}
-                arrow
-                title={
-                  <React.Fragment>
-                    <IconButton className={style.iconButtonTool} onClick={handleOpenDelete}>
-                      <Delete />
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Tooltip
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+              }}
+              arrow
+              title={
+                <React.Fragment>
+                  <IconButton className={style.iconButtonTool} onClick={handleOpenDelete}>
+                    <Delete />
+                  </IconButton>
+                  {type === 1 && (
+                    <IconButton className={style.iconButtonTool} onClick={handleOpenEdit}>
+                      <Edit />
                     </IconButton>
-                    {type === 1 && (
-                      <IconButton className={style.iconButtonTool} onClick={handleOpenEdit}>
-                        <Edit />
-                      </IconButton>
-                    )}
-                  </React.Fragment>
-                }
-                placement="left-start"
-              >
-                {renderMessage() as ReactElement}
-              </Tooltip>
+                  )}
+                </React.Fragment>
+              }
+              placement="left-start"
+            >
+              {renderMessage() as ReactElement}
+            </Tooltip>
+          </Box>
+
+          {url && type === 1 && (
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <LinkPreview url={url} className={style.linkPreview} customLoader={<LinkPreviewSkeleteon />} />
             </Box>
-          </div>
+          )}
           <div className={style.accountInfor}>
             <Typography variant="subtitle2" sx={{ fontSize: '0.75em' }} className={style.date}>
               {dateUtil.fortmatDate(postedDate)}

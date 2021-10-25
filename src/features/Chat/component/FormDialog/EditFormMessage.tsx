@@ -21,7 +21,7 @@ interface IPropsAlert {
 const scheme = yup
   .object()
   .shape({
-    msgContent: yup.string().required('Please enter message').max(100, 'Please enter up to 100 characters'),
+    msgContent: yup.string().required('Please enter message').max(200, 'Please enter up to 200 characters'),
   })
   .required();
 

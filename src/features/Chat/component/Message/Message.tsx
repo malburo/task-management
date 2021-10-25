@@ -12,6 +12,8 @@ import { RootState } from 'app/store';
 import { IUser } from 'models/user';
 import ISelectFormMessage from 'models/selectMessage';
 import messageApi from 'api/messageApi';
+import { LinkPreview } from '@dhaiwat10/react-link-preview';
+import LinkPreviewSkeleteon from '../skeleton/LinkPreviewSkeletion';
 
 interface IMessagePros {
   name: string;
@@ -40,10 +42,18 @@ const Message: React.FC<IMessagePros> = ({
   const [isError, setIsError] = useState<Boolean>(false);
   const room = useSelector((state: RootState) => state.room.roomInfor);
   const me = useSelector((state: RootState) => state.auth.currentUser) as IUser;
+  const [url, setUrl] = useState<string>();
 
   const chooseOption = (e: React.FormEvent<HTMLButtonElement>) => {
     messageApi.chooseOption({ optionId: e.currentTarget.value });
   };
+
+  useEffect(() => {
+    const urlRegex = /(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+/m;
+    const data = content.match(urlRegex);
+    if (data) setUrl(data[0]);
+    else setUrl(undefined);
+  }, [content]);
 
   useEffect(() => {
     if (renderTimeLine === true) setTimeline(<TimeLine time={new Date(time)} />);
@@ -114,9 +124,11 @@ const Message: React.FC<IMessagePros> = ({
               </div>
             )}
             {type === 1 && (
-              <div className={style.messageContent}>
-                <Typography variant="body2">{content}</Typography>
-              </div>
+              <Box className={style.messageContent}>
+                <Typography variant="body2" sx={{ maxWidth: '60vw', overflowX: 'hidden' }}>
+                  {content}
+                </Typography>
+              </Box>
             )}
             {type === 2 && (
               <div className={`${style.messageContent} ${style.imageContent}`}>
@@ -139,6 +151,11 @@ const Message: React.FC<IMessagePros> = ({
               </div>
             )}
           </Box>
+          {url && type === 1 && (
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <LinkPreview url={url} className={style.linkPreview} customLoader={<LinkPreviewSkeleteon />} />
+            </Box>
+          )}
           <div className={style.accountInfor}>
             <Typography sx={{ fontSize: '0.75em' }} variant="subtitle2" className={style.name}>
               {name},

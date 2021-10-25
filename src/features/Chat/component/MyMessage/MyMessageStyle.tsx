@@ -55,4 +55,8 @@ export default makeStyles({
     width: '40vw',
     padding: '0 2vw 2vw 2vw',
   },
+  linkPreview: {
+    width: '100%',
+    maxWidth: '80vw',
+  },
 });

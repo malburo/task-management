@@ -60,7 +60,7 @@ const CreateFormMessage: React.FC<IPropsFormMessage> = (props) => {
     setIsAddNew(false);
     setIsMultiSelect(false);
     setError('');
-    ref.current.value = '';
+    if (ref.current != null) ref.current.value = '';
   };
 
   const switchTab = (e: React.SyntheticEvent, newValue: string) => {
@@ -84,7 +84,7 @@ const CreateFormMessage: React.FC<IPropsFormMessage> = (props) => {
   return (
     <Dialog open={props.isOpen}>
       <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography sx={{ lineHeight: '32px' }}>Create Select Form</Typography>
+        <Typography sx={{ lineHeight: '32px' }}>Create a polling box</Typography>
         <IconButton color="error" onClick={() => props.setClose(false)}>
           <CloseIcon />
         </IconButton>
@@ -92,14 +92,14 @@ const CreateFormMessage: React.FC<IPropsFormMessage> = (props) => {
       <DialogContent sx={{ width: '500px', maxWidth: '80vw' }}>
         <TabContext value={tab}>
           <Box sx={{ maxWidth: '80vw' }}>
-            <TabList onChange={switchTab} aria-label="lab API tabs example">
+            <TabList onChange={switchTab} aria-label="">
               <Tab label="Content" value="tab1" />
               <Tab label="Configuration" value="tab2" />
             </TabList>
           </Box>
           <TabPanel value="tab1">
             <FormControl fullWidth>
-              <TextField inputRef={ref} placeholder="content" fullWidth sx={{ margin: '20px 0 20px 0' }} />
+              <TextField inputRef={ref} placeholder="Title" fullWidth sx={{ margin: '20px 0 20px 0' }} />
             </FormControl>
 
             {options?.map((i) => (
@@ -134,10 +134,12 @@ const CreateFormMessage: React.FC<IPropsFormMessage> = (props) => {
           </TabPanel>
           <TabPanel value="tab2">
             <FormControlLabel
-              label="Enable to add new item when publish"
+              sx={{ marginBottom: '20px' }}
+              label="Enable to add new item after publish"
               control={<Checkbox checked={isAddNew} onChange={() => setIsAddNew(!isAddNew)} />}
             />
             <FormControlLabel
+              sx={{ marginBottom: '20px' }}
               label="Enable to select multi values"
               control={<Checkbox />}
               checked={isMultiSelect}
