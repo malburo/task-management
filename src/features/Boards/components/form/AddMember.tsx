@@ -1,14 +1,14 @@
-import { Avatar, Box, Button, Popover, Typography } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
-import { AppDispatch } from 'app/store';
+import { Avatar, Box, Button, Popover, Typography } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import memberApi from 'api/memberApi';
+import searchApi from 'api/searchApi';
 import InputBaseField from 'components/form-control/InputBaseField';
-import { addMember } from 'features/Boards/boardSlice';
+import { IParams } from 'models/common';
 import { IUser } from 'models/user';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 interface FormValues {
@@ -19,9 +19,8 @@ interface Params {
 }
 const AddMember: React.FC = () => {
   const { boardId } = useParams<Params>();
-  const dispatch = useDispatch<AppDispatch>();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [user, setUser] = useState<IUser>();
+  const [users, setUsers] = useState<IUser[] | []>([]);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -42,11 +41,13 @@ const AddMember: React.FC = () => {
   });
 
   const onSubmit = async ({ search }: FormValues) => {
-    // const { data } = await userApi.getAll({ search });
-    // setUser(data.users[0] as any);
+    const params: IParams = { limit: '5', page: '0', q: search };
+    const { data } = await searchApi.searchNewMembers(boardId, params);
+    setUsers(data.users);
   };
   const handleInviteClick = async (userId: string) => {
-    await dispatch(addMember({ userId, boardId }));
+    await memberApi.create({ userId, boardId });
+    setAnchorEl(null);
   };
   return (
     <Box sx={{ marginLeft: '10px' }}>
@@ -65,7 +66,7 @@ const AddMember: React.FC = () => {
         }}
         transformOrigin={{
           vertical: 'top',
-          horizontal: 'left',
+          horizontal: 'center',
         }}
         sx={{
           marginTop: '12px',
@@ -78,7 +79,7 @@ const AddMember: React.FC = () => {
           <Box>
             <Typography variant="regular2">Search users you want to invite.</Typography>
           </Box>
-          <Box boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)" borderRadius="12px" marginTop="12px">
+          <Box boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)" marginTop="12px">
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <InputBaseField
                 form={form}
@@ -92,13 +93,27 @@ const AddMember: React.FC = () => {
               />
             </form>
           </Box>
-          {user && (
-            <Box>
-              <Avatar variant="rounded" src={user.profilePictureUrl} />
-              <Typography>{user.fullname}</Typography>
-              <Button onClick={() => handleInviteClick(user._id)}>Invite</Button>
-            </Box>
-          )}
+          {users.length > 0 &&
+            users.map((user) => (
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+                padding="12px"
+                border="1px solid #E0E0E0"
+                marginY="24px"
+                boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)"
+                borderRadius="12px"
+              >
+                <Avatar variant="rounded" src={user.profilePictureUrl} />
+                <Box marginX="12px">
+                  <Typography>{user.username}</Typography>
+                </Box>
+                <Button onClick={() => handleInviteClick(user._id)} variant="contained" color="primary">
+                  Invite
+                </Button>
+              </Box>
+            ))}
         </Box>
       </Popover>
     </Box>

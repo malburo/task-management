@@ -131,10 +131,12 @@ const Message: React.FC<IMessagePros> = ({
             )}
           </Box>
           <div className={style.accountInfor}>
-            <Typography variant="subtitle2" className={style.name}>
+            <Typography sx={{ fontSize: '0.75em' }} variant="subtitle2" className={style.name}>
               {name},
             </Typography>
-            <Typography variant="subtitle2">{dateUtil.fortmatDate(postedDate)}</Typography>
+            <Typography sx={{ fontSize: '0.75em' }} variant="subtitle2">
+              {dateUtil.fortmatDate(postedDate)}
+            </Typography>
           </div>
         </div>
       </div>

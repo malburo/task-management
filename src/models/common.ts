@@ -3,6 +3,7 @@ export interface IParams {
   limit: string;
   sort?: string;
   order?: 'asc' | 'desc';
+  q?: string;
   [key: string]: any;
 }
 export interface Response<T> {

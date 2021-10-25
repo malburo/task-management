@@ -1,4 +1,4 @@
-import { Avatar, AvatarGroup, Box } from '@mui/material';
+import { Avatar, AvatarGroup, Box, Stack } from '@mui/material';
 import { Container, Draggable, DropResult } from '@richardrout/react-smooth-dnd';
 import boardApi from 'api/boardApi';
 import { socketClient } from 'api/socketClient';
@@ -6,14 +6,17 @@ import { AppDispatch, RootState } from 'app/store';
 import { IColumn } from 'models/column';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
+import { Route, Switch, useParams } from 'react-router';
 import { applyDrag } from 'utilities/dragDrop';
 import { mapOrder } from 'utilities/sorts';
 import { columnsSelector, getOneBoard, membersSelector, updateBoard } from '../boardSlice';
 import Column from '../components/Column';
 import AddColumn from '../components/form/AddColumn';
 import AddMember from '../components/form/AddMember';
+import EditVisibility from '../components/form/EditVisibility';
+import Menu from '../components/Menu';
 import '../style.css';
+import TaskDetail from './TaskDetail';
 
 interface Params {
   boardId: string;
@@ -56,42 +59,52 @@ const BoardDetail = () => {
       console.log(error);
     }
   };
-
   return (
-    <Box className="content">
-      <Box className="header">Header</Box>
-      <Box>
-        {/* <EditVisibility /> */}
-        <AvatarGroup max={10}>
-          {members.map((member) => (
-            <Avatar variant="rounded" src={member.profilePictureUrl} key={member._id} />
-          ))}
-        </AvatarGroup>
-        <AddMember />
-      </Box>
-      <Box className="demo">
+    <Box height="100vh" bgcolor="#fff">
+      <Switch>
+        <Route path={`/boards/:boardId/:taskId`} component={TaskDetail} />
+      </Switch>
+      <Box height="65px" />
+      <Stack
+        direction="row"
+        height="55px"
+        marginLeft="24px"
+        marginTop="24px"
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Stack direction="row">
+          <EditVisibility />
+          <AvatarGroup max={10}>
+            {members.map((member) => (
+              <Avatar variant="rounded" src={member.profilePictureUrl} key={member._id} />
+            ))}
+          </AvatarGroup>
+          <AddMember />
+        </Stack>
+        <Box marginRight="24px">
+          <Menu />
+        </Box>
+      </Stack>
+      <Box sx={{ flex: '1 1', overflow: 'auto', minWidth: 0, display: 'flex' }} height="calc(100vh - 145px)">
         <Container
-          disableScrollOverlapDetection={true}
+          lockAxis="x"
           orientation="horizontal"
+          dragHandleSelector=".column-move"
+          disableScrollOverlapDetection={true}
           onDrop={onColumnDrop}
-          dragHandleSelector=".column-drag-handle"
           getChildPayload={(index: number) => columns[index]}
-          dropPlaceholder={{
-            animationDuration: 150,
-            showOnTop: true,
-            className: 'cards-drop-preview',
+          style={{
+            minWidth: 0,
           }}
         >
           {columns.map((column: IColumn) => (
             <Draggable key={column._id}>
-              <Box margin="0px 24px">
-                <span className="column-drag-handle">{column.title}</span>
-                <Column column={column} />
-              </Box>
+              <Column column={column} />
             </Draggable>
           ))}
-          <AddColumn />
         </Container>
+        <AddColumn />
       </Box>
     </Box>
   );

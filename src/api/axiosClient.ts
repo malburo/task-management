@@ -29,7 +29,7 @@ axiosClient.interceptors.response.use(
     return response;
   },
   (error) => {
-    return Promise.reject(error.response || error.message);
+    return Promise.reject(error.response.data.error || error.message);
   }
 );
 export default axiosClient;

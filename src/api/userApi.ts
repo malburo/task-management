@@ -12,6 +12,12 @@ const userApi = {
   update(payload: { userId: string; data: Partial<IUser> }): Promise<Response<IUser>> {
     return axiosClient.put(`/users/${payload.userId}`, payload.data);
   },
+  changePassword(payload: {
+    userId: string;
+    data: { currentPassword: string; newPassword: string };
+  }): Promise<Response<IUser>> {
+    return axiosClient.put(`/users/${payload.userId}/change-password`, payload.data);
+  },
 };
 
 export default userApi;

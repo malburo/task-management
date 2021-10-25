@@ -23,17 +23,6 @@
   flex-direction: column;
   height: 100vh;
 }
-.header {
-  height: 60px;
-  background-color: #1e90ff;
-  box-shadow: 2px 0 4px #ccc;
-  z-index: 0;
-  color: #fff;
-  font-size: 20px;
-  padding: 0 50px;
-  vertical-align: middle;
-  line-height: 60px;
-}
 .demo {
   flex: 1 1;
   overflow: auto;
@@ -452,11 +441,10 @@ input:last-child {
 .drop-preview {
   background-color: rgba(150, 150, 200, 0.1);
   border: 1px dashed #abc;
-  margin: 5px;
+  margin-bottom: 24px;
 }
 
 .cards-drop-preview {
   background-color: rgba(150, 150, 200, 0.1);
   border: 1px dashed #abc;
-  margin: 5px 45px 5px 5px;
 }

@@ -3,7 +3,7 @@ import { makeStyles } from '@mui/styles';
 export default makeStyles({
   message: {
     boxSizing: 'border-box',
-    width: '100%',
+    width: '100% !important',
     display: 'flex',
     marginTop: '4vh',
     marginBottom: '4vh',

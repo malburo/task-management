@@ -69,6 +69,7 @@ const SearchPhoto: React.FC<SearchPhotoProps> = ({ onSelectPhoto }) => {
         color="inherit"
         startIcon={<ImageIcon />}
         fullWidth
+        sx={{ justifyContent: 'flex-start' }}
       >
         Cover
       </Button>

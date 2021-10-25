@@ -58,6 +58,8 @@ const ChatFeature: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [anyRoom, menuOpen] = useSelector((state: RootState) => [state.appchatUI.anyRoom, state.appchatUI.menuOpen]);
   const styles = useStyles();
+  const [me, isAuth] = useSelector((state: RootState) => [state.auth.currentUser, state.auth.isAuth]);
+  console.log(me, isAuth);
 
   return (
     <React.Fragment>

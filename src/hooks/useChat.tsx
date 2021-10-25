@@ -40,7 +40,7 @@ const useChat = () => {
   };
 
   const recieveMessage = () => {
-    if (me._id === undefined) return;
+    if (me?._id === undefined) return;
     socketClient.on('chat:add-message', (data) => {
       let message = data.message as IMessage;
       dispatch(
@@ -56,7 +56,7 @@ const useChat = () => {
   };
 
   const recieveDeleteMessage = () => {
-    if (me._id === undefined) return;
+    if (me?._id === undefined) return;
     socketClient.on('chat:delete-message', (data) => {
       let message = data.message as IMessage;
       if (message.postedBy._id === me._id) return;
@@ -65,7 +65,7 @@ const useChat = () => {
   };
 
   const recieveEditMessage = () => {
-    if (me._id === undefined) return;
+    if (me?._id === undefined) return;
     socketClient.on('chat:edit-message', (data) => {
       let message = data.message as IMessage;
       //if (message.postedBy._id === me._id) return;

@@ -9,9 +9,12 @@ const columnApi = {
   },
   update(payload: {
     columnId: string;
-    data: Partial<IColumn> & { taskId: string | null };
+    data: Partial<IColumn> & { taskId?: string | null };
   }): Promise<Response<IColumn>> {
     return axiosClient.put(`/columns/${payload.columnId}`, payload.data);
+  },
+  deleteOne(payload: { columnId: string }): Promise<Response<IColumn>> {
+    return axiosClient.delete(`/columns/${payload.columnId}`);
   },
 };
 

@@ -26,19 +26,7 @@ const InputField: React.FC<InputFieldProps> = (props) => {
       control={form.control}
       render={({ field }) => (
         <FormControl fullWidth variant="outlined" margin="normal" error={hasError}>
-          <OutlinedInput
-            {...field}
-            disabled={disabled}
-            placeholder={placeholder}
-            id={name}
-            sx={{
-              borderRadius: '8px',
-              border: '1px solid #E0E0E0',
-              boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.05)',
-              fontSize: '12px',
-              fontWeight: '500',
-            }}
-          />
+          <OutlinedInput {...field} disabled={disabled} placeholder={placeholder} id={name} />
           <FormHelperText>{errors[name]?.message}</FormHelperText>
         </FormControl>
       )}

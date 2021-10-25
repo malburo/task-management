@@ -1,38 +1,26 @@
-import { makeStyles } from '@mui/styles';
-import { unwrapResult } from '@reduxjs/toolkit';
-import { AppDispatch } from 'app/store';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { login } from '../authSlice';
-import LoginForm, { LoginFormValues } from '../components/LoginForm';
-
-const useStyles = makeStyles(() => ({
-  wrapper: {
-    width: '100vw',
-    height: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-}));
+import { Box } from '@mui/system';
+import { Link } from 'react-router-dom';
+import LoginForm from '../components/LoginForm';
 
 const Login = () => {
-  const classes = useStyles();
-  const history = useHistory();
-  const dispatch = useDispatch<AppDispatch>();
-
-  const handleSubmit = async (values: LoginFormValues) => {
-    try {
-      await dispatch(login(values)).then(unwrapResult);
-      history.push('/');
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
-    <div className={classes.wrapper}>
-      <LoginForm onSubmit={handleSubmit} />
-    </div>
+    <>
+      <Box display="flex" alignItems="center" justifyContent="center" height="100vh" marginBottom="-80px">
+        <LoginForm />
+      </Box>
+      <Box
+        boxSizing="border-box"
+        bgcolor="white"
+        height="80px"
+        width="100%"
+        borderTop="1px solid rgba(0, 0, 0, 0.12)"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
+        Don't have an account ?<Link to="/auth/register">Sign Up</Link>
+      </Box>
+    </>
   );
 };
 

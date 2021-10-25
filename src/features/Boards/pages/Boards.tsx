@@ -1,5 +1,7 @@
-import { Container, Grid, Pagination, Typography } from '@mui/material';
+import { Container, Grid, Pagination, Stack, Typography } from '@mui/material';
+import { Box } from '@mui/system';
 import boardApi from 'api/boardApi';
+import Footer from 'components/Footer';
 import { IBoard } from 'models/board';
 import { IParams } from 'models/common';
 import queryString from 'query-string';
@@ -7,6 +9,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import BoardCard from '../components/BoardCard';
 import AddBoard, { AddBoardFormValues } from '../components/form/AddBoard';
+import BoardSkeleton from '../components/skeleton/BoardSkeleton';
 
 const Boards = () => {
   const [boardList, setBoardList] = useState<IBoard[]>([]);
@@ -24,7 +27,7 @@ const Boards = () => {
     return {
       ...params,
       page: Number(params.page) || 1,
-      limit: Number(params.limit) || 8,
+      limit: Number(params.limit) || 12,
     };
   }, [location.search]);
 
@@ -59,33 +62,37 @@ const Boards = () => {
     setBoardList([]);
   };
   return (
-    <Container>
-      <Grid container justifyContent="space-between" alignItems="center" style={{ marginBottom: 20, marginTop: 100 }}>
-        <Grid item>
-          <Typography variant="h6" color="initial">
-            All Boards
-          </Typography>
-        </Grid>
-        <Grid item>
+    <>
+      <Container sx={{ minHeight: 'calc(100vh - 145px)', marginTop: '65px', paddingTop: '24px' }}>
+        <Stack direction="row" justifyContent="space-between" alignItems="center" marginBottom="24px">
+          <Typography variant="regular6">All Boards</Typography>
           <AddBoard onSubmit={handleAddBoard} />
+        </Stack>
+        <Grid container spacing={4}>
+          {isLoading
+            ? [...new Array(Number(queryParams.limit) || 12)].map((data, index) => (
+                <Grid item xs={6} sm={4} md={3}>
+                  <BoardSkeleton />
+                </Grid>
+              ))
+            : boardList.map((board) => (
+                <Grid item xs={6} sm={4} md={3} key={board._id}>
+                  <BoardCard data={board} />
+                </Grid>
+              ))}
         </Grid>
-      </Grid>
-      <Grid container spacing={4}>
-        {isLoading
-          ? 'fetch data'
-          : boardList.map((board) => (
-              <Grid item xs={6} sm={4} md={3} key={board._id}>
-                <BoardCard data={board} />
-              </Grid>
-            ))}
-        <Pagination
-          color="primary"
-          count={Math.ceil(pagination.total / parseInt(pagination.limit)) || 0}
-          page={parseInt(pagination.page)}
-          onChange={handlePageChange}
-        />
-      </Grid>
-    </Container>
+        <Box marginY="48px" display="flex" justifyContent="center">
+          <Pagination
+            color="primary"
+            count={Math.ceil(pagination.total / parseInt(pagination.limit)) || 0}
+            page={parseInt(pagination.page)}
+            onChange={handlePageChange}
+            shape="rounded"
+          />
+        </Box>
+      </Container>
+      <Footer />
+    </>
   );
 };
 

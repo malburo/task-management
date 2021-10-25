@@ -3,6 +3,7 @@ import { AppDispatch } from 'app/store';
 import { addColumn, addTask, updateBoard, updateColumn, updateTask } from 'features/Boards/boardSlice';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { addMember, deleteColumn } from './../features/Boards/boardSlice';
 
 const useSocket = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -22,6 +23,9 @@ const useSocket = () => {
       socketClient.on('column:update', (updatedColumn) => {
         dispatch(updateColumn({ columnId: updatedColumn._id, changes: updatedColumn }));
       });
+      socketClient.on('column:delete', (deletedColumn) => {
+        dispatch(deleteColumn({ columnId: deletedColumn._id }));
+      });
 
       socketClient.on('task:create', ({ newTask, newTaskOrder }) => {
         dispatch(addTask({ newTask }));
@@ -29,6 +33,13 @@ const useSocket = () => {
       });
       socketClient.on('task:update', (updatedTask) => {
         dispatch(updateTask({ taskId: updatedTask._id, changes: updatedTask }));
+      });
+
+      socketClient.on('member:create', (newMember) => {
+        dispatch(addMember({ newMember }));
+      });
+      socketClient.on('member:remove', (newMember) => {
+        dispatch(addMember({ newMember }));
       });
     })();
     return () => {

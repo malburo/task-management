@@ -16,7 +16,7 @@ const OAuthLogin = () => {
       try {
         localStorage.setItem('access_token', access_token);
         await dispatch(getMe());
-        history.push('/');
+        history.push('/boards');
       } catch (error) {
         history.push('/auth/login');
       }

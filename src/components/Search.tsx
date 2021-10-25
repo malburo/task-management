@@ -3,17 +3,24 @@ import InputBase from '@mui/material/InputBase';
 
 const Search: React.FC = () => {
   return (
-    <Box boxShadow="0px 4px 12px rgba(0, 0, 0, 0.05)" borderRadius={2}>
+    <Box
+      borderRadius={2}
+      width="400px"
+      marginRight={8}
+      bgcolor="rgb(243, 246, 249)"
+      border="1px solid rgb(229, 232, 236)"
+    >
       <InputBase
         placeholder="Keyword..."
+        fullWidth
         sx={{
-          fontSize: '12px',
+          fontSize: '14px',
+          lineHeight: '14px',
           fontWeight: '500',
-          width: '300px',
-          marginLeft: 4,
+          paddingLeft: 4,
         }}
         endAdornment={
-          <Button color="primary" variant="contained" type="submit" sx={{ marginLeft: 3 }}>
+          <Button color="primary" variant="contained" type="submit">
             Search
           </Button>
         }

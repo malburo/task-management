@@ -2,9 +2,8 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import MyMessageStyle from './MyMessageStyle';
 import dateUtil from 'utilities/dateUtil';
 import TimeLine from '../HorizontalRule/TimeLine';
-import { Button, IconButton, Input, Tooltip, Typography } from '@mui/material';
+import { Button, IconButton, Input, Tooltip, Typography, Box } from '@mui/material';
 import Delete from '@mui/icons-material/Delete';
-import { Box } from '@mui/system';
 import Edit from '@mui/icons-material/Edit';
 import { useSelector } from 'react-redux';
 import { RootState } from 'app/store';
@@ -144,7 +143,7 @@ const MyMessage: React.FC<IMessagePros> = ({
       {timeline}
 
       <div className={style.message}>
-        <div>
+        <Box sx={{ width: '100%' }}>
           <div>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
               <Tooltip
@@ -172,11 +171,11 @@ const MyMessage: React.FC<IMessagePros> = ({
             </Box>
           </div>
           <div className={style.accountInfor}>
-            <Typography variant="subtitle2" className={style.date}>
+            <Typography variant="subtitle2" sx={{ fontSize: '0.75em' }} className={style.date}>
               {dateUtil.fortmatDate(postedDate)}
             </Typography>
           </div>
-        </div>
+        </Box>
 
         <div className={style.avatar}>
           <img className={style.avatarImg} alt="none" src={profilePictureUrl}></img>

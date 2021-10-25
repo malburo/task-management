@@ -1,4 +1,4 @@
-import { Avatar, AvatarGroup, Box } from '@mui/material';
+import { Avatar, AvatarGroup, Box, Card } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { IBoard } from 'models/board';
@@ -10,7 +10,7 @@ interface Props {
 
 const BoardCard: React.FC<Props> = ({ data }) => {
   return (
-    <Box>
+    <Card raised sx={{ border: '2px solid #0000000a' }}>
       <Link to={`/boards/${data._id}`}>
         <CardMedia
           sx={{ height: '130px', borderRadius: '12px' }}
@@ -23,13 +23,13 @@ const BoardCard: React.FC<Props> = ({ data }) => {
         </Typography>
       </Box>
       <Box display="flex">
-        <AvatarGroup max={3}>
+        <AvatarGroup max={5}>
           {data.members.map((member, index) => (
             <Avatar variant="rounded" src={member.profilePictureUrl} key={index} />
           ))}
         </AvatarGroup>
       </Box>
-    </Box>
+    </Card>
   );
 };
 export default BoardCard;

@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { Box } from '@mui/system';
 import { AppDispatch } from 'app/store';
 import { getMe } from 'features/Auth/authSlice';
 import useSocket from 'hooks/useSocket';
 import { useEffect } from 'react';
+import { Toaster } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import RoutesComponent from 'routes';
-import './App.css';
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -15,9 +16,17 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div className="App">
+    <Box>
       <RoutesComponent />
-    </div>
+      <Toaster
+        position="bottom-left"
+        reverseOrder={false}
+        gutter={8}
+        toastOptions={{
+          duration: 5000,
+        }}
+      />
+    </Box>
   );
 }
 
