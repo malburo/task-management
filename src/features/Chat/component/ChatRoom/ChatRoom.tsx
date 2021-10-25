@@ -29,6 +29,8 @@ import Loader from '../Loader/Loader';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import messageApi from 'api/messageApi';
 import { debounce } from 'lodash';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import CreateFormMessage from '../FormDialog/CreateFormMessage';
 
 export interface IParamChatRoom {
   id: string;
@@ -58,6 +60,7 @@ const ChatRoom: React.FC = () => {
   const [seed, setSeed] = useState(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
+  const [isCreateFormMessage, setIsCreateFormMessage] = useState<boolean>(false);
   // eslint-disable-next-line
   const chat = useChat();
   const response = useSelector((state: RootState) => state.message.response);
@@ -118,7 +121,6 @@ const ChatRoom: React.FC = () => {
     (async () => {
       if (event.currentTarget.files) {
         const file = event.currentTarget.files[0];
-        console.log(file.type);
         if (file && file.type.match(/(png|jpg|jpeg)/)) {
           await messageApi.createImageMessage({ roomId: room._id, file: file });
           myRef.current?.scroll({ top: myRef.current.scrollHeight });
@@ -135,7 +137,6 @@ const ChatRoom: React.FC = () => {
       const positionScroll = myRef.current?.scrollHeight || 0;
       await dispatch(getMessageInRoom({ id: room._id, seed: seed + 1 }));
       setIsLoading(false);
-      console.log(positionScroll);
       await myRef.current?.scroll({ top: myRef.current?.scrollHeight - positionScroll });
       setSeed(seed + 1);
     })();
@@ -164,6 +165,9 @@ const ChatRoom: React.FC = () => {
             {response.message}
           </Alert>
         </Snackbar>
+      )}
+      {isCreateFormMessage && (
+        <CreateFormMessage isOpen={isCreateFormMessage} setClose={setIsCreateFormMessage}></CreateFormMessage>
       )}
       <div className={style.roomHeader}>
         <Hidden mdUp>
@@ -195,6 +199,7 @@ const ChatRoom: React.FC = () => {
                 renderTimeLine={renderTimeline}
                 time={new Date(timeLine)}
                 type={item.type ? item.type : 1}
+                form={item.form}
               />
             );
           else
@@ -207,6 +212,7 @@ const ChatRoom: React.FC = () => {
                 renderTimeLine={renderTimeline}
                 time={new Date(timeLine)}
                 _id={item._id}
+                form={item.form}
                 type={item.type ? item.type : 1}
               />
             );
@@ -228,6 +234,13 @@ const ChatRoom: React.FC = () => {
                 <AddPhotoAlternateIcon />
               </Fab>
             </label>
+            <IconButton
+              onClick={() => setIsCreateFormMessage(true)}
+              className={style.imageButton}
+              sx={{ width: '56px', marginLeft: '10px !important' }}
+            >
+              <FormatListBulletedIcon />
+            </IconButton>
             <input
               autoComplete="off"
               className={style.messageTextField}

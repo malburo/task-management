@@ -1,3 +1,4 @@
+import ISelectFormMessage from './selectMessage';
 import { IUser } from './user';
 
 export interface IMessage {
@@ -6,4 +7,5 @@ export interface IMessage {
   createdAt: Date;
   postedBy: IUser;
   type: Number;
+  form?: ISelectFormMessage;
 }

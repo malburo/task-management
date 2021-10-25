@@ -24,6 +24,12 @@ const messageApi = {
   read(payload: any): Promise<any> {
     return axiosClient.patch(`messages/room/${payload.roomId}`);
   },
+  createFormMessage(payload: any): Promise<any> {
+    return axiosClient.post(`messages/form/select/${payload.roomId}`, payload);
+  },
+  chooseOption(payload: any): Promise<any> {
+    return axiosClient.put(`messages/form/select/${payload.roomId}/option`, payload);
+  },
 };
 
 export default messageApi;

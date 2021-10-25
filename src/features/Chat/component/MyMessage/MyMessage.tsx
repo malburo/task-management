@@ -2,22 +2,19 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import MyMessageStyle from './MyMessageStyle';
 import dateUtil from 'utilities/dateUtil';
 import TimeLine from '../HorizontalRule/TimeLine';
-import { Dialog, DialogTitle, IconButton, Tooltip, Typography } from '@mui/material';
+import { Button, IconButton, Input, Tooltip, Typography } from '@mui/material';
 import Delete from '@mui/icons-material/Delete';
-import CheckIcon from '@mui/icons-material/Check';
 import { Box } from '@mui/system';
-import CancelIcon from '@mui/icons-material/Cancel';
-import SaveIcon from '@mui/icons-material/Save';
 import Edit from '@mui/icons-material/Edit';
-import * as yup from 'yup';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import InputField from 'components/form-control/InputField';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from 'app/store';
-import { deleteOne, updateOne } from 'features/Chat/ReduxSlice/MessagesSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from 'app/store';
 import ImageLoading from '../Loader/ImageLoading';
 import ImageFailed from '../Loader/ImageFailed';
+import ISelectFormMessage from 'models/selectMessage';
+import { IUser } from 'models/user';
+import messageApi from 'api/messageApi';
+import ConfirmDeleteMessage from '../FormDialog/ConfirmDeleteMessage';
+import EditMessageForm from '../FormDialog/EditFormMessage';
 
 interface IMessagePros {
   postedDate: Date;
@@ -27,14 +24,8 @@ interface IMessagePros {
   time: Date;
   _id: string;
   type: Number;
+  form?: ISelectFormMessage;
 }
-
-const scheme = yup
-  .object()
-  .shape({
-    msgContent: yup.string().required('Please enter message').max(100, 'Please enter up to 100 characters'),
-  })
-  .required();
 
 const MyMessage: React.FC<IMessagePros> = ({
   _id,
@@ -44,10 +35,10 @@ const MyMessage: React.FC<IMessagePros> = ({
   renderTimeLine,
   time,
   type,
+  form,
 }) => {
   const style = MyMessageStyle();
-  const dispatch = useDispatch<AppDispatch>();
-
+  const me = useSelector((state: RootState) => state.auth.currentUser) as IUser;
   const [timeline, setTimeline] = useState<ReactElement>();
   const [deleteDialog, setDeleteDialog] = useState<boolean>(false);
   const [editDialog, setEditDialog] = useState<boolean>(false);
@@ -57,30 +48,10 @@ const MyMessage: React.FC<IMessagePros> = ({
 
   const room = useSelector((state: RootState) => state.room.roomInfor);
 
-  const form = useForm({
-    defaultValues: {
-      msgContent: contentMsg,
-    },
-    resolver: yupResolver(scheme),
-  });
-
   useEffect(() => {
     setContentMsg(content);
   }, [content]);
 
-  const handleDelete = () => {
-    dispatch(deleteOne({ messageId: _id }));
-    setDeleteDialog(false);
-  };
-  const handleEdit = (data: any) => {
-    if (!data.msgContent) return;
-    dispatch(updateOne({ messageId: _id, msgContent: data.msgContent, roomId: room._id }));
-    setEditDialog(false);
-  };
-  const handleClose = () => {
-    setDeleteDialog(false);
-    setEditDialog(false);
-  };
   const handleOpenDelete = () => {
     setDeleteDialog(true);
   };
@@ -91,89 +62,85 @@ const MyMessage: React.FC<IMessagePros> = ({
     if (renderTimeLine === true) setTimeline(<TimeLine time={new Date(time)} />);
   }, [renderTimeLine, time]);
 
+  const chooseOption = (e: React.FormEvent<HTMLButtonElement>) => {
+    messageApi.chooseOption({ optionId: e.currentTarget.value, roomId: room._id });
+  };
+
+  const renderMessage = () => {
+    if (type === 1)
+      return (
+        <div className={style.messageContent}>
+          <Typography variant="body2">{contentMsg}</Typography>
+        </div>
+      );
+    else if (type === 2)
+      return (
+        <div className={`${style.messageContent} ${style.imageContent}`}>
+          {isLoading && <ImageLoading />}
+          {isError && <ImageFailed />}
+          <img
+            className={style.image}
+            onLoad={() => {
+              setIsLoading(false);
+            }}
+            onError={() => {
+              setIsLoading(false);
+              setIsError(true);
+            }}
+            src={contentMsg}
+            alt=""
+          />
+        </div>
+      );
+    else if (type === 3)
+      return (
+        <div className={style.messageContent}>
+          <Typography variant="body2" sx={{ minWidth: '200px' }}>
+            {contentMsg}
+          </Typography>
+          {form?.options?.map((item) => {
+            if (item.userId.filter((i) => i === me._id).length > 0)
+              return (
+                <Button
+                  key={item._id}
+                  value={item._id}
+                  onClick={chooseOption}
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  sx={{ margin: '10px 10px 10px 0', display: 'flex', justifyContent: 'space-between' }}
+                >
+                  <Typography>{item.text}</Typography>
+                  <Typography>{item.userId.length > 0 ? item.userId.length : ''}</Typography>
+                </Button>
+              );
+            else
+              return (
+                <Button
+                  key={item._id}
+                  value={item._id}
+                  fullWidth
+                  onClick={chooseOption}
+                  variant="contained"
+                  color="secondary"
+                  sx={{ margin: '10px 10px 10px 0', display: 'flex', justifyContent: 'space-between' }}
+                >
+                  <Typography>{item.text}</Typography>
+                  <Typography>{item.userId.length > 0 ? item.userId.length : ''}</Typography>
+                </Button>
+              );
+          })}
+          {form?.isAddNew && (
+            <Input placeholder="type new item here" fullWidth sx={{ paddingLeft: '10px', fontSize: '0.75em' }}></Input>
+          )}
+        </div>
+      );
+  };
+
   return (
     <React.Fragment>
-      <Dialog open={deleteDialog}>
-        <DialogTitle
-          sx={{
-            textAlign: 'center',
-          }}
-        >
-          Confirm
-        </DialogTitle>
-        <Typography variant="body2" sx={{ margin: '0 20px 20px 20px ', textAlign: 'center' }}>
-          Are you sure to delete this message?
-        </Typography>
-        <Box
-          sx={{
-            height: '50px',
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-          }}
-        >
-          <IconButton
-            onClick={handleDelete}
-            sx={{
-              width: '40%',
-              backgroundColor: 'green',
-            }}
-          >
-            <CheckIcon />
-          </IconButton>
-          <IconButton
-            onClick={handleClose}
-            sx={{
-              width: '40%',
-              backgroundColor: 'red',
-            }}
-          >
-            <CancelIcon />
-          </IconButton>
-        </Box>
-      </Dialog>
-      <Dialog open={editDialog}>
-        <DialogTitle
-          sx={{
-            textAlign: 'center',
-          }}
-        >
-          Edit Message
-        </DialogTitle>
-        <Box>
-          <form className={style.editForm} onSubmit={form.handleSubmit(handleEdit)}>
-            <InputField autoComplete="off" name="msgContent" placeholder="type a new message here" form={form} />
-            <Box
-              sx={{
-                marginTop: '20px',
-                height: '50px',
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-              }}
-            >
-              <IconButton
-                type="submit"
-                onClick={handleEdit}
-                sx={{
-                  width: '40%',
-                }}
-              >
-                <SaveIcon />
-              </IconButton>
-              <IconButton
-                onClick={handleClose}
-                sx={{
-                  width: '40%',
-                  backgroundColor: 'red',
-                }}
-              >
-                <CancelIcon />
-              </IconButton>
-            </Box>
-          </form>
-        </Box>
-      </Dialog>
+      <ConfirmDeleteMessage isOpen={deleteDialog} setClose={setDeleteDialog} payload={_id} />
+      <EditMessageForm isOpen={editDialog} setClose={setEditDialog} payload={_id} contentMsg={content} />
       {timeline}
 
       <div className={style.message}>
@@ -200,28 +167,7 @@ const MyMessage: React.FC<IMessagePros> = ({
                 }
                 placement="left-start"
               >
-                {type === 1 ? (
-                  <div className={style.messageContent}>
-                    <Typography variant="body2">{contentMsg}</Typography>
-                  </div>
-                ) : (
-                  <div className={`${style.messageContent} ${style.imageContent}`}>
-                    {isLoading && <ImageLoading />}
-                    {isError && <ImageFailed />}
-                    <img
-                      className={style.image}
-                      onLoad={() => {
-                        setIsLoading(false);
-                      }}
-                      onError={() => {
-                        setIsLoading(false);
-                        setIsError(true);
-                      }}
-                      src={contentMsg}
-                      alt=""
-                    />
-                  </div>
-                )}
+                {renderMessage() as ReactElement}
               </Tooltip>
             </Box>
           </div>

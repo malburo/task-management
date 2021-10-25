@@ -68,7 +68,7 @@ const useChat = () => {
     if (me._id === undefined) return;
     socketClient.on('chat:edit-message', (data) => {
       let message = data.message as IMessage;
-      if (message.postedBy._id === me._id) return;
+      //if (message.postedBy._id === me._id) return;
       dispatch(
         editOneMessage({
           _id: message._id,
@@ -76,6 +76,7 @@ const useChat = () => {
           createdAt: message.createdAt,
           postedBy: message.postedBy,
           type: message.type != null ? message.type : 1,
+          form: message.form,
         })
       );
     });
