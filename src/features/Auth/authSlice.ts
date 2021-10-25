@@ -17,7 +17,6 @@ const initialState: AuthState = {
 
 export const getMe = createAsyncThunk('auth/getMe', async (payload, thunkAPI) => {
   const currentUser = await authApi.getMe();
-  console.log(currentUser);
   return currentUser;
 });
 

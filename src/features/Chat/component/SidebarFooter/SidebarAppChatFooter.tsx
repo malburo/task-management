@@ -13,7 +13,7 @@ import { logout } from 'features/Auth/authSlice';
 import Box from '@mui/material/Box';
 const SidebarAppChatFooter: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const currentUser = useSelector((state: RootState) => state.auth.currentUser) as IUser;
+  const currentUser = useSelector((state: RootState) => state.auth.currentUser);
   const [anchor, setAnchor] = useState<null | HTMLElement>(null);
   const history = useHistory();
   const style = SidebarAppChatFooterStyle();
@@ -42,7 +42,7 @@ const SidebarAppChatFooter: React.FC = () => {
         onClick={openProfileOptionHanlder}
         endIcon={<ExpandMoreIcon />}
       >
-        <img alt="none" className={style.avatarImg} src={currentUser.profilePictureUrl}></img>
+        <img alt="none" className={style.avatarImg} src={currentUser?.profilePictureUrl}></img>
         <Typography
           sx={{
             display: 'inline-block',
@@ -53,7 +53,7 @@ const SidebarAppChatFooter: React.FC = () => {
           variant="body1"
           className={style.username}
         >
-          {currentUser.fullname}
+          {currentUser?.fullname}
         </Typography>
       </Button>
       <Menu

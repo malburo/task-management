@@ -57,6 +57,14 @@ const MyMessage: React.FC<IMessagePros> = ({
   const handleOpenEdit = () => {
     setEditDialog(true);
   };
+
+  const addToOptions = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && e.currentTarget.value.length > 0 && form) {
+      messageApi.addOption({ roomId: room._id, text: e.currentTarget.value, formId: form._id });
+      e.currentTarget.value = '';
+    }
+  };
+
   useEffect(() => {
     if (renderTimeLine === true) setTimeline(<TimeLine time={new Date(time)} />);
   }, [renderTimeLine, time]);
@@ -130,7 +138,12 @@ const MyMessage: React.FC<IMessagePros> = ({
               );
           })}
           {form?.isAddNew && (
-            <Input placeholder="type new item here" fullWidth sx={{ paddingLeft: '10px', fontSize: '0.75em' }}></Input>
+            <Input
+              placeholder="type new item here"
+              onKeyDown={addToOptions}
+              fullWidth
+              sx={{ paddingLeft: '10px', fontSize: '0.75em' }}
+            ></Input>
           )}
         </div>
       );

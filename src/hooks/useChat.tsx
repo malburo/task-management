@@ -50,6 +50,7 @@ const useChat = () => {
           createdAt: message.createdAt,
           postedBy: message.postedBy,
           type: message.type != null ? message.type : 1,
+          form: message.form,
         })
       );
     });

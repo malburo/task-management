@@ -38,6 +38,7 @@ const Message: React.FC<IMessagePros> = ({
   const [timeline, setTimeline] = useState<ReactElement>();
   const [isLoading, setIsLoading] = useState<Boolean>(true);
   const [isError, setIsError] = useState<Boolean>(false);
+  const room = useSelector((state: RootState) => state.room.roomInfor);
   const me = useSelector((state: RootState) => state.auth.currentUser) as IUser;
 
   const chooseOption = (e: React.FormEvent<HTMLButtonElement>) => {
@@ -48,6 +49,14 @@ const Message: React.FC<IMessagePros> = ({
     if (renderTimeLine === true) setTimeline(<TimeLine time={new Date(time)} />);
     // eslint-disable-next-line
   }, [renderTimeLine]);
+
+  const addToOptions = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && e.currentTarget.value.length > 0 && form) {
+      messageApi.addOption({ roomId: room._id, text: e.currentTarget.value, formId: form._id });
+      e.currentTarget.value = '';
+    }
+  };
+
   return (
     <React.Fragment>
       {timeline}
@@ -63,7 +72,6 @@ const Message: React.FC<IMessagePros> = ({
                   {content}
                 </Typography>
                 {form?.options?.map((item) => {
-                  console.log(item);
                   if (item.userId?.filter((i) => _.isEqual(i, me._id)).length > 0)
                     return (
                       <Button
@@ -99,8 +107,9 @@ const Message: React.FC<IMessagePros> = ({
                   <Input
                     placeholder="type new item here"
                     fullWidth
-                    sx={{ paddingLeft: '10px', fontSize: '0.75em' }}
-                  ></Input>
+                    sx={{ paddingLeft: '10px', fontSize: '0.75em', color: 'white' }}
+                    onKeyDown={addToOptions}
+                  />
                 )}
               </div>
             )}

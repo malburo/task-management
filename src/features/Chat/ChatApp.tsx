@@ -6,7 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from 'app/store';
 import { setMenuOpen } from './ReduxSlice/SidebarAppChatSlice';
-import { Hidden } from '@mui/material';
+import { Button, Hidden } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import { makeStyles } from '@mui/styles';
 
@@ -58,8 +58,6 @@ const ChatFeature: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [anyRoom, menuOpen] = useSelector((state: RootState) => [state.appchatUI.anyRoom, state.appchatUI.menuOpen]);
   const styles = useStyles();
-  const [me, isAuth] = useSelector((state: RootState) => [state.auth.currentUser, state.auth.isAuth]);
-  console.log(me, isAuth);
 
   return (
     <React.Fragment>
@@ -74,9 +72,9 @@ const ChatFeature: React.FC = () => {
         >
           <SidebarAppChat />
           {anyRoom && (
-            <button className={styles.floatingButton} onClick={() => dispatch(setMenuOpen(false))}>
+            <Button className={styles.floatingButton} onClick={() => dispatch(setMenuOpen(false))}>
               <CloseIcon />
-            </button>
+            </Button>
           )}
         </Drawer>
       </Hidden>

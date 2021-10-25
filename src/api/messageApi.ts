@@ -30,6 +30,9 @@ const messageApi = {
   chooseOption(payload: any): Promise<any> {
     return axiosClient.put(`messages/form/select/${payload.roomId}/option`, payload);
   },
+  addOption(payload: any): Promise<any> {
+    return axiosClient.post(`messages/form/select/${payload.roomId}/option`, payload);
+  },
 };
 
 export default messageApi;

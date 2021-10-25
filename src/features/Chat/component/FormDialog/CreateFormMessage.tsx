@@ -78,7 +78,7 @@ const CreateFormMessage: React.FC<IPropsFormMessage> = (props) => {
         content,
       })
       .then((data) => props.setClose(false))
-      .catch((error) => setError(error.data.error.message));
+      .catch((error) => setError(error.message));
   };
 
   return (
@@ -99,7 +99,7 @@ const CreateFormMessage: React.FC<IPropsFormMessage> = (props) => {
           </Box>
           <TabPanel value="tab1">
             <FormControl fullWidth>
-              <TextField inputRef={ref} label="Content" fullWidth sx={{ margin: '20px 0 20px 0' }} />
+              <TextField inputRef={ref} placeholder="content" fullWidth sx={{ margin: '20px 0 20px 0' }} />
             </FormControl>
 
             {options?.map((i) => (
@@ -119,7 +119,7 @@ const CreateFormMessage: React.FC<IPropsFormMessage> = (props) => {
                 sx={{ justifyContent: 'flex-start !important' }}
                 onClick={() => setIsOnAdd(true)}
               >
-                Add new
+                Add new item
               </Button>
             )}
             {isOnAdd && (

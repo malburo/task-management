@@ -4,7 +4,7 @@ export default makeStyles({
   button: {
     height: '40px !important',
     display: 'flex',
-    justifyContent: 'space-between !important',
+    justifyContent: 'space-between',
     marginBottom: '10px !important',
   },
   form: {
