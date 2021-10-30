@@ -1,9 +1,11 @@
-import { Box, Button, CardMedia, Grid, IconButton, Popover, Typography } from '@mui/material';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 import ImageIcon from '@mui/icons-material/Image';
 import SearchIcon from '@mui/icons-material/Search';
+import { Box, Button, CardMedia, Grid, IconButton, Popover, Typography } from '@mui/material';
 import InputBaseField from 'components/form-control/InputBaseField';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 interface Photo {
   id: string;
@@ -18,11 +20,14 @@ interface Photo {
 
 interface SearchPhotoProps {
   onSelectPhoto: (photoUrl: string) => any;
+  onUploadPhoto: (photoObj: any) => any;
 }
+
 interface FormValues {
   search: string;
 }
-const SearchPhoto: React.FC<SearchPhotoProps> = ({ onSelectPhoto }) => {
+
+const SearchPhoto: React.FC<SearchPhotoProps> = ({ onSelectPhoto, onUploadPhoto }) => {
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -57,6 +62,19 @@ const SearchPhoto: React.FC<SearchPhotoProps> = ({ onSelectPhoto }) => {
     }
   };
   const handleSelectPhoto = (photoUrl: string) => {
+    onSelectPhoto(photoUrl);
+    setAnchorEl(null);
+  };
+
+  const handleUploadPhoto = async (event: any) => {
+    const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
+    const photoObj = event.target.files[0];
+    if (!SUPPORTED_FORMATS.includes(photoObj.type)) {
+      toast.error('Type file does not support');
+      return;
+    }
+    onUploadPhoto(photoObj);
+    const photoUrl = URL.createObjectURL(photoObj);
     onSelectPhoto(photoUrl);
     setAnchorEl(null);
   };
@@ -98,19 +116,35 @@ const SearchPhoto: React.FC<SearchPhotoProps> = ({ onSelectPhoto }) => {
           <Box>
             <Typography variant="regular1">Search photos.</Typography>
           </Box>
-          <Box boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)" borderRadius={2} marginTop={3} marginBottom={5}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <InputBaseField
-                placeholder="Keyword..."
-                name="search"
-                form={form}
-                endAdornment={
-                  <IconButton color="primary">
-                    <SearchIcon sx={{ fontSize: '16px' }} />
-                  </IconButton>
-                }
-              />
-            </form>
+          <Box display="flex" alignItems="center" justifyContent="space-between" marginTop={3} marginBottom={5}>
+            <Box boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)" borderRadius={2} marginRight="12px">
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <InputBaseField
+                  placeholder="Keyword..."
+                  name="search"
+                  form={form}
+                  endAdornment={
+                    <IconButton color="primary">
+                      <SearchIcon sx={{ fontSize: '16px' }} />
+                    </IconButton>
+                  }
+                />
+              </form>
+            </Box>
+            <label htmlFor="upload-cover-image">
+              <input id="upload-cover-image" type="file" onChange={handleUploadPhoto} style={{ display: 'none' }} />
+              <Box
+                color="white"
+                bgcolor="#2F80ED"
+                fontSize="12px"
+                lineHeight="10px"
+                padding="4px"
+                borderRadius="8px"
+                style={{ cursor: 'pointer' }}
+              >
+                <FileUploadIcon />
+              </Box>
+            </label>
           </Box>
           <Grid container spacing={3}>
             {photos.length > 0 &&
