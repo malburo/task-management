@@ -68,7 +68,7 @@ const EditPassword: React.FC<EditPasswordState> = ({ userId }) => {
   };
 
   return (
-    <Paper sx={{ marginBottom: '24px' }}>
+    <Paper sx={{ marginBottom: '192px' }}>
       <Box padding="24px">
         <Box marginBottom="24px">
           <Typography variant="bold6">Your Password</Typography>

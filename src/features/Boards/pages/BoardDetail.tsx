@@ -3,6 +3,7 @@ import { Container, Draggable, DropResult } from '@richardrout/react-smooth-dnd'
 import boardApi from 'api/boardApi';
 import { socketClient } from 'api/socketClient';
 import { AppDispatch, RootState } from 'app/store';
+import SideBar from 'components/SideBar';
 import { IColumn } from 'models/column';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -60,53 +61,65 @@ const BoardDetail = () => {
     }
   };
   return (
-    <Box height="100vh" bgcolor="#fff">
-      <Switch>
-        <Route path={`/boards/:boardId/:taskId`} component={TaskDetail} />
-      </Switch>
-      <Box height="65px" />
-      <Stack
-        direction="row"
-        height="55px"
-        marginLeft="24px"
-        marginTop="24px"
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        <Stack direction="row">
-          <EditVisibility />
-          <AvatarGroup max={10}>
-            {members.map((member) => (
-              <Avatar variant="rounded" src={member.profilePictureUrl} key={member._id} />
-            ))}
-          </AvatarGroup>
-          <AddMember />
-        </Stack>
-        <Box marginRight="24px">
-          <Menu />
-        </Box>
-      </Stack>
-      <Box sx={{ flex: '1 1', overflow: 'auto', minWidth: 0, display: 'flex' }} height="calc(100vh - 145px)">
-        <Container
-          lockAxis="x"
-          orientation="horizontal"
-          dragHandleSelector=".column-move"
-          disableScrollOverlapDetection={true}
-          onDrop={onColumnDrop}
-          getChildPayload={(index: number) => columns[index]}
-          style={{
-            minWidth: 0,
-          }}
+    <Stack direction="row">
+      <SideBar />
+      <Box height="100vh" bgcolor="#fff" flex={1} overflow="hidden">
+        <Switch>
+          <Route path={`/boards/:boardId/tasks/:taskId`} component={TaskDetail} />
+        </Switch>
+        <Box height="65px" />
+        <Stack
+          direction="row"
+          height="55px"
+          marginLeft="24px"
+          marginTop="24px"
+          alignItems="center"
+          justifyContent="space-between"
         >
-          {columns.map((column: IColumn) => (
-            <Draggable key={column._id}>
-              <Column column={column} />
-            </Draggable>
-          ))}
-        </Container>
-        <AddColumn />
+          <Stack direction="row">
+            <EditVisibility />
+            <AvatarGroup max={10}>
+              {members.map((member) => (
+                <Avatar variant="rounded" src={member.profilePictureUrl} key={member._id} />
+              ))}
+            </AvatarGroup>
+            <AddMember />
+          </Stack>
+          <Box marginRight="24px">
+            <Menu />
+          </Box>
+        </Stack>
+        <Box
+          sx={{
+            flex: '1 1',
+            minWidth: 0,
+            display: 'flex',
+            overflowX: 'scroll',
+          }}
+          height="calc(100vh - 145px)"
+        >
+          <Container
+            behaviour="contain"
+            orientation="horizontal"
+            disableScrollOverlapDetection={true}
+            dragHandleSelector=".column-move"
+            onDrop={onColumnDrop}
+            getChildPayload={(index: number) => columns[index]}
+            style={{
+              minWidth: 0,
+              overflowX: 'scroll',
+            }}
+          >
+            {columns.map((column: IColumn) => (
+              <Draggable key={column._id}>
+                <Column column={column} />
+              </Draggable>
+            ))}
+          </Container>
+          <AddColumn />
+        </Box>
       </Box>
-    </Box>
+    </Stack>
   );
 };
 

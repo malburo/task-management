@@ -5,7 +5,10 @@ import axiosClient from './axiosClient';
 
 const taskApi = {
   create(payload: AddTaskPayload): Promise<Response<ITask>> {
-    return axiosClient.post('/tasks', payload);
+    return axiosClient.post(`/boards/${payload.boardId}/tasks`, payload);
+  },
+  update(payload: { boardId: string; taskId: string; data: Partial<ITask> }): Promise<Response<ITask>> {
+    return axiosClient.put(`/boards/${payload.boardId}/tasks/${payload.taskId}`, payload.data);
   },
 };
 

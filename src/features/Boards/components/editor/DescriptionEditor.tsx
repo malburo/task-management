@@ -1,29 +1,53 @@
-import { Box } from '@mui/system';
-import React, { useMemo, useState, useEffect, useRef } from 'react';
-import { EditorState } from 'draft-js';
+import {
+  BoldButton,
+  ItalicButton,
+  OrderedListButton,
+  UnderlineButton,
+  UnorderedListButton,
+} from '@draft-js-plugins/buttons';
 import Editor, { createEditorStateWithText } from '@draft-js-plugins/editor';
 import createInlineToolbarPlugin from '@draft-js-plugins/inline-toolbar';
-import '../editor/editor.css';
 import '@draft-js-plugins/inline-toolbar/lib/plugin.css';
+import { LoadingButton } from '@mui/lab';
+import { Button } from '@mui/material';
+import { Box } from '@mui/system';
+import { EditorState } from 'draft-js';
+import 'draft-js/dist/Draft.css';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import '../editor/editor.css';
 
-const text = 'In this editor a toolbar shows up once you select part of the text …';
-const DescriptionEditor: React.FC = () => {
+interface State {
+  content: string;
+}
+
+const DescriptionEditor: React.FC<State> = ({ content = '' }) => {
+  const [isLoading, setIsloading] = useState<boolean>(false);
   const [plugins, InlineToolbar] = useMemo(() => {
     const inlineToolbarPlugin = createInlineToolbarPlugin();
     return [[inlineToolbarPlugin], inlineToolbarPlugin.InlineToolbar];
   }, []);
+
   const [editorState, setEditorState] = useState(() => createEditorStateWithText(''));
-  useEffect(() => {
-    setEditorState(createEditorStateWithText(text));
-  }, []);
   const editor = useRef<Editor | null>(null);
-  const onChange = (value: EditorState): void => {
-    setEditorState(value);
-  };
+
+  useEffect(() => {
+    setEditorState(createEditorStateWithText(content));
+  }, [content]);
 
   const focus = (): void => {
     editor.current?.focus();
   };
+
+  const onChange = (value: EditorState): void => {
+    setEditorState(value);
+  };
+
+  const onClickSave = () => {
+    console.log(editorState);
+  };
+
+  const onClickCancel = () => {};
+
   return (
     <div className="editor" onClick={focus}>
       <Editor
@@ -31,11 +55,30 @@ const DescriptionEditor: React.FC = () => {
         editorState={editorState}
         onChange={onChange}
         plugins={plugins}
+        placeholder="Description..."
         ref={(element) => {
           editor.current = element;
         }}
       />
-      <InlineToolbar />
+      <InlineToolbar>
+        {(externalProps) => (
+          <div>
+            <BoldButton {...externalProps} />
+            <ItalicButton {...externalProps} />
+            <UnderlineButton {...externalProps} />
+            <UnorderedListButton {...externalProps} />
+            <OrderedListButton {...externalProps} />
+          </div>
+        )}
+      </InlineToolbar>
+      <Box>
+        <Button variant="contained" color="error" sx={{ marginRight: '24px' }} onClick={onClickCancel}>
+          Cancel
+        </Button>
+        <LoadingButton type="submit" loading={isLoading} variant="contained" color="primary" onClick={onClickSave}>
+          Save
+        </LoadingButton>
+      </Box>
     </div>
   );
 };
