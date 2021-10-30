@@ -295,6 +295,7 @@ const theme = createTheme({
       styleOverrides: {
         paper: {
           borderRadius: '8px',
+          overflowY: 'visible',
         },
       },
     },
@@ -310,7 +311,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           padding: '16px',
-          borderRadius: '12px',
+          borderRadius: '8px',
           boxShadow: 'none',
           whiteSpace: 'normal',
           boxSizing: 'border-box',
