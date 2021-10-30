@@ -45,8 +45,8 @@ const CreateFormMessage: React.FC<IPropsFormMessage> = (props) => {
   const style = FormStyle();
 
   const addToOptions = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && e.currentTarget.value.length > 0) {
-      setOptions(_.uniqWith([...options, e.currentTarget.value], _.isEqual));
+    if (e.key === 'Enter' && e.currentTarget.value.length > 0 && e.currentTarget.value.length < 50) {
+      setOptions(_.uniqWith([...options, _.trim(e.currentTarget.value)], _.isEqual));
       e.currentTarget.value = '';
     }
   };

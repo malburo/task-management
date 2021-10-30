@@ -14,6 +14,7 @@ import ISelectFormMessage from 'models/selectMessage';
 import messageApi from 'api/messageApi';
 import { LinkPreview } from '@dhaiwat10/react-link-preview';
 import LinkPreviewSkeleteon from '../skeleton/LinkPreviewSkeletion';
+import AlignVerticalBottomIcon from '@mui/icons-material/AlignVerticalBottom';
 
 interface IMessagePros {
   name: string;
@@ -43,12 +44,14 @@ const Message: React.FC<IMessagePros> = ({
   const room = useSelector((state: RootState) => state.room.roomInfor);
   const me = useSelector((state: RootState) => state.auth.currentUser) as IUser;
   const [url, setUrl] = useState<string>();
+  let sortedData = [...(form?.options ?? [])].sort((a, b) => (b.userId?.length ?? 0) - (a.userId?.length ?? 0));
 
   const chooseOption = (e: React.FormEvent<HTMLButtonElement>) => {
     messageApi.chooseOption({ optionId: e.currentTarget.value });
   };
 
   useEffect(() => {
+    // eslint-disable-next-line
     const urlRegex = /(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+/m;
     const data = content.match(urlRegex);
     if (data) setUrl(data[0]);
@@ -78,10 +81,11 @@ const Message: React.FC<IMessagePros> = ({
           <Box sx={{ display: 'flex' }}>
             {type === 3 && (
               <div className={style.messageContent}>
-                <Typography variant="body2" sx={{ minWidth: '200px' }}>
+                <AlignVerticalBottomIcon sx={{ float: 'right' }} />
+                <Typography variant="body2" sx={{ minWidth: '200px', marginBottom: '10px' }}>
                   {content}
                 </Typography>
-                {form?.options?.map((item) => {
+                {sortedData.map((item) => {
                   if (item.userId?.filter((i) => _.isEqual(i, me._id)).length > 0)
                     return (
                       <Button

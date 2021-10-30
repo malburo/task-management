@@ -16,6 +16,7 @@ import ConfirmDeleteMessage from '../FormDialog/ConfirmDeleteMessage';
 import EditMessageForm from '../FormDialog/EditFormMessage';
 import { LinkPreview } from '@dhaiwat10/react-link-preview';
 import LinkPreviewSkeleteon from '../skeleton/LinkPreviewSkeletion';
+import AlignVerticalBottomIcon from '@mui/icons-material/AlignVerticalBottom';
 
 interface IMessagePros {
   postedDate: Date;
@@ -47,11 +48,13 @@ const MyMessage: React.FC<IMessagePros> = ({
   const [isLoading, setIsLoading] = useState<Boolean>(true);
   const [isError, setIsError] = useState<Boolean>(false);
   const [url, setUrl] = useState<string>();
+  let sortedData = [...(form?.options ?? [])].sort((a, b) => (b.userId?.length ?? 0) - (a.userId?.length ?? 0));
 
   const room = useSelector((state: RootState) => state.room.roomInfor);
 
   useEffect(() => {
     setContentMsg(content);
+    // eslint-disable-next-line
     const urlRegex = /(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+/m;
     const data = content.match(urlRegex);
     if (data) setUrl(data[0]);
@@ -111,10 +114,11 @@ const MyMessage: React.FC<IMessagePros> = ({
     else if (type === 3)
       return (
         <div className={style.messageContent}>
-          <Typography variant="body2" sx={{ minWidth: '200px' }}>
+          <AlignVerticalBottomIcon sx={{ float: 'left' }} />
+          <Typography variant="body2" sx={{ minWidth: '200px', marginBottom: '20px' }}>
             {contentMsg}
           </Typography>
-          {form?.options?.map((item) => {
+          {sortedData.map((item) => {
             if (item.userId.filter((i) => i === me._id).length > 0)
               return (
                 <Button

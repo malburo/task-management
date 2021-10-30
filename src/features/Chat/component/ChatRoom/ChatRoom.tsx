@@ -8,20 +8,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setAnyRoom, setMenuOpen } from 'features/Chat/ReduxSlice/SidebarAppChatSlice';
 import { AppDispatch, RootState } from 'app/store';
 import { IMessage } from 'models/messages';
-import { Alert, Button, Fab, Hidden, IconButton, Snackbar, Typography } from '@mui/material';
+import { Button, Fab, Hidden, IconButton, Typography } from '@mui/material';
 import ListIcon from '@mui/icons-material/List';
 import SendIcon from '@mui/icons-material/Send';
 import { getOneRoom } from 'features/Chat/ReduxSlice/RoomSlice';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  clearResponse,
-  createOne,
-  getMessageInRoom,
-  messagesSeletor,
-  throwNotification,
-} from 'features/Chat/ReduxSlice/MessagesSlice';
+import { createOne, getMessageInRoom, messagesSeletor } from 'features/Chat/ReduxSlice/MessagesSlice';
 import useChat from 'hooks/useChat';
 import { DateCount } from 'utilities/dateUtil';
 import { IUser } from 'models/user';
@@ -31,6 +25,8 @@ import messageApi from 'api/messageApi';
 import { debounce } from 'lodash';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import CreateFormMessage from '../FormDialog/CreateFormMessage';
+
+import toast from 'react-hot-toast';
 
 export interface IParamChatRoom {
   id: string;
@@ -59,11 +55,9 @@ const ChatRoom: React.FC = () => {
   // eslint-disable-next-line
   const [seed, setSeed] = useState(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
   const [isCreateFormMessage, setIsCreateFormMessage] = useState<boolean>(false);
   // eslint-disable-next-line
   const chat = useChat();
-  const response = useSelector((state: RootState) => state.message.response);
 
   const {
     register,
@@ -95,16 +89,6 @@ const ChatRoom: React.FC = () => {
     // eslint-disable-next-line
   }, [room]);
 
-  useEffect(() => {
-    if (response.status === 0) setOpenSnackBar(false);
-    else setOpenSnackBar(true);
-  }, [response]);
-
-  const closeSnackbar = () => {
-    setOpenSnackBar(false);
-    dispatch(clearResponse());
-  };
-
   const clickHandler = () => {
     dispatch(setMenuOpen(true));
   };
@@ -117,16 +101,20 @@ const ChatRoom: React.FC = () => {
     })();
   };
 
-  const submitImage = (event: React.FormEvent<HTMLInputElement>) => {
-    (async () => {
+  const submitImage = async (event: React.FormEvent<HTMLInputElement>) => {
+    const toastId = toast.loading('Loading...');
+    try {
       if (event.currentTarget.files) {
         const file = event.currentTarget.files[0];
         if (file && file.type.match(/(png|jpg|jpeg)/)) {
           await messageApi.createImageMessage({ roomId: room._id, file: file });
           myRef.current?.scroll({ top: myRef.current.scrollHeight });
-        } else await dispatch(throwNotification('Please choose an image file'));
+          toast.success('Success', { id: toastId });
+        } else toast.error('Please choose image file', { id: toastId });
       }
-    })();
+    } catch (err) {
+      toast.error(err.message || 'Internal Server Error', { id: toastId });
+    }
   };
 
   const fetchMoreMsg = (scrollPosition: Number) => {
@@ -150,22 +138,6 @@ const ChatRoom: React.FC = () => {
 
   return (
     <React.Fragment>
-      {response.message && (
-        <Snackbar
-          open={openSnackBar}
-          autoHideDuration={3000}
-          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          onClose={closeSnackbar}
-          sx={{
-            opacity: '0.5',
-            marginTop: '6vh',
-          }}
-        >
-          <Alert severity={`${response.status === -1 ? 'error' : 'success'}`} sx={{ width: '100%' }}>
-            {response.message}
-          </Alert>
-        </Snackbar>
-      )}
       {isCreateFormMessage && (
         <CreateFormMessage isOpen={isCreateFormMessage} setClose={setIsCreateFormMessage}></CreateFormMessage>
       )}

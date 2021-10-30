@@ -5,11 +5,13 @@ import { AppDispatch, RootState } from 'app/store';
 import { updateOne } from 'features/Chat/ReduxSlice/MessagesSlice';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import InputField from 'components/form-control/InputField';
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 import FormStyle from './FormStyle';
+import toast from 'react-hot-toast';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 interface IPropsAlert {
   isOpen: boolean;
@@ -37,10 +39,18 @@ const EditMessageForm: React.FC<IPropsAlert> = (props) => {
     resolver: yupResolver(scheme),
   });
 
-  const handleEdit = (data: any) => {
-    if (!data.msgContent) return;
-    dispatch(updateOne({ messageId: props.payload, msgContent: data.msgContent, roomId: room._id }));
-    props.setClose(false);
+  const handleEdit: SubmitHandler<any> = async (data: any) => {
+    const toastId = toast.loading('Loading...');
+    try {
+      if (!data.msgContent) return;
+      await dispatch(updateOne({ messageId: props.payload, msgContent: data.msgContent, roomId: room._id })).then(
+        unwrapResult
+      );
+      toast.success('Success', { id: toastId });
+      props.setClose(false);
+    } catch (error) {
+      toast.error(error.message, { id: toastId });
+    }
   };
 
   return (
