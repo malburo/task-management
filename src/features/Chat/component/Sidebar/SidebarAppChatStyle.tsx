@@ -6,16 +6,17 @@ export default makeStyles({
     height: '90vh',
     width: '100%',
     color: 'white',
+    overflow: 'hidden',
   },
   backButton: {
     backgroundColor: 'rgb(18, 15, 19) !important',
     width: '100%',
-    height: '6vh',
-    boxShadow: 'rgb(11, 10, 15) 0px 3px',
+    height: '6vh !important',
+    boxShadow: 'rgb(11, 10, 15) 0px 3px !important',
     color: 'white',
     paddingLeft: '6%',
     zIndex: 0,
-
+    fontSize: '1rem !important',
     justifyContent: 'flex-start  !important',
     textTransform: 'none',
     '&:hover': {
@@ -40,6 +41,10 @@ export default makeStyles({
     color: 'white',
     borderRadius: '10px',
     width: '70%',
+    fontSize: '1rem',
+    '&::-internal-autofill-selected': {
+      backgroundColor: '0 0 0px 1000px white inset',
+    },
   },
   searchIcon: {
     height: '6vh!important',
@@ -52,7 +57,6 @@ export default makeStyles({
     '&::-webkit-scrollbar': {
       width: '0.2em',
     },
-    '&::-webkit-scrollbar-track': {},
     '&::-webkit-scrollbar-thumb': {
       backgroundColor: '#3f51b5',
     },
@@ -60,12 +64,14 @@ export default makeStyles({
   chanelLink: {
     display: 'flex  !important',
     width: '85%  !important',
-    margin: '3vh 7.5% 3vh 7.5%  !important',
+    margin: '10px 7.5% 10px 7.5%  !important',
+    height: '50px !important',
     padding: '5px 2px 5px 2px  !important',
     justifyContent: 'flex-start  !important',
     backgroundColor: 'rgb(18, 15, 19)  !important',
     color: 'white',
     boxShadow: 'none !important ',
+    fontSize: '1rem !important',
     textAlign: 'left',
     '&:hover': {
       backgroundColor: 'rgb(37, 35, 41)',
@@ -73,12 +79,10 @@ export default makeStyles({
     },
   },
   avatar: {
-    backgroundColor: 'gray',
-    padding: '.25em ',
-    width: '12%',
     borderRadius: '5px',
     textTransform: 'uppercase',
     marginRight: '1em  !important',
     textAlign: 'center',
+    width: '40px',
   },
 });

@@ -1,173 +1,109 @@
-import React, { useState } from 'react';
-import { Box, Button, Slide, Typography } from '@mui/material';
+import React, { useEffect, useRef, useState } from 'react';
 import SidebarAppChatStyle from './SidebarAppChatStyle';
 import ListRooms from '../ListRooms/ListRooms';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import SearchIcon from '@mui/icons-material/Search';
 import SidebarAppChatFooter from '../SidebarFooter/SidebarAppChatFooter';
+import { IBoard } from 'models/board';
+import { debounce } from 'lodash';
+import roomApi from 'api/roomApi';
+import { Button, Slide } from '@mui/material';
+import { Box } from '@mui/system';
 
-interface ISidebarAppChatProps {
-  setMenuState: (active: boolean) => void;
+interface IChannelList {
+  lstChannel: Array<IBoard>;
 }
 
-const SidebarAppChat: React.FC<ISidebarAppChatProps> = ({ setMenuState }) => {
+const SidebarAppChat: React.FC = () => {
   const [hideStatus, setHideStatus] = useState(true);
   const [idChanel, setIdChanel] = useState('0');
-
+  const [channels, setChannels] = useState<IChannelList>({ lstChannel: [] });
   const style = SidebarAppChatStyle();
+  const searchInput = useRef(null);
 
-  const getAvatar = (name: string) => {
-    let lstName = name.split(' ');
-    return lstName.length > 1 ? lstName[0][0] + lstName[1][0] : lstName[0][0];
-  };
+  useEffect(() => {
+    roomApi.getAllChannel().then((data) => {
+      setChannels({ lstChannel: data.data.channels });
+    });
+  }, []);
 
   const clickHandler = (e: React.MouseEvent<HTMLElement>) => {
     let chanel = e.currentTarget;
     setIdChanel((chanel as HTMLInputElement).value);
     setHideStatus(!hideStatus);
   };
+
+  const fetchDataFromSearch = async (term: string) => {
+    const res = await roomApi.search({ term: term });
+    setChannels({ lstChannel: res.data.channels });
+  };
+
+  const debounceCall = debounce((term) => fetchDataFromSearch(term), 500);
+
+  const submitChange = (e: React.FormEvent<HTMLInputElement>) => {
+    let term = e.currentTarget.value;
+    debounceCall(term);
+  };
+
   return (
     <React.Fragment>
       <div className={style.sidebar}>
-        <Slide direction="right" timeout={{ enter: 200, exit: 100 }} in={hideStatus} unmountOnExit mountOnEnter>
+        <Slide direction="right" timeout={{ enter: 500, exit: 300 }} in={hideStatus} unmountOnExit mountOnEnter>
           <Box>
             <Button variant="contained" className={style.backButton}>
-              Chanels List
+              Channels List
             </Button>
             <div className={style.searchField}>
-              <SearchIcon className={style.searchIcon}></SearchIcon>
-              <input type="text" placeholder="Search" className={style.searchInput}></input>
+              <SearchIcon className={style.searchIcon} />
+              <input
+                type="text"
+                placeholder="Search"
+                name="term"
+                onChange={submitChange}
+                className={style.searchInput}
+                ref={searchInput}
+                autoComplete="off"
+                maxLength={20}
+              ></input>
             </div>
             <div className={style.listChanels}>
-              <Button value={'kj13b124'} variant="contained" className={style.chanelLink} onClick={clickHandler}>
-                <Typography variant="subtitle1" className={style.avatar}>
-                  {getAvatar('Chanel 3')}
-                </Typography>
-                Chanel 3
-              </Button>
-              <Button value={'mn7wtw0df7y9a'} variant="contained" className={style.chanelLink} onClick={clickHandler}>
-                <Typography variant="subtitle1" className={style.avatar}>
-                  {getAvatar('Chanel 4')}
-                </Typography>
-                Chanel 4
-              </Button>
-              <Button
-                value={'Frontend Developer'}
-                variant="contained"
-                className={style.chanelLink}
-                onClick={clickHandler}
-              >
-                <Typography variant="subtitle1" className={style.avatar}>
-                  {getAvatar('Frontend Developer')}
-                </Typography>
-                Frontend Developer
-              </Button>
-              <Button value={'kj13b124'} variant="contained" className={style.chanelLink} onClick={clickHandler}>
-                <Typography variant="subtitle1" className={style.avatar}>
-                  {getAvatar('Chanel 3')}
-                </Typography>
-                Chanel 3
-              </Button>
-              <Button value={'mn7wtw0df7y9a'} variant="contained" className={style.chanelLink} onClick={clickHandler}>
-                <Typography variant="subtitle1" className={style.avatar}>
-                  {getAvatar('Chanel 4')}
-                </Typography>
-                Chanel 4
-              </Button>
-              <Button
-                value={'Frontend Developer'}
-                variant="contained"
-                className={style.chanelLink}
-                onClick={clickHandler}
-              >
-                <Typography variant="subtitle1" className={style.avatar}>
-                  {getAvatar('Frontend Developer')}
-                </Typography>
-                Frontend Developer
-              </Button>
-              <Button value={'kj13b124'} variant="contained" className={style.chanelLink} onClick={clickHandler}>
-                <Typography variant="subtitle1" className={style.avatar}>
-                  {getAvatar('Chanel 3')}
-                </Typography>
-                Chanel 3
-              </Button>
-              <Button value={'mn7wtw0df7y9a'} variant="contained" className={style.chanelLink} onClick={clickHandler}>
-                <Typography variant="subtitle1" className={style.avatar}>
-                  {getAvatar('Chanel 4')}
-                </Typography>
-                Chanel 4
-              </Button>
-              <Button
-                value={'Frontend Developer'}
-                variant="contained"
-                className={style.chanelLink}
-                onClick={clickHandler}
-              >
-                <Typography variant="subtitle1" className={style.avatar}>
-                  {getAvatar('Frontend Developer')}
-                </Typography>
-                Frontend Developer
-              </Button>
-              <Button value={'kj13b124'} variant="contained" className={style.chanelLink} onClick={clickHandler}>
-                <Typography variant="subtitle1" className={style.avatar}>
-                  {getAvatar('Chanel 3')}
-                </Typography>
-                Chanel 3
-              </Button>
-              <Button value={'mn7wtw0df7y9a'} variant="contained" className={style.chanelLink} onClick={clickHandler}>
-                <Typography variant="subtitle1" className={style.avatar}>
-                  {getAvatar('Chanel 4')}
-                </Typography>
-                Chanel 4
-              </Button>
-              <Button
-                value={'Frontend Developer'}
-                variant="contained"
-                className={style.chanelLink}
-                onClick={clickHandler}
-              >
-                <Typography variant="subtitle1" className={style.avatar}>
-                  {getAvatar('Frontend Developer')}
-                </Typography>
-                Frontend Developer
-              </Button>
-              <Button value={'kj13b124'} variant="contained" className={style.chanelLink} onClick={clickHandler}>
-                <Typography variant="subtitle1" className={style.avatar}>
-                  {getAvatar('Chanel 3')}
-                </Typography>
-                Chanel 3
-              </Button>
-              <Button value={'mn7wtw0df7y9a'} variant="contained" className={style.chanelLink} onClick={clickHandler}>
-                <Typography variant="subtitle1" className={style.avatar}>
-                  {getAvatar('Chanel 4')}
-                </Typography>
-                Chanel 4
-              </Button>
-              <Button
-                value={'Frontend Developer'}
-                variant="contained"
-                className={style.chanelLink}
-                onClick={clickHandler}
-              >
-                <Typography variant="subtitle1" className={style.avatar}>
-                  {getAvatar('Frontend Developer')}
-                </Typography>
-                Frontend Developer
-              </Button>
+              {channels.lstChannel.length > 0 &&
+                channels.lstChannel.map((i) => (
+                  <Button
+                    key={i._id}
+                    value={i._id}
+                    variant="contained"
+                    className={style.chanelLink}
+                    onClick={clickHandler}
+                  >
+                    <img
+                      src={`https://avatars.dicebear.com/4.5/api/initials/${i.title}.svg`}
+                      className={style.avatar}
+                      alt=""
+                    />
+                    {i.title}
+                  </Button>
+                ))}
             </div>
           </Box>
         </Slide>
-        <Slide direction="left" timeout={{ enter: 200, exit: 0 }} in={!hideStatus} unmountOnExit mountOnEnter>
-          <Box>
+        <Slide direction="left" timeout={{ enter: 300, exit: 0 }} in={!hideStatus} unmountOnExit mountOnEnter>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              height: '98%',
+            }}
+          >
             <Button
               variant="contained"
               className={style.backButton}
               onClick={() => setHideStatus(!hideStatus)}
               startIcon={<ArrowBackIosIcon></ArrowBackIosIcon>}
             >
-              All Chanels
+              All Channels
             </Button>
-            <ListRooms setMenuState={setMenuState} idChanel={idChanel} />
+            <ListRooms idChanel={idChanel} />
           </Box>
         </Slide>
       </div>

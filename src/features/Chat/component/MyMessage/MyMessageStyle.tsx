@@ -3,7 +3,7 @@ import { makeStyles } from '@mui/styles';
 export default makeStyles({
   message: {
     boxSizing: 'border-box',
-    width: '100%',
+    width: '100% !important',
     display: 'flex',
     marginTop: '4vh',
     marginBottom: '4vh',
@@ -16,8 +16,8 @@ export default makeStyles({
     marginLeft: '2%',
   },
   avatarImg: {
-    height: '5vh',
-    width: '5vh',
+    height: '45px',
+    width: '45px',
     borderRadius: '5px',
   },
   accountInfor: {
@@ -35,5 +35,28 @@ export default makeStyles({
     padding: '1rem',
     borderRadius: '20px',
     textAlign: 'right',
+  },
+  imageContent: {
+    maxWidth: '40vw',
+  },
+  iconButtonTool: {
+    backgroundColor: 'transparent !important',
+    width: '20px  !important',
+    height: '20px !important',
+    padding: '15px !important',
+    '&:hover': {
+      backgroundColor: 'gray !important',
+    },
+  },
+  image: {
+    maxWidth: '40vw',
+  },
+  editForm: {
+    width: '40vw',
+    padding: '0 2vw 2vw 2vw',
+  },
+  linkPreview: {
+    width: '100%',
+    maxWidth: '80vw',
   },
 });

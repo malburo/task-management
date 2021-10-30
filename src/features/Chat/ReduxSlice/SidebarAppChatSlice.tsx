@@ -1,21 +1,28 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+interface sidebarState {
+  menuOpen: boolean;
+  anyRoom: boolean;
+}
+
+const initialState: sidebarState = {
+  menuOpen: true,
+  anyRoom: false,
+};
 
 const sidebarAppChatSlice = createSlice({
   name: 'sibarAppChat',
-  initialState: {
-    menuOpen: true,
-    anyRoom: false,
-  },
+  initialState,
   reducers: {
-    addHasRoom(state, payload) {
-      state.anyRoom = true;
+    setAnyRoom(state, action: PayloadAction<boolean>) {
+      state.anyRoom = action.payload;
     },
-    toggleMenuOpen(state, payload) {
-      state.menuOpen = !state.menuOpen;
+    setMenuOpen(state, action: PayloadAction<boolean>) {
+      state.menuOpen = action.payload;
     },
   },
 });
 
-const { actions, reducer } = sidebarAppChatSlice;
-export const { addHasRoom, toggleMenuOpen } = actions;
-export default reducer;
+const { actions, reducer: appchatUIReducer } = sidebarAppChatSlice;
+export const { setAnyRoom, setMenuOpen } = actions;
+export default appchatUIReducer;

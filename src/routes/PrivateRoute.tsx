@@ -9,6 +9,7 @@ interface PrivateRouteProps extends RouteProps {
 }
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ component: Component, layout: Layout, ...rest }) => {
   const isAuth = useSelector((state: RootState) => state.auth.isAuth);
+
   if (!isAuth) {
     return <Redirect to="/auth/login" />;
   }

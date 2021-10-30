@@ -74,6 +74,7 @@ const boardSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getOneBoard.fulfilled, (state, { payload }: PayloadAction<any>) => {
+      if (!payload.board) return;
       state.isPrivate = payload.board.isPrivate;
       state.columnOrder = payload.board.columnOrder;
       state.createdAt = payload.board.createdAt;

@@ -1,12 +1,15 @@
 import { makeStyles } from '@mui/styles';
 
 export default makeStyles({
+  footerLayout: {
+    height: '10vh',
+  },
   profileButton: {
     backgroundColor: 'rgb(10, 7, 9)  !important',
     padding: '0',
     borderRadius: '0 !important',
     width: '100%',
-    height: '10vh',
+    height: '10vh !important',
     zIndex: 0,
     color: 'white',
     cursor: 'pointer',
@@ -18,7 +21,11 @@ export default makeStyles({
       backgroundColor: 'rgb(10, 7, 9)  !important',
     },
   },
+  expandIcon: {
+    fontSize: '2rem',
+  },
   profileOptionList: {
+    border: 'none !important',
     backgroundColor: 'rgb(37, 35, 41) !important',
     borderRadius: '10px',
     padding: '5px',
