@@ -1,15 +1,28 @@
 import CloseIcon from '@mui/icons-material/Close';
 import DescriptionIcon from '@mui/icons-material/Description';
 import { LoadingButton } from '@mui/lab';
-import { Avatar, Box, Button, CardMedia, Dialog, DialogContent, Grid, IconButton, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  CardMedia,
+  Chip,
+  Dialog,
+  DialogContent,
+  Grid,
+  IconButton,
+  Typography,
+} from '@mui/material';
 import taskApi from 'api/taskApi';
 import uploadApi from 'api/uploadApi';
 import { RootState } from 'app/store';
+import { ILabel } from 'models/label';
 import { ITask } from 'models/task';
+import { IUser } from 'models/user';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
-import { tasksSelector } from '../boardSlice';
+import { labelsSelector, membersSelector, tasksSelector } from '../boardSlice';
 import DescriptionEditor from '../components/editor/DescriptionEditor';
 import AddLabel from '../components/form/AddLabel';
 import AssignTask from '../components/form/AssignTask';
@@ -25,14 +38,20 @@ export default function TaskDetail() {
   const { boardId, taskId } = useParams<Params>();
   const history = useHistory();
   const task: ITask = useSelector((state: RootState) => tasksSelector.selectById(state, taskId))!;
-
+  const labels: ILabel[] = useSelector((state: RootState) =>
+    labelsSelector.selectAll(state).filter((label: ILabel) => task.labelsId.includes(label._id))
+  );
+  const members: IUser[] = useSelector((state: RootState) =>
+    membersSelector.selectAll(state).filter((member: IUser) => task.membersId.includes(member._id))
+  );
   const [open, setOpen] = useState(true);
-  const [coverUrl, setCoverUrl] = useState<string>(task?.coverUrl);
+  const [coverUrl, setCoverUrl] = useState<string>('https://www.viet247.net/images/noimage_food_viet247.jpg');
   const [coverObj, setCoverObj] = useState<any>(null);
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const [showSaveButton, setShowSaveButton] = useState<boolean>(false);
 
   useEffect(() => {
+    if (!task?.coverUrl) return;
     setCoverUrl(task?.coverUrl);
   }, [task?.coverUrl]);
 
@@ -83,15 +102,12 @@ export default function TaskDetail() {
       <Dialog onClose={handleClose} aria-labelledby="task-detail-dialog" open={open} fullWidth>
         <Box padding="24px 24px 0px 24px">
           <Box position="relative">
-            {coverUrl !== null ? (
-              <CardMedia image={coverUrl} style={{ height: '180px', borderRadius: '8px' }} />
-            ) : (
-              <CardMedia
-                image="https://www.viet247.net/images/noimage_food_viet247.jpg"
-                style={{ height: '180px', borderRadius: '8px' }}
-              />
-            )}
-
+            <CardMedia image={coverUrl} style={{ height: '180px', borderRadius: '8px' }} />
+            <Box height="10px" paddingTop="8px">
+              {labels.map((label) => (
+                <Chip label={label.name} sx={{ bgcolor: label.color, color: 'white' }} key={label._id} />
+              ))}
+            </Box>
             {showSaveButton && (
               <Box position="absolute" right="12px" bottom="12px">
                 <Button
@@ -166,21 +182,15 @@ export default function TaskDetail() {
                   </Stack>
                 </LocalizationProvider> */}
                 <AddLabel />
-                <AssignTask />
+                <AssignTask task={task} />
               </Box>
               <Box marginTop="16px">
-                <Box display="flex" alignItems="center" marginTop="16px">
-                  <Avatar sx={{ marginRight: '16px' }} />
-                  <Typography variant="bold2">Quoc Bao</Typography>
-                </Box>
-                <Box display="flex" alignItems="center" marginTop="16px">
-                  <Avatar sx={{ marginRight: '16px' }} />
-                  <Typography variant="bold2">Quoc Bao</Typography>
-                </Box>
-                <Box display="flex" alignItems="center" marginTop="16px">
-                  <Avatar sx={{ marginRight: '16px' }} />
-                  <Typography variant="bold2">Quoc Bao</Typography>
-                </Box>
+                {members.map((member) => (
+                  <Box display="flex" alignItems="center" marginTop="16px">
+                    <Avatar sx={{ marginRight: '16px' }} src={member.profilePictureUrl} />
+                    <Typography variant="bold2">{member.username}</Typography>
+                  </Box>
+                ))}
               </Box>
             </Grid>
           </Grid>

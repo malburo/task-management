@@ -1,26 +1,36 @@
+import AddIcon from '@mui/icons-material/Add';
+import GroupIcon from '@mui/icons-material/Group';
 import SearchIcon from '@mui/icons-material/Search';
 import { Avatar, Box, Button, Popover, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import memberApi from 'api/memberApi';
-import searchApi from 'api/searchApi';
+import taskApi from 'api/taskApi';
+import { RootState } from 'app/store';
 import InputBaseField from 'components/form-control/InputBaseField';
+import { membersSelector } from 'features/Boards/boardSlice';
 import { IParams } from 'models/common';
+import { ITask } from 'models/task';
 import { IUser } from 'models/user';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import GroupIcon from '@mui/icons-material/Group';
 
 interface FormValues {
   search: string;
 }
 interface Params {
   boardId: string;
+  taskId: string;
 }
-const AssignTask: React.FC = () => {
-  const { boardId } = useParams<Params>();
+interface Props {
+  task: ITask;
+}
+const AssignTask: React.FC<Props> = ({ task }) => {
+  const { boardId, taskId } = useParams<Params>();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [users, setUsers] = useState<IUser[] | []>([]);
+  const members: IUser[] = useSelector((state: RootState) =>
+    membersSelector.selectAll(state).filter((member: IUser) => !task.membersId.includes(member._id))
+  );
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -42,11 +52,9 @@ const AssignTask: React.FC = () => {
 
   const onSubmit = async ({ search }: FormValues) => {
     const params: IParams = { limit: '5', page: '0', q: search };
-    const { data } = await searchApi.searchNewMembers(boardId, params);
-    setUsers(data.users);
   };
-  const handleInviteClick = async (userId: string) => {
-    await memberApi.create({ userId, boardId });
+  const onClickAssignTask = async (memberId: string) => {
+    await taskApi.pushMember({ boardId, taskId, memberId });
     setAnchorEl(null);
   };
   return (
@@ -99,8 +107,8 @@ const AssignTask: React.FC = () => {
               />
             </form>
           </Box>
-          {users.length > 0 &&
-            users.map((user) => (
+          {members.length > 0 &&
+            members.map((member) => (
               <Box
                 display="flex"
                 alignItems="center"
@@ -111,13 +119,13 @@ const AssignTask: React.FC = () => {
                 boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)"
                 borderRadius="12px"
               >
-                <Avatar variant="rounded" src={user.profilePictureUrl} />
-                <Box marginX="12px">
-                  <Typography>{user.username}</Typography>
+                <Box display="flex" alignItems="center" justifyContent="space-between">
+                  <Avatar variant="rounded" src={member.profilePictureUrl} sx={{ marginRight: '12px' }} />
+                  <Typography>{member.username}</Typography>
                 </Box>
-                <Button onClick={() => handleInviteClick(user._id)} variant="contained" color="primary">
-                  Invite
-                </Button>
+                <IconButton color="primary" onClick={() => onClickAssignTask(member._id)}>
+                  <AddIcon sx={{ fontSize: '16px' }} />
+                </IconButton>
               </Box>
             ))}
         </Box>

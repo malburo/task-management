@@ -2,15 +2,16 @@ import { createAsyncThunk, createEntityAdapter, createSlice, EntityState, Payloa
 import boardApi from 'api/boardApi';
 import { RootState } from 'app/store';
 import { IColumn } from 'models/column';
+import { ILabel } from 'models/label';
 import { ITask } from 'models/task';
 import { IUser } from 'models/user';
 
 export const getOneBoard = createAsyncThunk('board/getOneBoard', async (payload: { boardId: string }) => {
   const { data } = await boardApi.getOne(payload);
-  const { board, columns, members } = data as any;
+  const { board, columns, members, labels } = data as any;
   const tasks = columns.reduce((prev: any, curr: any) => [...prev, curr.tasks], []).flat();
   delete columns.tasks;
-  return { board, columns, tasks, members };
+  return { board, columns, tasks, members, labels };
 });
 
 export const columnsAdapter = createEntityAdapter({
@@ -22,6 +23,9 @@ export const tasksAdapter = createEntityAdapter({
 export const membersAdapter = createEntityAdapter({
   selectId: (member: IUser) => member._id,
 });
+export const labelsAdapter = createEntityAdapter({
+  selectId: (label: ILabel) => label._id,
+});
 
 interface BoardState {
   isPrivate: boolean;
@@ -31,6 +35,7 @@ interface BoardState {
   columns: EntityState<IColumn>;
   tasks: EntityState<ITask>;
   members: EntityState<IUser>;
+  labels: EntityState<ILabel>;
 }
 
 const initialState: BoardState = {
@@ -41,6 +46,7 @@ const initialState: BoardState = {
   columns: columnsAdapter.getInitialState(),
   tasks: tasksAdapter.getInitialState(),
   members: membersAdapter.getInitialState(),
+  labels: labelsAdapter.getInitialState(),
 };
 
 const boardSlice = createSlice({
@@ -71,6 +77,10 @@ const boardSlice = createSlice({
     addMember: (state, { payload }: PayloadAction<any>) => {
       membersAdapter.addOne(state.members, payload.newMember);
     },
+
+    addLabel: (state, { payload }: PayloadAction<any>) => {
+      labelsAdapter.addOne(state.labels, payload.newLabel);
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getOneBoard.fulfilled, (state, { payload }: PayloadAction<any>) => {
@@ -82,6 +92,7 @@ const boardSlice = createSlice({
       columnsAdapter.setAll(state.columns, payload.columns);
       membersAdapter.setAll(state.members, payload.members);
       tasksAdapter.setAll(state.tasks, payload.tasks);
+      labelsAdapter.setAll(state.labels, payload.labels);
     });
   },
 });
@@ -89,7 +100,8 @@ const boardSlice = createSlice({
 export const columnsSelector = columnsAdapter.getSelectors((state: RootState) => state.board.columns);
 export const tasksSelector = tasksAdapter.getSelectors((state: RootState) => state.board.tasks);
 export const membersSelector = membersAdapter.getSelectors((state: RootState) => state.board.members);
+export const labelsSelector = labelsAdapter.getSelectors((state: RootState) => state.board.labels);
 
 const { reducer: boardReducer, actions } = boardSlice;
-export const { updateBoard, addColumn, updateColumn, deleteColumn, addTask, updateTask, addMember } = actions;
+export const { updateBoard, addColumn, updateColumn, deleteColumn, addTask, updateTask, addMember, addLabel } = actions;
 export default boardReducer;

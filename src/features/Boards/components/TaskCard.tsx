@@ -1,7 +1,13 @@
-import { Card, Typography } from '@mui/material';
+import { Avatar, AvatarGroup, Card, Chip, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import { Box } from '@mui/system';
+import { RootState } from 'app/store';
+import { ILabel } from 'models/label';
 import { ITask } from 'models/task';
+import { IUser } from 'models/user';
+import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
+import { labelsSelector, membersSelector } from '../boardSlice';
 
 const useStyles = makeStyles({
   cover: {
@@ -30,6 +36,12 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
   const classes = useStyles();
   const history = useHistory();
 
+  const labels: ILabel[] = useSelector((state: RootState) => {
+    return labelsSelector.selectAll(state).filter((label: ILabel) => task.labelsId.includes(label._id));
+  });
+  const members: IUser[] = useSelector((state: RootState) => {
+    return membersSelector.selectAll(state).filter((member: IUser) => task.membersId.includes(member._id));
+  });
   const handleClickTask = () => {
     history.push(`/boards/${boardId}/tasks/${task._id}`);
   };
@@ -41,23 +53,26 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
         )}
 
         <Typography variant="regular4">{task.title}</Typography>
-        {/* <Box>
-        <Chip label="javascript" className={classes.label} />
-        <Chip label="java" className={classes.label} />
-        <Chip label="java" className={classes.label} />
-      </Box> */}
-        {/* <Box display="flex" alignItems="center" justifyContent="space-between">
-        <AvatarGroup max={3}>
-          <Avatar variant="rounded" src="https://avatars3.githubusercontent.com/u/22362391?v=4" />
-          <Avatar variant="rounded" src="https://avatars3.githubusercontent.com/u/22362391?v=4" />
-          <Avatar variant="rounded" src="https://avatars3.githubusercontent.com/u/22362391?v=4" />
-          <Avatar variant="rounded" src="https://avatars3.githubusercontent.com/u/22362391?v=4" />
-        </AvatarGroup>
-        <Box display="flex" alignItems="center">
+        <Box>
+          {labels.map((label) => (
+            <Chip
+              label={label.name}
+              sx={{ bgcolor: label.color, color: 'white', margin: '4px 0px 8px 0px' }}
+              key={label._id}
+            />
+          ))}
+        </Box>
+        <Box display="flex" alignItems="center" justifyContent="space-between">
+          <AvatarGroup max={3}>
+            {members.map((member) => (
+              <Avatar variant="rounded" src={member.profilePictureUrl} />
+            ))}
+          </AvatarGroup>
+          {/* <Box display="flex" alignItems="center">
           <CommentIcon style={{ width: 14, height: 14, color: '#BDBDB' }} />
           <Typography variant="regular1">6</Typography>
+        </Box> */}
         </Box>
-      </Box> */}
       </Card>
     </div>
   );
