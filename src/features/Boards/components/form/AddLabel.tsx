@@ -1,15 +1,19 @@
 import CheckIcon from '@mui/icons-material/Check';
 import LabelIcon from '@mui/icons-material/Label';
 import { Box, Button, Grid, Popover, Typography } from '@mui/material';
+import labelApi from 'api/labelApi';
+import taskApi from 'api/taskApi';
 import InputBaseField from 'components/form-control/InputBaseField';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
+
 interface FormValues {
-  search: string;
+  name: string;
 }
 interface Params {
   boardId: string;
+  taskId: string;
 }
 
 const colors = [
@@ -28,16 +32,17 @@ const colors = [
 ];
 
 const AddLabel: React.FC = () => {
-  const { boardId } = useParams<Params>();
+  const { boardId, taskId } = useParams<Params>();
   const [selectColor, setSelectColor] = useState<string>('');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popper' : undefined;
-  const form = useForm({
+
+  const form = useForm<FormValues>({
     mode: 'onSubmit',
     reValidateMode: 'onChange',
     defaultValues: {
-      search: '',
+      name: '',
     },
   });
 
@@ -49,14 +54,16 @@ const AddLabel: React.FC = () => {
     setAnchorEl(null);
   };
 
-  const onSubmit = async ({ search }: FormValues) => {
-    console.log(selectColor);
-  };
   const onSelectColor = async (color: string) => {
     setSelectColor(color);
   };
-  const onClickAdd = () => {
-    console.log(selectColor);
+  const onClickAdd = async () => {
+    const payload = { boardId, name: form.getValues('name'), color: selectColor };
+    const { data } = await labelApi.create(payload);
+    await taskApi.pushLabel({ boardId, taskId, labelId: data.newLabel._id });
+    setSelectColor('');
+    form.reset();
+    setAnchorEl(null);
   };
   return (
     <Box>
@@ -96,9 +103,7 @@ const AddLabel: React.FC = () => {
             <Typography variant="regular2">Select a name and color</Typography>
           </Box>
           <Box boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)" marginTop="12px" marginBottom="24px">
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <InputBaseField form={form} name="search" placeholder="Label..." />
-            </form>
+            <InputBaseField form={form} name="name" placeholder="Label..." />
           </Box>
           <Grid container spacing={2}>
             {colors.map((color: string) => (
@@ -123,7 +128,9 @@ const AddLabel: React.FC = () => {
               </Grid>
             ))}
           </Grid>
-          <Button onClick={onClickAdd}>Add</Button>
+          <Button onClick={onClickAdd} variant="contained" color="primary" sx={{ margin: '0 auto' }}>
+            Add
+          </Button>
         </Box>
       </Popover>
     </Box>
