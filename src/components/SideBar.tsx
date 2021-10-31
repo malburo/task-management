@@ -7,8 +7,18 @@ import { Typography } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import Paper from '@mui/material/Paper';
+import roomApi from 'api/roomApi';
 import * as React from 'react';
+import { useHistory, useParams } from 'react-router';
+
+interface IParams {
+  boardId: string;
+}
+
 export default function SideBar() {
+  const history = useHistory();
+  const { boardId } = useParams<IParams>();
+
   return (
     <Paper
       sx={{
@@ -26,11 +36,11 @@ export default function SideBar() {
           <InsertChartIcon fontSize="small" sx={{ fill: '#4F4F4F' }} />
           <Typography variant="regular3">General</Typography>
         </MenuItem>
-        <MenuItem sx={{ width: '100%' }}>
+        <MenuItem sx={{ width: '100%' }} onClick={() => history.push(`/boards/${boardId}`)}>
           <DashboardIcon fontSize="small" sx={{ fill: '#4F4F4F' }} />
           <Typography variant="regular3">Board</Typography>
         </MenuItem>
-        <MenuItem sx={{ width: '100%' }}>
+        <MenuItem sx={{ width: '100%' }} onClick={() => history.push(`/boards/${boardId}/rooms/all`)}>
           <ChatIcon fontSize="small" sx={{ fill: '#4F4F4F' }} />
           <Typography variant="regular3">Messages</Typography>
         </MenuItem>

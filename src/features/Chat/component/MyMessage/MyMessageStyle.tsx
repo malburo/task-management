@@ -30,14 +30,14 @@ export default makeStyles({
     margin: '0 2% 0 0',
   },
   messageContent: {
-    backgroundColor: 'white',
+    backgroundColor: '#e7e7e7',
     color: 'black',
     padding: '1rem',
     borderRadius: '20px',
     textAlign: 'right',
   },
   imageContent: {
-    maxWidth: '40vw',
+    maxWidth: '100% !important',
   },
   iconButtonTool: {
     backgroundColor: 'transparent !important',
@@ -49,7 +49,7 @@ export default makeStyles({
     },
   },
   image: {
-    maxWidth: '40vw',
+    maxWidth: '100%',
   },
   editForm: {
     width: '40vw',

@@ -8,13 +8,15 @@ export default makeStyles({
     marginBottom: '4vh',
     paddingLeft: '6%',
     paddingRight: '30%',
+    maxWidth: '40%',
   },
   avatar: {
     height: '5vh',
-    marginRight: '2%',
+    marginRight: '20%',
   },
   imageContent: {
-    maxWidth: '40vw',
+    marginLeft: '2%',
+    maxWidth: '100%',
   },
   avatarImg: {
     height: '45px',

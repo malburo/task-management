@@ -7,6 +7,6 @@ export interface IRoom {
   name: string;
   members: IUser[] | [];
   board: IBoard;
-  image: string;
+  image?: string;
   newMessage: number;
 }

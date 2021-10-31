@@ -1,4 +1,6 @@
+import { IRoom } from 'models/room';
 import axiosClient from './axiosClient';
+import { Response } from 'models/common';
 
 const roomApi = {
   createChanel(payload?: any): Promise<any> {
@@ -19,8 +21,11 @@ const roomApi = {
   getAllChannel(): Promise<any> {
     return axiosClient.get(`/rooms/channel`);
   },
-  search(params?: any): Promise<any> {
-    return axiosClient.get(`/rooms/channel/search`, { params });
+  search(payload: { boardId: string; params: any }): Promise<any> {
+    return axiosClient.get(`/rooms/board/${payload.boardId}/search`, { params: payload.params });
+  },
+  getGeneralRoom(payload: string): Promise<Response<IRoom>> {
+    return axiosClient.get(`/rooms/board/${payload}/generalRoom`);
   },
 };
 

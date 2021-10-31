@@ -10,8 +10,9 @@ export default makeStyles({
   roomLinkHightLight: {
     display: 'flex',
     height: '60px !important',
-    backgroundColor: 'rgb(37, 35, 41)',
+    backgroundColor: '#e4e3e3',
     borderRadius: '13px',
+    color: 'white !important',
     // eslint-disable-next-line
     margin: '10px 7.5% 10px 7.5%',
   },
@@ -28,13 +29,15 @@ export default makeStyles({
     },
   },
   avatarImg: {
+    height: '55px',
     transform: 'scale(0.75,0.75)',
+    marginTop: '2.5px',
     borderRadius: '10px',
   },
   roomName: {
     lineHeight: '60px !important',
     marginLeft: '5%!important',
-    color: 'white',
+    color: 'gray',
     display: 'flex',
     alignItems: 'center',
     whiteSpace: 'nowrap',

@@ -22,7 +22,7 @@ export default makeStyles({
     },
   },
   timeElement: {
-    color: 'white!important',
+    color: 'gray',
     textAlign: 'center',
   },
 });

@@ -5,7 +5,7 @@ export default makeStyles({
     backgroundColor: 'rgb(18, 15, 19)',
     height: '90vh',
     width: '100%',
-    color: 'white',
+    color: 'gray',
     overflow: 'hidden',
   },
   backButton: {
@@ -28,7 +28,7 @@ export default makeStyles({
     margin: '3vh 7.5% 3vh 7.5%',
     border: 'none',
     outline: 'none',
-    backgroundColor: 'rgb(60, 57, 63)',
+    backgroundColor: 'white',
     color: 'white',
     height: '6vh',
     borderRadius: '10px',
@@ -37,8 +37,8 @@ export default makeStyles({
   searchInput: {
     border: 'none',
     outline: 'none',
-    backgroundColor: 'rgb(60, 57, 63)',
-    color: 'white',
+    backgroundColor: 'white',
+    color: 'gray',
     borderRadius: '10px',
     width: '70%',
     fontSize: '1rem',
@@ -54,12 +54,6 @@ export default makeStyles({
   listChanels: {
     height: '70vh',
     overflowY: 'scroll',
-    '&::-webkit-scrollbar': {
-      width: '0.2em',
-    },
-    '&::-webkit-scrollbar-thumb': {
-      backgroundColor: '#3f51b5',
-    },
   },
   chanelLink: {
     display: 'flex  !important',
@@ -69,7 +63,7 @@ export default makeStyles({
     padding: '5px 2px 5px 2px  !important',
     justifyContent: 'flex-start  !important',
     backgroundColor: 'rgb(18, 15, 19)  !important',
-    color: 'white',
+    color: 'gray',
     boxShadow: 'none !important ',
     fontSize: '1rem !important',
     textAlign: 'left',
