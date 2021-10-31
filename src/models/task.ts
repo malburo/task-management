@@ -4,7 +4,7 @@ export interface ITask {
   description: string;
   coverUrl: string;
   columnId: string;
-  repicipentsId: string[];
+  membersId: string[];
   labelsId: string[];
   deadlineDay: Date;
   reminderDay: Date;

@@ -17,7 +17,7 @@ export default function SideBar() {
         padding: '80px 24px 24px 24px',
         width: '200px',
         height: 'calc(100vh - 105px)',
-        bgcolor: '#ccc',
+        bgcolor: '#f8f9fd',
         zIndex: 1000,
       }}
     >
