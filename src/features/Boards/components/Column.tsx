@@ -71,7 +71,7 @@ const Column: React.FC<ColumnProps> = ({ column }) => {
     setShowAddTaskForm(true);
   };
   return (
-    <Box marginX={6} bgcolor="#f8f9fd" borderRadius="8px" paddingTop="8px" width="280px">
+    <Box marginLeft={12} bgcolor="#f8f9fd" borderRadius="8px" paddingTop="8px" width="280px">
       <Box display="flex" justifyContent="space-between" height="40px">
         <EditColumnTitle columnId={column._id} value={column.title} />
         <Box onClick={handleMenuOpen} marginRight="12px" className="column-move" sx={{ cursor: 'move' }}>
@@ -97,7 +97,7 @@ const Column: React.FC<ColumnProps> = ({ column }) => {
         sx={{ overflowY: 'scroll', overflowX: 'hidden' }}
         maxHeight="calc(100vh - 280px)"
         padding="0 4px 0 12px"
-        marginRight="12px"
+        marginRight="4px"
       >
         <Container
           disableScrollOverlapDetection={true}

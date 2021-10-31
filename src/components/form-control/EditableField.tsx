@@ -9,6 +9,7 @@ interface EditableFieldState {
   disabled?: boolean;
   placeholder?: string;
   size?: string;
+  maxLength?: number;
   onBlur: any;
 }
 const useStyles = makeStyles((theme: Theme) => ({
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const EditableField: React.FC<EditableFieldState> = (props) => {
   const classes = useStyles();
-  const { form, name, placeholder, onBlur } = props;
+  const { form, name, placeholder, onBlur, maxLength } = props;
   const selectAllText = (e: any) => {
     e.target.focus();
     e.target.select();
@@ -52,6 +53,7 @@ const EditableField: React.FC<EditableFieldState> = (props) => {
           onKeyPress={handleKeyPress}
           onFocus={selectAllText}
           onBlur={form.handleSubmit(onBlur)}
+          inputProps={{ maxLength }}
           classes={{ root: classes.root, focused: classes.focused }}
         />
       )}

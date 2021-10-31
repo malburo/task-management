@@ -1,11 +1,24 @@
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import { Box, CardMedia, Grid, IconButton, Button, Dialog, DialogActions } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import { Box, Button, CardMedia, Dialog, DialogActions, Grid, IconButton } from '@mui/material';
+import uploadApi from 'api/uploadApi';
 import InputField from 'components/form-control/InputField';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Visibility from '../Visibility';
 import SearchPhoto from './SearchPhoto';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+const schema = yup
+  .object()
+  .shape({
+    title: yup.string().required().min(6).max(35),
+    isPrivate: yup.boolean().required(),
+    coverUrl: yup.string(),
+  })
+  .required();
 
 export interface AddBoardFormValues {
   title: string;
@@ -18,15 +31,18 @@ interface AddBoardProps {
 }
 
 const AddBoard: React.FC<AddBoardProps> = ({ onSubmit }) => {
-  const [open, setOpen] = useState(false);
-  const [selectedPhoto, setSelectedPhoto] = useState<string>('');
-  const form = useForm({
+  const [open, setOpen] = useState<boolean>(false);
+  const [isLoading, setIsLoaing] = useState<boolean>(false);
+  const [coverUrl, setCoverUrl] = useState<string>('');
+  const [coverObj, setCoverObj] = useState<any>();
+  const form = useForm<AddBoardFormValues>({
     mode: 'onSubmit',
     defaultValues: {
       title: '',
       isPrivate: false,
       coverUrl: '',
     },
+    resolver: yupResolver(schema),
   });
 
   const handleClickOpen = () => {
@@ -39,12 +55,24 @@ const AddBoard: React.FC<AddBoardProps> = ({ onSubmit }) => {
     form.setValue('isPrivate', value);
   };
   const handleSelectPhoto = (photoUrl: string) => {
-    setSelectedPhoto(photoUrl);
+    setCoverUrl(photoUrl);
     form.setValue('coverUrl', photoUrl);
   };
-  const handleSubmit = (value: AddBoardFormValues) => {
-    onSubmit(value);
+  const handleUploadPhoto = (photoObj: any) => {
+    setCoverObj(photoObj);
+  };
+  const handleSubmit = async (value: AddBoardFormValues) => {
+    setIsLoaing(true);
+    if (coverUrl.includes('blob')) {
+      let formData = new FormData();
+      formData.append('image', coverObj);
+      const { data } = await uploadApi.upload(formData);
+      form.setValue('coverUrl', data.result.secure_url);
+      value.coverUrl = data.result.secure_url;
+    }
+    await onSubmit(value);
     setOpen(false);
+    setIsLoaing(false);
   };
   return (
     <Box>
@@ -60,8 +88,8 @@ const AddBoard: React.FC<AddBoardProps> = ({ onSubmit }) => {
         }}
       >
         <Box p={6} width="350px">
-          {selectedPhoto ? (
-            <CardMedia image={selectedPhoto} style={{ height: '100px', borderRadius: '12px' }} />
+          {coverUrl ? (
+            <CardMedia image={coverUrl} style={{ height: '100px', borderRadius: '12px' }} />
           ) : (
             <CardMedia
               image="https://www.viet247.net/images/noimage_food_viet247.jpg"
@@ -87,7 +115,7 @@ const AddBoard: React.FC<AddBoardProps> = ({ onSubmit }) => {
             <Box marginY={5}>
               <Grid container spacing={4}>
                 <Grid item xs={6}>
-                  <SearchPhoto onSelectPhoto={handleSelectPhoto} />
+                  <SearchPhoto onSelectPhoto={handleSelectPhoto} onUploadPhoto={handleUploadPhoto} />
                 </Grid>
                 <Grid item xs={6}>
                   <Visibility onChange={handleChangeVisibility} />
@@ -99,9 +127,16 @@ const AddBoard: React.FC<AddBoardProps> = ({ onSubmit }) => {
             <Button onClick={handleClose} color="inherit">
               Cancel
             </Button>
-            <Button type="submit" form="update-form" variant="contained" color="primary">
-              Create
-            </Button>
+            <LoadingButton
+              type="submit"
+              form="update-form"
+              loading={isLoading}
+              variant="contained"
+              color="primary"
+              disabled={isLoading}
+            >
+              Save
+            </LoadingButton>
           </DialogActions>
         </Box>
       </Dialog>

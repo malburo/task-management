@@ -3,9 +3,11 @@ import taskApi from 'api/taskApi';
 import InputBaseField from 'components/form-control/InputBaseField';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
 
 export interface AddTaskPayload extends FormValues {
   columnId: string;
+  boardId: string;
 }
 
 interface FormValues {
@@ -16,8 +18,11 @@ interface Props {
   columnId: string;
   setShowAddTaskForm: any;
 }
-
+interface Params {
+  boardId: string;
+}
 const AddTask: React.FC<Props> = ({ columnId, setShowAddTaskForm }) => {
+  const { boardId } = useParams<Params>();
   const form = useForm<FormValues>({
     mode: 'onSubmit',
     reValidateMode: 'onChange',
@@ -26,7 +31,8 @@ const AddTask: React.FC<Props> = ({ columnId, setShowAddTaskForm }) => {
     },
   });
   const onSubmit = async (values: FormValues) => {
-    await taskApi.create({ columnId, ...values });
+    const payload = { boardId, columnId, ...values };
+    await taskApi.create(payload);
     setShowAddTaskForm(false);
     form.reset();
   };
