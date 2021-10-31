@@ -71,7 +71,7 @@ const BoardDetail = () => {
         <Stack
           direction="row"
           height="55px"
-          marginLeft="24px"
+          marginLeft="48px"
           marginTop="24px"
           alignItems="center"
           justifyContent="space-between"
