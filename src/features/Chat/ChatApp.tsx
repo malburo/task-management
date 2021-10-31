@@ -6,9 +6,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from 'app/store';
 import { setMenuOpen } from './ReduxSlice/SidebarAppChatSlice';
-import { Button, Hidden } from '@mui/material';
+import { Button, Hidden, Box } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import { makeStyles } from '@mui/styles';
+import icon from '../../images/chat.icon.png';
 
 const useStyles = makeStyles({
   chatRoom: {
@@ -89,6 +90,20 @@ const ChatFeature: React.FC = () => {
         <Switch>
           <Route exact path="/appchat/room/:id">
             <ChatRoom />
+          </Route>
+          <Route>
+            <Box sx={{ backgroundColor: 'rgb(37, 35, 41)', height: '100vh' }}>
+              <img
+                alt="none"
+                style={{
+                  marginTop: 'calc((100vh - 300px)/2)',
+                  marginLeft: '30%',
+                  width: '300px',
+                  height: '300px',
+                }}
+                src={icon}
+              ></img>
+            </Box>
           </Route>
         </Switch>
       </div>

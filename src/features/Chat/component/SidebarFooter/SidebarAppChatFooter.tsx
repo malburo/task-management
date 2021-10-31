@@ -10,6 +10,7 @@ import { AppDispatch, RootState } from 'app/store';
 import { useHistory } from 'react-router';
 import { logout } from 'features/Auth/authSlice';
 import Box from '@mui/material/Box';
+
 const SidebarAppChatFooter: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const currentUser = useSelector((state: RootState) => state.auth.currentUser);
@@ -31,6 +32,10 @@ const SidebarAppChatFooter: React.FC = () => {
 
   const handleGotoBoards = () => {
     history.push('/');
+  };
+
+  const handleGotoProfile = () => {
+    history.push('/profile/general');
   };
 
   return (
@@ -63,7 +68,7 @@ const SidebarAppChatFooter: React.FC = () => {
         onClose={closeProfileOptionHandler}
         classes={{ paper: style.profileOptionList }}
       >
-        <MenuItem className={style.profileNormalOptionItem}>
+        <MenuItem className={style.profileNormalOptionItem} onClick={handleGotoProfile}>
           <AccountCircleIcon className={style.profileOptionIcon} />
           My Profile
         </MenuItem>
