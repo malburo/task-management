@@ -1,8 +1,8 @@
 import IOption from './option';
 
 export default interface ISelectFormMessage {
-  _id: String;
-  isMultiSelect: Boolean;
-  isAddNew: Boolean;
+  _id: string;
+  isMultiSelect: boolean;
+  isAddNew: boolean;
   options?: IOption[];
 }

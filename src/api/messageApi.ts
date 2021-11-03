@@ -27,10 +27,10 @@ const messageApi = {
   createFormMessage(payload: any): Promise<Response<IMessage>> {
     return axiosClient.post(`messages/form/select/${payload.roomId}`, payload);
   },
-  chooseOption(payload: any): Promise<any> {
-    return axiosClient.put(`messages/form/select/${payload.roomId}/option`, payload);
+  chooseOption(roomId: string, optionId: string): Promise<any> {
+    return axiosClient.put(`messages/form/select/${roomId}/option`, { optionId });
   },
-  addOption(payload: any): Promise<any> {
+  addOption(payload: { roomId: string; text: string; formId: string }): Promise<any> {
     return axiosClient.post(`messages/form/select/${payload.roomId}/option`, payload);
   },
 };
