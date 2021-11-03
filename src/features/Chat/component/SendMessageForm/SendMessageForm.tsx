@@ -58,7 +58,7 @@ export default function SendMessageForm() {
 
   const sendMessageHandler = (data: IInputMessage) => {
     (async () => {
-      await dispatch(createOne({ roomId: room._id, content: data.msgContent }));
+      await dispatch(createOne({ _id: room._id, content: data.msgContent }));
       reset();
     })();
   };

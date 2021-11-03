@@ -1,4 +1,4 @@
-import Chat from 'features/Chat/pages/Chat/Chat';
+import Chat from 'features/Chat/pages/Chat';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import Header from '../../components/Header';
 import BoardDetail from './pages/BoardDetail';

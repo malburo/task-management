@@ -1,15 +1,13 @@
-import roomApi from '.././../../../api/roomApi';
+import roomApi from '../../../../api/roomApi';
 import { IRoom } from 'models/room';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import RoomLink from '../RoomLink/RoomLink';
-import ListRoomsStyle from './ListRoomsStyle';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from 'app/store';
+import RoomLink from '../RoomLink';
+import { useSelector } from 'react-redux';
+import { RootState } from 'app/store';
 import { Box } from '@mui/material';
-import useChat from 'hooks/useChat';
 import { socketClient } from 'api/socketClient';
-import { useHistory } from 'react-router';
+import useListRoomStyles from './style';
 
 interface IListRoom {
   term: string;
@@ -19,18 +17,18 @@ const ListRooms: React.FC<IListRoom> = (props) => {
   const [rooms, setRooms] = useState<IRoom[]>([]);
   const board = useSelector((state: RootState) => state.board);
   const room = useSelector((state: RootState) => state.room.roomInfor);
-  const style = ListRoomsStyle();
+  const style = useListRoomStyles();
 
   useEffect(() => {
     socketClient.on('board:new-message', (data) => {
-      roomApi.getAllYourRoomInBoard({ boardId: board._id }).then((res) => {
+      roomApi.getAllYourRoomInBoard(board._id).then((res) => {
         setRooms(res.data.rooms);
       });
     });
   }, [board]);
 
   useEffect(() => {
-    roomApi.getAllYourRoomInBoard({ boardId: board._id }).then((res) => {
+    roomApi.getAllYourRoomInBoard(board._id).then((res) => {
       setRooms(res.data.rooms);
     });
   }, [board]);
@@ -49,12 +47,7 @@ const ListRooms: React.FC<IListRoom> = (props) => {
           let hightlight = false;
           if (i._id === room._id) hightlight = true;
           return (
-            <Link
-              // onClickCapture={resetRoomList}
-              key={i._id}
-              to={`/boards/${board._id}/rooms/${i._id}`}
-              className={style.link}
-            >
+            <Link key={i._id} to={`/boards/${board._id}/rooms/${i._id}`} className={style.link}>
               <RoomLink newMessage={i.newMessage} hightlight={hightlight} roomInfor={i} />
             </Link>
           );

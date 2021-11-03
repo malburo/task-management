@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
-export default makeStyles({
+const useListRoomStyles = makeStyles({
   link: {
     textDecoration: 'none !important',
   },
@@ -30,3 +30,5 @@ export default makeStyles({
     overflowY: 'scroll',
   },
 });
+
+export default useListRoomStyles;

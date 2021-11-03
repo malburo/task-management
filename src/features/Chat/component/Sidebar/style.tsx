@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
-export default makeStyles({
+const sidebarAppChatStyle = makeStyles({
   sidebar: {
     backgroundColor: 'rgb(18, 15, 19)',
     height: '90vh',
@@ -8,21 +8,8 @@ export default makeStyles({
     color: 'gray',
     overflow: 'hidden',
   },
-  backButton: {
-    backgroundColor: 'rgb(18, 15, 19) !important',
-    width: '100%',
-    height: '6vh !important',
-    boxShadow: 'rgb(11, 10, 15) 0px 3px !important',
-    color: 'white',
-    paddingLeft: '6%',
-    zIndex: 0,
-    fontSize: '1rem !important',
-    justifyContent: 'flex-start  !important',
-    textTransform: 'none',
-    '&:hover': {
-      backgroundColor: 'rgb(18, 15, 19)',
-      boxShadow: 'rgb(11, 10, 15) 0px 3px',
-    },
+  sidebarHeader: {
+    margin: '3vh 7.5% 3vh 7.5%',
   },
   searchField: {
     margin: '3vh 7.5% 3vh 7.5%',
@@ -55,23 +42,6 @@ export default makeStyles({
     height: '70vh',
     overflowY: 'scroll',
   },
-  chanelLink: {
-    display: 'flex  !important',
-    width: '85%  !important',
-    margin: '10px 7.5% 10px 7.5%  !important',
-    height: '50px !important',
-    padding: '5px 2px 5px 2px  !important',
-    justifyContent: 'flex-start  !important',
-    backgroundColor: 'rgb(18, 15, 19)  !important',
-    color: 'gray',
-    boxShadow: 'none !important ',
-    fontSize: '1rem !important',
-    textAlign: 'left',
-    '&:hover': {
-      backgroundColor: 'rgb(37, 35, 41)',
-      color: 'white',
-    },
-  },
   avatar: {
     borderRadius: '5px',
     textTransform: 'uppercase',
@@ -80,3 +50,5 @@ export default makeStyles({
     width: '40px',
   },
 });
+
+export default sidebarAppChatStyle;

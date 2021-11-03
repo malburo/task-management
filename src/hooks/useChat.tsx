@@ -19,7 +19,7 @@ const useChat = () => {
     if (room._id === '') return;
     leaveRoom(prevRoom);
     joinRoom(room._id);
-    messageApi.read({ roomId: room._id });
+    messageApi.read(room._id);
     // eslint-disable-next-line
   }, [room]);
 

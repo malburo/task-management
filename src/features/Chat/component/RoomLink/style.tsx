@@ -1,10 +1,9 @@
 import { makeStyles } from '@mui/styles';
 
-export default makeStyles({
+const roomLinkStyles = makeStyles({
   roomLink: {
     display: 'flex',
     height: '60px !important',
-    // eslint-disable-next-line
     margin: '10px 7.5% 10px 7.5%',
   },
   roomLinkHightLight: {
@@ -13,7 +12,6 @@ export default makeStyles({
     backgroundColor: '#e4e3e3',
     borderRadius: '13px',
     color: 'white !important',
-    // eslint-disable-next-line
     margin: '10px 7.5% 10px 7.5%',
   },
   online: {
@@ -53,3 +51,5 @@ export default makeStyles({
     borderRadius: '50%',
   },
 });
+
+export default roomLinkStyles;

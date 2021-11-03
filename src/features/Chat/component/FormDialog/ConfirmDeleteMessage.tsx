@@ -21,7 +21,7 @@ const ConfirmDeleteMessage: React.FC<IPropsAlert> = (props) => {
   const handleDelete = async () => {
     const toastId = toast.loading('Loading...');
     try {
-      await dispatch(deleteOne({ messageId: props.payload })).then(unwrapResult);
+      await dispatch(deleteOne(props.payload)).then(unwrapResult);
       toast.success('Success', { id: toastId });
       props.setClose(false);
     } catch (error) {

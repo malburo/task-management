@@ -1,9 +1,9 @@
 import { Chip, Typography, Badge, Stack } from '@mui/material';
 import { IRoom } from 'models/room';
 import React from 'react';
-import RoomLinkStyle from './RoomLinkStyle';
 import Box from '@mui/material/Box';
 import _ from 'lodash';
+import roomLinkStyles from './style';
 
 interface IRoomLinkPros {
   roomInfor: IRoom;
@@ -12,7 +12,7 @@ interface IRoomLinkPros {
 }
 
 const RoomLink: React.FC<IRoomLinkPros> = ({ roomInfor, hightlight, newMessage }) => {
-  const style = RoomLinkStyle();
+  const style = roomLinkStyles();
 
   return (
     <Box

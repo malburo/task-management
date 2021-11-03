@@ -8,36 +8,11 @@ import { useParams } from 'react-router';
 import { useEffect } from 'react';
 import SendMessageForm from 'features/Chat/component/SendMessageForm/SendMessageForm';
 import useChat from 'hooks/useChat';
-import SidebarAppChat from 'features/Chat/component/Sidebar/SidebarAppChat';
-import MessageBox from 'features/Chat/component/MessageBox/MessageBox';
+import MessageBox from 'features/Chat/component/MessageBox';
 import { getOneBoard } from 'features/Boards/boardSlice';
 import { socketClient } from 'api/socketClient';
-
-const useStyle = makeStyles({
-  chatAppBox: {
-    width: '30%',
-    height: '90%',
-    borderRadius: '20px',
-    backgroundColor: '#f8f9fd',
-    marginLeft: '2.5%',
-    marginTop: '80px',
-  },
-  chatBox: {
-    marginTop: '80px',
-    marginLeft: '2.5%',
-    backgroundColor: '#f8f9fd',
-    height: '90%',
-    width: '60%',
-    borderRadius: '20px',
-    overflow: 'hidden',
-  },
-  messagesField: {
-    height: 'calc(100% - 80px)',
-  },
-  sendMessageField: {
-    height: '80px',
-  },
-});
+import SidebarAppChat from 'features/Chat/component/Sidebar';
+import chatPageStyles from './style';
 
 interface IParams {
   boardId: string;
@@ -45,7 +20,7 @@ interface IParams {
 }
 
 export default function Chat() {
-  const style = useStyle();
+  const style = chatPageStyles();
   const dispatch = useDispatch<AppDispatch>();
 
   const { roomId, boardId } = useParams<IParams>();
@@ -66,7 +41,7 @@ export default function Chat() {
   return (
     <Stack direction="row">
       <SideBar />
-      <Box sx={{ display: 'flex', justifyContent: 'column' }} height="100vh" bgcolor="#fff" flex={1} overflow="hidden">
+      <Box className={style.surface} height="100vh" bgcolor="#fff" flex={1} overflow="hidden">
         <Box className={style.chatAppBox}>
           <SidebarAppChat />
         </Box>

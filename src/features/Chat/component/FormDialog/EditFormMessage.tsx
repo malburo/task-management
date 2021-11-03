@@ -27,25 +27,27 @@ const scheme = yup
   })
   .required();
 
+interface IFormInput {
+  msgContent: string;
+}
+
 const EditMessageForm: React.FC<IPropsAlert> = (props) => {
   const dispatch = useDispatch<AppDispatch>();
   const room = useSelector((state: RootState) => state.room.roomInfor);
   const style = FormStyle();
 
-  const sendForm = useForm({
+  const sendForm = useForm<IFormInput>({
     defaultValues: {
       msgContent: props.contentMsg,
     },
     resolver: yupResolver(scheme),
   });
 
-  const handleEdit: SubmitHandler<any> = async (data: any) => {
+  const handleEdit: SubmitHandler<IFormInput> = async (data: IFormInput) => {
     const toastId = toast.loading('Loading...');
     try {
       if (!data.msgContent) return;
-      await dispatch(updateOne({ messageId: props.payload, msgContent: data.msgContent, roomId: room._id })).then(
-        unwrapResult
-      );
+      await dispatch(updateOne({ _id: props.payload, content: data.msgContent })).then(unwrapResult);
       toast.success('Success', { id: toastId });
       props.setClose(false);
     } catch (error) {
