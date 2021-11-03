@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Chip, Typography, Badge } from '@mui/material';
 import { IRoom } from 'models/room';
 import React from 'react';
 import RoomLinkStyle from './RoomLinkStyle';
@@ -12,6 +12,7 @@ interface IRoomLinkPros {
 
 const RoomLink: React.FC<IRoomLinkPros> = ({ roomInfor, hightlight, newMessage }) => {
   const style = RoomLinkStyle();
+
   return (
     <Box
       sx={{ display: 'flex', justifyContent: 'space-between', overflow: 'hidden' }}
@@ -30,29 +31,27 @@ const RoomLink: React.FC<IRoomLinkPros> = ({ roomInfor, hightlight, newMessage }
         <Box
           sx={{
             width: '70%',
-            '&:before': {
-              //content: `'${newMessage}'`,
-              position: 'absolute',
-              display: `${newMessage ? 'flex' : 'none'}`,
-              justifyContent: 'center',
-              transform: 'translate(100px, 15px)',
-            },
           }}
           className={style.roomName}
         >
           <Typography sx={{ whiteSpace: 'nowrap', overflow: 'hidden !important', textOverflow: 'ellipsis' }}>
-            {roomInfor.name} {roomInfor.isGeneral && '(All)'}
+            {roomInfor.name} {roomInfor.isGeneral && <Chip label="ALL" color="primary" />}
           </Typography>
-          <Typography
+          {newMessage > 0 && (
+            <Chip
+              label={newMessage > 0 && `${newMessage > 5 ? '5+' : newMessage}`}
+              color="error"
+              sx={{ marginLeft: '5px' }}
+            />
+          )}
+          {/* <Typography
             sx={{
               display: `${newMessage > 0 ? 'block' : 'none'}`,
               fontWeight: '600',
               lineHeight: '30px',
             }}
             className={style.newMessage}
-          >
-            {newMessage > 0 && `${newMessage > 5 ? '5+' : newMessage}`}
-          </Typography>
+          ></Typography> */}
         </Box>
       </Box>
     </Box>

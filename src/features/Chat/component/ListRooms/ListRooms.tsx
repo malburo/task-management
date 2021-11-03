@@ -20,19 +20,19 @@ const ListRooms: React.FC<IListRoom> = (props) => {
   const board = useSelector((state: RootState) => state.board);
   const room = useSelector((state: RootState) => state.room.roomInfor);
   const style = ListRoomsStyle();
-  const { joinChannel } = useChat();
 
   useEffect(() => {
-    socketClient.on('channel:new-message', (data) => {});
-    // eslint-disable-next-line
-  }, []);
+    socketClient.on('board:new-message', (data) => {
+      roomApi.getAllYourRoomInBoard({ boardId: board._id }).then((res) => {
+        setRooms(res.data.rooms);
+      });
+    });
+  }, [board]);
 
   useEffect(() => {
-    joinChannel(board._id);
     roomApi.getAllYourRoomInBoard({ boardId: board._id }).then((res) => {
       setRooms(res.data.rooms);
     });
-    // eslint-disable-next-line
   }, [board]);
 
   useEffect(() => {

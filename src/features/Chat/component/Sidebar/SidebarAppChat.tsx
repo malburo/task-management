@@ -4,6 +4,8 @@ import ListRooms from '../ListRooms/ListRooms';
 import SearchIcon from '@mui/icons-material/Search';
 import { debounce } from 'lodash';
 import { Box } from '@mui/system';
+import { socketClient } from 'api/socketClient';
+import { useParams } from 'react-router';
 
 const SidebarAppChat: React.FC = () => {
   const [term, setTerm] = useState<string>('');

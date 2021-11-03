@@ -23,14 +23,6 @@ const useChat = () => {
     // eslint-disable-next-line
   }, [room]);
 
-  const joinChannel = (data: string) => {
-    socketClient.emit('channel:join', { boardId: data });
-  };
-
-  const leaveChannel = (data: string | undefined) => {
-    socketClient.emit('channel:leave', { boardId: data });
-  };
-
   const joinRoom = (data: string) => {
     socketClient.emit('chat:join', { roomId: data });
   };
@@ -43,6 +35,7 @@ const useChat = () => {
     if (me?._id === undefined) return;
     socketClient.on('chat:add-message', (data) => {
       let message = data.message as IMessage;
+      console.log(data);
       dispatch(
         addNewMessage({
           _id: message._id,
@@ -94,9 +87,7 @@ const useChat = () => {
     recieveMessage,
     recieveDeleteMessage,
     recieveEditMessage,
-    joinChannel,
     joinRoom,
-    leaveChannel,
     leaveRoom,
   };
 };

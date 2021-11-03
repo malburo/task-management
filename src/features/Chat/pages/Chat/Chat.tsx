@@ -11,6 +11,7 @@ import useChat from 'hooks/useChat';
 import SidebarAppChat from 'features/Chat/component/Sidebar/SidebarAppChat';
 import MessageBox from 'features/Chat/component/MessageBox/MessageBox';
 import { getOneBoard } from 'features/Boards/boardSlice';
+import { socketClient } from 'api/socketClient';
 
 const useStyle = makeStyles({
   chatAppBox: {
@@ -55,6 +56,11 @@ export default function Chat() {
     else dispatch(getGeneralRoom(boardId));
 
     dispatch(getOneBoard({ boardId }));
+    socketClient.emit('board:join', boardId);
+
+    return () => {
+      socketClient.emit('board:leave', boardId);
+    };
   }, [roomId, boardId]);
 
   return (

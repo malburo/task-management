@@ -121,10 +121,6 @@ const Header = () => {
           <AppsIcon fontSize="small" sx={{ fill: '#4F4F4F' }} />
           <Typography variant="regular2">All boards</Typography>
         </MenuItem>
-        <MenuItem onClick={gotoChatApp}>
-          <ChatIcon fontSize="small" sx={{ fill: '#4F4F4F' }} />
-          <Typography variant="regular2">Chat</Typography>
-        </MenuItem>
         <Divider sx={{ margin: '10px 0px' }} />
         <MenuItem onClick={handleLogout}>
           <ExitToAppIcon fontSize="small" sx={{ fill: '#e35555fa' }} />
