@@ -1,8 +1,9 @@
-import { Chip, Typography, Badge } from '@mui/material';
+import { Chip, Typography, Badge, Stack } from '@mui/material';
 import { IRoom } from 'models/room';
 import React from 'react';
 import RoomLinkStyle from './RoomLinkStyle';
 import Box from '@mui/material/Box';
+import _ from 'lodash';
 
 interface IRoomLinkPros {
   roomInfor: IRoom;
@@ -34,24 +35,11 @@ const RoomLink: React.FC<IRoomLinkPros> = ({ roomInfor, hightlight, newMessage }
           }}
           className={style.roomName}
         >
-          <Typography sx={{ whiteSpace: 'nowrap', overflow: 'hidden !important', textOverflow: 'ellipsis' }}>
-            {roomInfor.name} {roomInfor.isGeneral && <Chip label="ALL" color="primary" />}
-          </Typography>
-          {newMessage > 0 && (
-            <Chip
-              label={newMessage > 0 && `${newMessage > 5 ? '5+' : newMessage}`}
-              color="error"
-              sx={{ marginLeft: '5px' }}
-            />
-          )}
-          {/* <Typography
-            sx={{
-              display: `${newMessage > 0 ? 'block' : 'none'}`,
-              fontWeight: '600',
-              lineHeight: '30px',
-            }}
-            className={style.newMessage}
-          ></Typography> */}
+          <Stack direction="row" spacing={1}>
+            <Typography>{_.truncate(roomInfor.name, { length: 10 })}</Typography>
+            {roomInfor.isGeneral && <Chip label="ALL" color="primary" />}
+            {newMessage > 0 && <Chip label={newMessage > 0 && `${newMessage > 5 ? '5+' : newMessage}`} color="error" />}
+          </Stack>
         </Box>
       </Box>
     </Box>
