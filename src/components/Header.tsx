@@ -15,7 +15,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
 import Logo from '../images/Logo-small.svg';
 import Search from './Search';
-import ChatIcon from '@mui/icons-material/Chat';
 
 const Header = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -41,9 +40,6 @@ const Header = () => {
     dispatch(logout());
     history.push('/auth/login');
     setAnchorEl(null);
-  };
-  const gotoChatApp = () => {
-    history.push('/appchat');
   };
   return (
     <AppBar

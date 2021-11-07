@@ -42,11 +42,14 @@ export default function MessageBox() {
   const [seed, setSeed] = useState(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const messagesBox = React.useRef<HTMLDivElement>(null);
+  // eslint-disable-next-line
   const chat = useChat();
 
   useEffect(() => {
     if (roomId !== 'all') dispatch(getOneRoom(roomId));
     else dispatch(getGeneralRoom(boardId));
+
+    // eslint-disable-next-line
   }, [roomId, boardId]);
 
   useEffect(() => {

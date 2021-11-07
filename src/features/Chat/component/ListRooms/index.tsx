@@ -25,19 +25,26 @@ const ListRooms: React.FC<IListRoom> = (props) => {
         setRooms(res.data.rooms);
       });
     });
+
+    // eslint-disable-next-line
   }, [board]);
 
   useEffect(() => {
     roomApi.getAllYourRoomInBoard(board._id).then((res) => {
       setRooms(res.data.rooms);
     });
+
+    // eslint-disable-next-line
   }, [board]);
 
   useEffect(() => {
     (async () => {
+      if (props.term.length === 0) return;
       const res = await roomApi.search({ boardId: board._id, params: { term: props.term } });
       setRooms(res.data.room);
     })();
+
+    // eslint-disable-next-line
   }, [props.term]);
 
   return (

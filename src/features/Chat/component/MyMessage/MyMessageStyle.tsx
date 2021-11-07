@@ -59,4 +59,12 @@ export default makeStyles({
     width: '100%',
     maxWidth: '80vw',
   },
+  option: {
+    margin: '10px 10px 10px 0',
+    display: 'flex',
+    justifyContent: 'space-between',
+    minHeight: '32px !important',
+    height: 'auto',
+  },
+  optionValue: { textAlign: 'initial', marginRight: '20px' },
 });

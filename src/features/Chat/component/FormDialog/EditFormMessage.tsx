@@ -1,7 +1,7 @@
 import { Box, Button, Dialog, DialogActions, DialogTitle, IconButton, Typography } from '@mui/material';
 import React, { Dispatch, SetStateAction } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from 'app/store';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from 'app/store';
 import { updateOne } from 'features/Chat/ReduxSlice/MessagesSlice';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -33,7 +33,6 @@ interface IFormInput {
 
 const EditMessageForm: React.FC<IPropsAlert> = (props) => {
   const dispatch = useDispatch<AppDispatch>();
-  const room = useSelector((state: RootState) => state.room.roomInfor);
   const style = FormStyle();
 
   const sendForm = useForm<IFormInput>({

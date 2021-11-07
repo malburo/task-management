@@ -1,5 +1,4 @@
 import { Stack, Box } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 import { AppDispatch } from 'app/store';
 import SideBar from 'components/SideBar';
 import { getGeneralRoom, getOneRoom } from 'features/Chat/ReduxSlice/RoomSlice';
@@ -24,6 +23,7 @@ export default function Chat() {
   const dispatch = useDispatch<AppDispatch>();
 
   const { roomId, boardId } = useParams<IParams>();
+  // eslint-disable-next-line
   const chat = useChat();
 
   useEffect(() => {
@@ -36,6 +36,7 @@ export default function Chat() {
     return () => {
       socketClient.emit('board:leave', boardId);
     };
+    // eslint-disable-next-line
   }, [roomId, boardId]);
 
   return (

@@ -1,4 +1,4 @@
-import { Chip, Typography, Badge, Stack } from '@mui/material';
+import { Chip, Typography, Stack } from '@mui/material';
 import { IRoom } from 'models/room';
 import React from 'react';
 import Box from '@mui/material/Box';

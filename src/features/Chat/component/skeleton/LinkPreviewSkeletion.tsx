@@ -2,11 +2,11 @@ import { Skeleton, Stack } from '@mui/material';
 
 const LinkPreviewSkeleteon = () => {
   return (
-    <Stack sx={{}}>
-      <Skeleton sx={{ backgroundColor: 'rgb(255 253 253 / 11%)' }} variant="rectangular" width={400} height={300} />
-      <Skeleton sx={{ backgroundColor: 'rgb(255 253 253 / 11%)', marginTop: '20px' }} variant="text" />
-      <Skeleton sx={{ backgroundColor: 'rgb(255 253 253 / 11%)' }} variant="text" />
-      <Skeleton sx={{ backgroundColor: 'rgb(255 253 253 / 11%)' }} variant="text" />
+    <Stack sx={{ backgroundColor: 'white', border: '1px solid #adadad', borderRadius: '5px' }}>
+      <Skeleton sx={{ margin: '10px' }} variant="rectangular" width={400} height={300} />
+      <Skeleton sx={{ margin: '10px' }} variant="text" />
+      <Skeleton sx={{ margin: '10px' }} variant="text" />
+      <Skeleton sx={{ margin: '10px' }} variant="text" />
     </Stack>
   );
 };

@@ -95,9 +95,9 @@ const Message: React.FC<IMessagePros> = ({
                         fullWidth
                         variant="contained"
                         color="primary"
-                        sx={{ margin: '10px 10px 10px 0', display: 'flex', justifyContent: 'space-between' }}
+                        className={style.option}
                       >
-                        <Typography>{item.text}</Typography>
+                        <Typography className={style.optionValue}>{item.text}</Typography>
                         <Typography>{item.userId.length > 0 ? item.userId.length : ''}</Typography>
                       </Button>
                     );
@@ -110,9 +110,9 @@ const Message: React.FC<IMessagePros> = ({
                         color="secondary"
                         value={item._id}
                         onClick={chooseOption}
-                        sx={{ margin: '10px 10px 10px 0', display: 'flex', justifyContent: 'space-between' }}
+                        className={style.option}
                       >
-                        <Typography>{item.text}</Typography>
+                        <Typography className={style.optionValue}>{item.text}</Typography>
                         <Typography>{item.userId.length > 0 ? item.userId.length : ''}</Typography>
                       </Button>
                     );
