@@ -6,7 +6,6 @@ import UserFeature from 'features/User';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import AuthRoute from './AuthRoute';
 import PrivateRoute from './PrivateRoute';
-import PublicRoute from './PublicRoute';
 
 const RoutesComponent = () => (
   <BrowserRouter>
@@ -14,7 +13,7 @@ const RoutesComponent = () => (
       <AuthRoute path="/auth" component={AuthFeature} />
       <PrivateRoute path="/boards" component={BoardFeature} />
       <PrivateRoute path="/appchat" component={ChatFeature} />
-      <PrivateRoute path="/profile" component={UserFeature} />      
+      <PrivateRoute path="/profile" component={UserFeature} />
       <Route component={NotFound} />
     </Switch>
   </BrowserRouter>

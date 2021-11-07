@@ -1,6 +1,14 @@
 import { socketClient } from 'api/socketClient';
 import { AppDispatch } from 'app/store';
-import { addColumn, addLabel, addTask, updateBoard, updateColumn, updateTask } from 'features/Boards/boardSlice';
+import {
+  addColumn,
+  addLabel,
+  addTask,
+  updateBoard,
+  updateColumn,
+  updateLabel,
+  updateTask,
+} from 'features/Boards/boardSlice';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { addMember, deleteColumn } from './../features/Boards/boardSlice';
@@ -44,6 +52,9 @@ const useSocket = () => {
 
       socketClient.on('label:create', (newLabel) => {
         dispatch(addLabel({ newLabel }));
+      });
+      socketClient.on('label:update', (updatedLabel) => {
+        dispatch(updateLabel({ labelId: updatedLabel._id, changes: updatedLabel }));
       });
     })();
     return () => {
