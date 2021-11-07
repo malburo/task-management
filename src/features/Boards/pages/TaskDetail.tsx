@@ -1,5 +1,4 @@
 import CloseIcon from '@mui/icons-material/Close';
-import DescriptionIcon from '@mui/icons-material/Description';
 import { LoadingButton } from '@mui/lab';
 import {
   Avatar,
@@ -24,7 +23,7 @@ import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { labelsSelector, membersSelector, tasksSelector } from '../boardSlice';
 import DescriptionEditor from '../components/editor/DescriptionEditor';
-import AddLabel from '../components/form/AddLabel';
+import AssignLabel from '../components/form/AssignLabel';
 import AssignTask from '../components/form/AssignTask';
 import EditTaskTitle from '../components/form/EditTaskTitle';
 import SearchPhoto from '../components/form/SearchPhoto';
@@ -99,13 +98,17 @@ export default function TaskDetail() {
 
   return (
     <Box>
-      <Dialog onClose={handleClose} aria-labelledby="task-detail-dialog" open={open} fullWidth>
+      <Dialog onClose={handleClose} aria-labelledby="task-detail-dialog" open={open} fullWidth scroll="body">
         <Box padding="24px 24px 0px 24px">
           <Box position="relative">
             <CardMedia image={coverUrl} style={{ height: '180px', borderRadius: '8px' }} />
-            <Box height="10px" paddingTop="8px">
+            <Box paddingTop="8px" marginTop="12px">
               {labels.map((label) => (
-                <Chip label={label.name} sx={{ bgcolor: label.color, color: 'white' }} key={label._id} />
+                <Chip
+                  label={label.name}
+                  sx={{ bgcolor: label.color, color: 'white', margin: '0px 4px 4px 0px' }}
+                  key={label._id}
+                />
               ))}
             </Box>
             {showSaveButton && (
@@ -149,22 +152,6 @@ export default function TaskDetail() {
                 <EditTaskTitle value={task.title} />
                 {/* <Typography variant="bold1">In list inprogress</Typography> */}
               </Box>
-              <Box>
-                <Box display="flex" alignItems="center" color="#BDBDBD" margin="24px 0px 12px 0px">
-                  <DescriptionIcon sx={{ width: '20px', height: '20px', marginRight: '4px' }} />
-                  <Typography variant="regular2" sx={{ marginRight: '4px' }}>
-                    Description
-                  </Typography>
-                  {/* <Button
-                    onClick={handleClickEditDescription}
-                    variant="outlined"
-                    startIcon={<CreateIcon />}
-                    size="small"
-                  >
-                    Edit
-                  </Button> */}
-                </Box>
-              </Box>
               <DescriptionEditor content={task.description} />
             </Grid>
             <Grid item xs={3}>
@@ -181,12 +168,12 @@ export default function TaskDetail() {
                     />
                   </Stack>
                 </LocalizationProvider> */}
-                <AddLabel />
+                <AssignLabel task={task} />
                 <AssignTask task={task} />
               </Box>
               <Box marginTop="16px">
                 {members.map((member) => (
-                  <Box display="flex" alignItems="center" marginTop="16px">
+                  <Box display="flex" alignItems="center" marginTop="16px" key={member._id}>
                     <Avatar sx={{ marginRight: '16px' }} src={member.profilePictureUrl} />
                     <Typography variant="bold2">{member.username}</Typography>
                   </Box>

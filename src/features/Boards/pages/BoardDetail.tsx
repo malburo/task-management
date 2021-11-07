@@ -72,7 +72,8 @@ const BoardDetail = () => {
           direction="row"
           height="55px"
           marginLeft="48px"
-          marginTop="24px"
+          marginTop="12px"
+          marginBottom="12px"
           alignItems="center"
           justifyContent="space-between"
         >
