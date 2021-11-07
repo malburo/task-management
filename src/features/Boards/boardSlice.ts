@@ -81,6 +81,9 @@ const boardSlice = createSlice({
     addLabel: (state, { payload }: PayloadAction<any>) => {
       labelsAdapter.addOne(state.labels, payload.newLabel);
     },
+    updateLabel: (state, { payload }: PayloadAction<any>) => {
+      labelsAdapter.updateOne(state.labels, { id: payload.labelId, changes: payload.changes });
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getOneBoard.fulfilled, (state, { payload }: PayloadAction<any>) => {
@@ -103,5 +106,16 @@ export const membersSelector = membersAdapter.getSelectors((state: RootState) =>
 export const labelsSelector = labelsAdapter.getSelectors((state: RootState) => state.board.labels);
 
 const { reducer: boardReducer, actions } = boardSlice;
-export const { updateBoard, addColumn, updateColumn, deleteColumn, addTask, updateTask, addMember, addLabel } = actions;
+export const {
+  updateBoard,
+  addColumn,
+  updateColumn,
+  deleteColumn,
+  addTask,
+  updateTask,
+  addMember,
+  addLabel,
+  updateLabel,
+} = actions;
+
 export default boardReducer;
