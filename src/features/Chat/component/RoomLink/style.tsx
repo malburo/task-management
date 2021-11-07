@@ -1,18 +1,17 @@
 import { makeStyles } from '@mui/styles';
 
-export default makeStyles({
+const roomLinkStyles = makeStyles({
   roomLink: {
     display: 'flex',
     height: '60px !important',
-    // eslint-disable-next-line
     margin: '10px 7.5% 10px 7.5%',
   },
   roomLinkHightLight: {
     display: 'flex',
     height: '60px !important',
-    backgroundColor: 'rgb(37, 35, 41)',
+    backgroundColor: '#e4e3e3',
     borderRadius: '13px',
-    // eslint-disable-next-line
+    color: 'white !important',
     margin: '10px 7.5% 10px 7.5%',
   },
   online: {
@@ -28,13 +27,15 @@ export default makeStyles({
     },
   },
   avatarImg: {
+    height: '55px',
     transform: 'scale(0.75,0.75)',
+    marginTop: '2.5px',
     borderRadius: '10px',
   },
   roomName: {
     lineHeight: '60px !important',
     marginLeft: '5%!important',
-    color: 'white',
+    color: 'gray',
     display: 'flex',
     alignItems: 'center',
     whiteSpace: 'nowrap',
@@ -50,3 +51,5 @@ export default makeStyles({
     borderRadius: '50%',
   },
 });
+
+export default roomLinkStyles;

@@ -3,11 +3,11 @@ import { IMessage } from 'models/messages';
 import axiosClient from './axiosClient';
 
 const messageApi = {
-  getAllInRoom(payload: any): Promise<any> {
-    if (payload.seed == null) payload.seed = 0;
-    return axiosClient.get(`messages/room/${payload.id}/${payload.seed}`);
+  getAllInRoom(id: string, seed: number): Promise<Response<IMessage[]>> {
+    if (seed == null) seed = 0;
+    return axiosClient.get(`messages/room/${id}/${seed}`);
   },
-  create(payload: any): Promise<Response<IMessage>> {
+  create(payload: Pick<IMessage, '_id' | 'content'>): Promise<Response<IMessage>> {
     return axiosClient.post(`messages/`, payload);
   },
   createImageMessage(payload: any): Promise<Response<IMessage>> {
@@ -15,22 +15,22 @@ const messageApi = {
     data.append('file', payload.file, payload.file.name);
     return axiosClient.post(`messages/image/${payload.roomId}`, data);
   },
-  update(payload: any): Promise<Response<IMessage>> {
-    return axiosClient.put(`messages/${payload.messageId}`, payload);
+  update(payload: Pick<IMessage, '_id' | 'content'>): Promise<Response<IMessage>> {
+    return axiosClient.put(`messages/${payload._id}`, payload);
   },
-  deleteOne(payload: any): Promise<Response<IMessage>> {
-    return axiosClient.delete(`messages/${payload.messageId}`);
+  deleteOne(messageId: string): Promise<Response<IMessage>> {
+    return axiosClient.delete(`messages/${messageId}`);
   },
-  read(payload: any): Promise<any> {
-    return axiosClient.patch(`messages/room/${payload.roomId}`);
+  read(boardId: string): Promise<any> {
+    return axiosClient.patch(`messages/room/${boardId}`);
   },
-  createFormMessage(payload: any): Promise<any> {
+  createFormMessage(payload: any): Promise<Response<IMessage>> {
     return axiosClient.post(`messages/form/select/${payload.roomId}`, payload);
   },
-  chooseOption(payload: any): Promise<any> {
-    return axiosClient.put(`messages/form/select/${payload.roomId}/option`, payload);
+  chooseOption(roomId: string, optionId: string): Promise<any> {
+    return axiosClient.put(`messages/form/select/${roomId}/option`, { optionId });
   },
-  addOption(payload: any): Promise<any> {
+  addOption(payload: { roomId: string; text: string; formId: string }): Promise<any> {
     return axiosClient.post(`messages/form/select/${payload.roomId}/option`, payload);
   },
 };

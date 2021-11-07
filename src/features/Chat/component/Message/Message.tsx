@@ -47,7 +47,7 @@ const Message: React.FC<IMessagePros> = ({
   let sortedData = [...(form?.options ?? [])].sort((a, b) => (b.userId?.length ?? 0) - (a.userId?.length ?? 0));
 
   const chooseOption = (e: React.FormEvent<HTMLButtonElement>) => {
-    messageApi.chooseOption({ optionId: e.currentTarget.value });
+    messageApi.chooseOption(room._id, e.currentTarget.value);
   };
 
   useEffect(() => {

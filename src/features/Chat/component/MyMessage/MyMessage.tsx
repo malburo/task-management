@@ -80,7 +80,7 @@ const MyMessage: React.FC<IMessagePros> = ({
   }, [renderTimeLine, time]);
 
   const chooseOption = (e: React.FormEvent<HTMLButtonElement>) => {
-    messageApi.chooseOption({ optionId: e.currentTarget.value, roomId: room._id });
+    messageApi.chooseOption(room._id, e.currentTarget.value);
   };
 
   const renderMessage = () => {

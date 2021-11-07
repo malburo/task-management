@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
-export default makeStyles({
+const useListRoomStyles = makeStyles({
   link: {
     textDecoration: 'none !important',
   },
@@ -9,7 +9,7 @@ export default makeStyles({
     justifyContent: 'center',
   },
   title: {
-    color: 'white',
+    color: 'gray',
     fontWeight: 'bolder',
   },
   titleRoom: {
@@ -28,11 +28,7 @@ export default makeStyles({
   listMember: {
     marginBottom: '20px',
     overflowY: 'scroll',
-    '&::-webkit-scrollbar': {
-      width: '0.4em',
-    },
-    '&::-webkit-scrollbar-thumb': {
-      backgroundColor: '#3f51b5',
-    },
   },
 });
+
+export default useListRoomStyles;

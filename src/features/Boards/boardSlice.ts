@@ -28,6 +28,7 @@ export const labelsAdapter = createEntityAdapter({
 });
 
 interface BoardState {
+  _id: string;
   isPrivate: boolean;
   columnOrder: string[];
   createdAt: string;
@@ -39,6 +40,7 @@ interface BoardState {
 }
 
 const initialState: BoardState = {
+  _id: '',
   isPrivate: false,
   columnOrder: [],
   createdAt: '',
@@ -88,6 +90,7 @@ const boardSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getOneBoard.fulfilled, (state, { payload }: PayloadAction<any>) => {
       if (!payload.board) return;
+      state._id = payload.board._id;
       state.isPrivate = payload.board.isPrivate;
       state.columnOrder = payload.board.columnOrder;
       state.createdAt = payload.board.createdAt;
