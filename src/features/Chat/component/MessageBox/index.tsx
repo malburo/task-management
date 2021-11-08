@@ -53,14 +53,14 @@ export default function MessageBox() {
   }, [roomId, boardId]);
 
   useEffect(() => {
-    (async () => {
-      setSeed(0);
-      if (room._id === '') return;
-      setIsLoading(true);
-      await dispatch(getMessageInRoom({ id: room._id, seed: 0 }));
+    setSeed(0);
+    if (room._id === '') return;
+    setIsLoading(true);
+    dispatch(getMessageInRoom({ id: room._id, seed: 0 })).then(() => {
       setIsLoading(false);
       messagesBox.current?.scroll({ top: messagesBox.current.scrollHeight });
-    })();
+    });
+
     // eslint-disable-next-line
   }, [room]);
 
