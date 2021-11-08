@@ -13,6 +13,9 @@ const taskApi = {
   pushLabel(payload: { boardId: string; taskId: string; labelId: string }): Promise<Response<ITask>> {
     return axiosClient.post(`/boards/${payload.boardId}/tasks/${payload.taskId}/labels`, payload);
   },
+  pullLabel(payload: { boardId: string; taskId: string; labelId: string }): Promise<Response<ITask>> {
+    return axiosClient.delete(`/boards/${payload.boardId}/tasks/${payload.taskId}/labels`, { data: payload });
+  },
   pushMember(payload: { boardId: string; taskId: string; memberId: string }): Promise<Response<ITask>> {
     return axiosClient.post(`/boards/${payload.boardId}/tasks/${payload.taskId}/members`, payload);
   },

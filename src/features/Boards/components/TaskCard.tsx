@@ -53,19 +53,19 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
         )}
 
         <Typography variant="regular4">{task.title}</Typography>
-        <Box>
+        <Box marginTop="12px">
           {labels.map((label) => (
             <Chip
               label={label.name}
-              sx={{ bgcolor: label.color, color: 'white', margin: '4px 0px 8px 0px' }}
+              sx={{ bgcolor: label.color, color: 'white', margin: '0px 4px 4px 0px' }}
               key={label._id}
             />
           ))}
         </Box>
-        <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Box display="flex" alignItems="center" justifyContent="space-between" marginTop="12px">
           <AvatarGroup max={3}>
             {members.map((member) => (
-              <Avatar variant="rounded" src={member.profilePictureUrl} />
+              <Avatar variant="rounded" src={member.profilePictureUrl} key={member._id} />
             ))}
           </AvatarGroup>
           {/* <Box display="flex" alignItems="center">

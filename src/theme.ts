@@ -209,7 +209,7 @@ const theme = createTheme({
           width: 32,
           height: 32,
           backgroundColor: '#2F80ED',
-          borderRadius: 8,
+          borderRadius: 6,
           color: 'white',
           '&:hover': {
             backgroundColor: '#2d79e1',
@@ -230,7 +230,7 @@ const theme = createTheme({
       styleOverrides: {
         avatar: {
           border: 'none',
-          marginRight: 4,
+          marginRight: 8,
           marginLeft: 0,
           borderRadius: 6,
           height: 32,
@@ -241,7 +241,7 @@ const theme = createTheme({
     MuiAvatar: {
       styleOverrides: {
         root: {
-          borderRadius: 10,
+          borderRadius: 6,
           height: 32,
           width: 32,
           fontSize: 16,

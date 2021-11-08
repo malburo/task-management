@@ -1,11 +1,9 @@
-import { yupResolver } from '@hookform/resolvers/yup';
 import { Box } from '@mui/material';
 import taskApi from 'api/taskApi';
 import EditableField from 'components/form-control/EditableField';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router';
-import * as yup from 'yup';
 
 interface FormValues {
   title: string;
@@ -17,6 +15,7 @@ interface Params {
   boardId: string;
   taskId: string;
 }
+
 const EditTaskTitle: React.FC<EditTaskTitleState> = ({ value }) => {
   const { boardId, taskId } = useParams<Params>();
   const form = useForm({

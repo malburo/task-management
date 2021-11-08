@@ -50,7 +50,7 @@ const AddMember: React.FC = () => {
     setAnchorEl(null);
   };
   return (
-    <Box sx={{ marginLeft: '10px' }}>
+    <Box>
       <IconButton aria-describedby={id} onClick={handleClick} color="primary">
         <AddIcon />
       </IconButton>

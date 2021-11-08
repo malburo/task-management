@@ -7,7 +7,6 @@ import taskApi from 'api/taskApi';
 import { RootState } from 'app/store';
 import InputBaseField from 'components/form-control/InputBaseField';
 import { membersSelector } from 'features/Boards/boardSlice';
-import { IParams } from 'models/common';
 import { ITask } from 'models/task';
 import { IUser } from 'models/user';
 import React, { useState } from 'react';
@@ -50,13 +49,11 @@ const AssignTask: React.FC<Props> = ({ task }) => {
     },
   });
 
-  const onSubmit = async ({ search }: FormValues) => {
-    const params: IParams = { limit: '5', page: '0', q: search };
-  };
   const onClickAssignTask = async (memberId: string) => {
     await taskApi.pushMember({ boardId, taskId, memberId });
     setAnchorEl(null);
   };
+  const onSubmit = async ({ search }: FormValues) => {};
   return (
     <Box>
       <Button
@@ -88,17 +85,18 @@ const AssignTask: React.FC<Props> = ({ task }) => {
       >
         <Box padding="16px" minHeight="100px">
           <Box>
-            <Typography variant="bold2">Invite to Board</Typography>
+            <Typography variant="bold2">Members</Typography>
           </Box>
           <Box>
-            <Typography variant="regular2">Search users you want to invite.</Typography>
+            <Typography variant="regular2">Assign members to this card </Typography>
           </Box>
-          <Box boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)" marginTop="12px">
+          <Box boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)" marginTop="12px" borderRadius="8px">
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <InputBaseField
                 form={form}
                 name="search"
-                placeholder="Keyword..."
+                placeholder="User..."
+                sx={{ fontSize: '14px', padding: '4px 12px' }}
                 endAdornment={
                   <IconButton color="primary">
                     <SearchIcon sx={{ fontSize: '16px' }} />
@@ -107,27 +105,20 @@ const AssignTask: React.FC<Props> = ({ task }) => {
               />
             </form>
           </Box>
-          {members.length > 0 &&
-            members.map((member) => (
-              <Box
-                display="flex"
-                alignItems="center"
-                justifyContent="space-between"
-                padding="12px"
-                border="1px solid #E0E0E0"
-                marginY="24px"
-                boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)"
-                borderRadius="12px"
-              >
-                <Box display="flex" alignItems="center" justifyContent="space-between">
-                  <Avatar variant="rounded" src={member.profilePictureUrl} sx={{ marginRight: '12px' }} />
-                  <Typography>{member.username}</Typography>
+          <Box padding="12px" marginTop="24px" boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)" borderRadius="12px">
+            {members.length > 0 &&
+              members.map((member) => (
+                <Box display="flex" alignItems="center" justifyContent="space-between" marginY="12px" key={member._id}>
+                  <Box display="flex" alignItems="center" justifyContent="space-between">
+                    <Avatar src={member.profilePictureUrl} sx={{ marginRight: '12px' }} />
+                    <Typography variant="regular2">{member.username}</Typography>
+                  </Box>
+                  <IconButton color="primary" onClick={() => onClickAssignTask(member._id)}>
+                    <AddIcon sx={{ fontSize: '16px' }} />
+                  </IconButton>
                 </Box>
-                <IconButton color="primary" onClick={() => onClickAssignTask(member._id)}>
-                  <AddIcon sx={{ fontSize: '16px' }} />
-                </IconButton>
-              </Box>
-            ))}
+              ))}
+          </Box>
         </Box>
       </Popover>
     </Box>
