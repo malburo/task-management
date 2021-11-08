@@ -5,7 +5,6 @@ import { IUser } from 'models/user';
 import { useEffect } from 'react';
 import { IMessage } from 'models/messages';
 import { socketClient } from 'api/socketClient';
-import messageApi from 'api/messageApi';
 
 const useChat = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -14,7 +13,6 @@ const useChat = () => {
 
   useEffect(() => {
     joinRoom(room._id);
-    messageApi.read(room._id);
     return () => {
       leaveRoom(room._id);
     };

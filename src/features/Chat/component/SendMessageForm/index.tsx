@@ -9,10 +9,10 @@ import messageApi from 'api/messageApi';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from 'app/store';
-import SendMessageFormStyle from './SendMessageFormStyle';
 import { createOne } from 'features/Chat/ReduxSlice/MessagesSlice';
 import CreateFormMessage from '../FormDialog/CreateFormMessage';
 import { useState } from 'react';
+import useSendMessageFormStyles from './style';
 
 const scheme = yup
   .object()
@@ -29,7 +29,7 @@ export default function SendMessageForm() {
   const dispatch = useDispatch<AppDispatch>();
   const [isCreateFormMessage, setIsCreateFormMessage] = useState<boolean>(false);
 
-  const style = SendMessageFormStyle();
+  const style = useSendMessageFormStyles();
 
   const {
     register,

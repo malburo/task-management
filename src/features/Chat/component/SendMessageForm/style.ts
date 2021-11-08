@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
-export default makeStyles({
+const useSendMessageFormStyles = makeStyles({
   formField: {
     height: '80px',
     width: '100%',
@@ -45,5 +45,8 @@ export default makeStyles({
     height: '45px !important',
     backgroundColor: '#2F80ED !important',
     color: 'white !important',
+    boxShadow: 'none',
   },
 });
+
+export default useSendMessageFormStyles;

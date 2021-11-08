@@ -21,9 +21,9 @@ const messageApi = {
   deleteOne(messageId: string): Promise<Response<IMessage>> {
     return axiosClient.delete(`messages/${messageId}`);
   },
-  read(boardId: string): Promise<any> {
-    return axiosClient.patch(`messages/room/${boardId}`);
-  },
+  // read(boardId: string): Promise<any> {
+  //   return axiosClient.patch(`messages/room/${boardId}`);
+  // },
   createFormMessage(payload: any): Promise<Response<IMessage>> {
     return axiosClient.post(`messages/form/select/${payload.roomId}`, payload);
   },

@@ -15,6 +15,7 @@ import React from 'react';
 import useChat from 'hooks/useChat';
 import { debounce } from 'lodash';
 import Loader from 'features/Chat/component/Loader/Loader';
+import ImagePreview from '../ImagePreview';
 
 const useStyle = makeStyles({
   messagesField: {
@@ -41,6 +42,8 @@ export default function MessageBox() {
   const me = useSelector((state: RootState) => state.auth.currentUser) as IUser;
   const [seed, setSeed] = useState(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [imageSrc, setImageSrc] = useState<string>('');
+  const [openImage, setOpenImage] = useState<boolean>(false);
   const messagesBox = React.useRef<HTMLDivElement>(null);
   // eslint-disable-next-line
   const chat = useChat();
@@ -92,6 +95,8 @@ export default function MessageBox() {
       onScroll={scrollDetect}
     >
       {isLoading && <Loader />}
+
+      <ImagePreview open={openImage} onClose={() => setOpenImage(false)} imageSrc={imageSrc} />
       {messages.map((item: IMessage) => {
         let date = new Date(item.createdAt);
         let renderTimeline = false;
@@ -111,6 +116,8 @@ export default function MessageBox() {
               time={new Date(timeLine)}
               type={item.type ? item.type : 1}
               form={item.form}
+              setImageView={setOpenImage}
+              setImageSrc={setImageSrc}
             />
           );
         else
@@ -125,6 +132,8 @@ export default function MessageBox() {
               _id={item._id}
               form={item.form}
               type={item.type ? item.type : 1}
+              setImageView={setOpenImage}
+              setImageSrc={setImageSrc}
             />
           );
       })}

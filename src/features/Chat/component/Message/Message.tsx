@@ -25,18 +25,12 @@ interface IMessagePros {
   time: Date;
   type: Number;
   form?: ISelectFormMessage;
+  setImageView: (value: boolean) => void;
+  setImageSrc: (value: string) => void;
 }
 
-const Message: React.FC<IMessagePros> = ({
-  name,
-  postedDate,
-  content,
-  profilePictureUrl,
-  renderTimeLine,
-  time,
-  type,
-  form,
-}) => {
+const Message: React.FC<IMessagePros> = (props) => {
+  const { form, content, renderTimeLine, type, setImageView, setImageSrc } = props;
   const style = MessageStyle();
   const [timeline, setTimeline] = useState<ReactElement>();
   const [isLoading, setIsLoading] = useState<Boolean>(true);
@@ -59,7 +53,7 @@ const Message: React.FC<IMessagePros> = ({
   }, [content]);
 
   useEffect(() => {
-    if (renderTimeLine === true) setTimeline(<TimeLine time={new Date(time)} />);
+    if (renderTimeLine === true) setTimeline(<TimeLine time={new Date(props.time)} />);
     // eslint-disable-next-line
   }, [renderTimeLine]);
 
@@ -73,14 +67,14 @@ const Message: React.FC<IMessagePros> = ({
   return (
     <React.Fragment>
       {timeline}
-      <div className={style.message}>
-        <div className={style.avatar}>
-          <img className={style.avatarImg} alt="none" src={profilePictureUrl}></img>
-        </div>
-        <div>
+      <Box className={style.message}>
+        <Box className={style.avatar}>
+          <img className={style.avatarImg} alt="none" src={props.profilePictureUrl}></img>
+        </Box>
+        <Box>
           <Box sx={{ display: 'flex' }}>
             {type === 3 && (
-              <div className={style.messageContent}>
+              <Box className={style.messageContent}>
                 <AlignVerticalBottomIcon sx={{ float: 'right' }} />
                 <Typography variant="body2" sx={{ minWidth: '200px', marginBottom: '10px' }}>
                   {content}
@@ -125,7 +119,7 @@ const Message: React.FC<IMessagePros> = ({
                     onKeyDown={addToOptions}
                   />
                 )}
-              </div>
+              </Box>
             )}
             {type === 1 && (
               <Box className={style.messageContent}>
@@ -135,10 +129,9 @@ const Message: React.FC<IMessagePros> = ({
               </Box>
             )}
             {type === 2 && (
-              <div className={`${style.messageContent} ${style.imageContent}`}>
+              <Box className={`${style.messageContent} ${style.imageContent}`}>
                 {isLoading && <ImageLoading />}
                 {isError && <ImageFailed />}
-
                 <img
                   style={isLoading || isError ? { height: '0' } : {}}
                   onLoad={() => {
@@ -148,11 +141,15 @@ const Message: React.FC<IMessagePros> = ({
                     setIsLoading(false);
                     setIsError(true);
                   }}
+                  onClick={() => {
+                    setImageView(true);
+                    setImageSrc(content);
+                  }}
                   src={content}
                   className={style.image}
                   alt=""
                 />
-              </div>
+              </Box>
             )}
           </Box>
           {url && type === 1 && (
@@ -160,16 +157,16 @@ const Message: React.FC<IMessagePros> = ({
               <LinkPreview url={url} className={style.linkPreview} customLoader={<LinkPreviewSkeleteon />} />
             </Box>
           )}
-          <div className={style.accountInfor}>
+          <Box className={style.accountInfor}>
             <Typography sx={{ fontSize: '0.75em' }} variant="subtitle2" className={style.name}>
-              {name},
+              {props.name},
             </Typography>
             <Typography sx={{ fontSize: '0.75em' }} variant="subtitle2">
-              {dateUtil.fortmatDate(postedDate)}
+              {dateUtil.fortmatDate(props.postedDate)}
             </Typography>
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
     </React.Fragment>
   );
 };

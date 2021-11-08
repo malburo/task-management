@@ -20,6 +20,7 @@ const ListRooms: React.FC<IListRoom> = (props) => {
   const style = useListRoomStyles();
 
   useEffect(() => {
+    if (board._id === '') return;
     socketClient.on('board:new-message', (data) => {
       roomApi.getAllYourRoomInBoard(board._id).then((res) => {
         setRooms(res.data.rooms);
@@ -30,6 +31,7 @@ const ListRooms: React.FC<IListRoom> = (props) => {
   }, [board]);
 
   useEffect(() => {
+    if (board._id === '') return;
     roomApi.getAllYourRoomInBoard(board._id).then((res) => {
       setRooms(res.data.rooms);
     });
@@ -38,10 +40,10 @@ const ListRooms: React.FC<IListRoom> = (props) => {
   }, [board]);
 
   useEffect(() => {
-    (async () => {
-      const res = await roomApi.search({ boardId: board._id, params: { term: props.term } });
+    if (board._id === '') return;
+    roomApi.search({ boardId: board._id, params: { term: props.term } }).then((res) => {
       setRooms(res.data.room);
-    })();
+    });
 
     // eslint-disable-next-line
   }, [props.term]);

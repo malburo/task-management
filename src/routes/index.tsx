@@ -11,7 +11,6 @@ const RoutesComponent = () => (
     <Switch>
       <AuthRoute path="/auth" component={AuthFeature} />
       <PrivateRoute path="/boards" component={BoardFeature} />
-      <PrivateRoute path="/appchat" component={ChatFeature} />
       <PrivateRoute path="/profile" component={UserFeature} />
       <Route component={NotFound} />
     </Switch>

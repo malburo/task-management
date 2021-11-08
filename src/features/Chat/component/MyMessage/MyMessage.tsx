@@ -27,18 +27,12 @@ interface IMessagePros {
   _id: string;
   type: Number;
   form?: ISelectFormMessage;
+  setImageView: (value: boolean) => void;
+  setImageSrc: (value: string) => void;
 }
 
-const MyMessage: React.FC<IMessagePros> = ({
-  _id,
-  postedDate,
-  content,
-  profilePictureUrl,
-  renderTimeLine,
-  time,
-  type,
-  form,
-}) => {
+const MyMessage: React.FC<IMessagePros> = (props) => {
+  const { content, profilePictureUrl, renderTimeLine, type, form, setImageSrc, setImageView } = props;
   const style = MyMessageStyle();
   const me = useSelector((state: RootState) => state.auth.currentUser) as IUser;
   const [timeline, setTimeline] = useState<ReactElement>();
@@ -76,8 +70,8 @@ const MyMessage: React.FC<IMessagePros> = ({
   };
 
   useEffect(() => {
-    if (renderTimeLine === true) setTimeline(<TimeLine time={new Date(time)} />);
-  }, [renderTimeLine, time]);
+    if (renderTimeLine === true) setTimeline(<TimeLine time={new Date(props.time)} />);
+  }, [renderTimeLine, props.time]);
 
   const chooseOption = (e: React.FormEvent<HTMLButtonElement>) => {
     messageApi.chooseOption(room._id, e.currentTarget.value);
@@ -105,6 +99,10 @@ const MyMessage: React.FC<IMessagePros> = ({
             onError={() => {
               setIsLoading(false);
               setIsError(true);
+            }}
+            onClick={() => {
+              setImageView(true);
+              setImageSrc(content);
             }}
             src={contentMsg}
             alt=""
@@ -164,8 +162,8 @@ const MyMessage: React.FC<IMessagePros> = ({
 
   return (
     <React.Fragment>
-      <ConfirmDeleteMessage isOpen={deleteDialog} setClose={setDeleteDialog} payload={_id} />
-      <EditMessageForm isOpen={editDialog} setClose={setEditDialog} payload={_id} contentMsg={content} />
+      <ConfirmDeleteMessage isOpen={deleteDialog} setClose={setDeleteDialog} payload={props._id} />
+      <EditMessageForm isOpen={editDialog} setClose={setEditDialog} payload={props._id} contentMsg={content} />
       {timeline}
 
       <div className={style.message}>
@@ -202,7 +200,7 @@ const MyMessage: React.FC<IMessagePros> = ({
           )}
           <div className={style.accountInfor}>
             <Typography variant="subtitle2" sx={{ fontSize: '0.75em' }} className={style.date}>
-              {dateUtil.fortmatDate(postedDate)}
+              {dateUtil.fortmatDate(props.postedDate)}
             </Typography>
           </div>
         </Box>

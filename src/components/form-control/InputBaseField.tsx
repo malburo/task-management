@@ -1,3 +1,4 @@
+import { SxProps } from '@mui/lab/node_modules/@mui/system';
 import { FormHelperText, InputBase } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import { Controller, UseFormReturn } from 'react-hook-form';
@@ -13,7 +14,7 @@ interface InputBaseProps {
   startIcon?: JSX.Element;
   endIcon?: JSX.Element;
   endAdornment?: JSX.Element;
-  sx?: any;
+  sx?: SxProps;
 }
 
 const InputBaseField: React.FC<InputBaseProps> = (props) => {
