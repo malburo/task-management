@@ -10,7 +10,7 @@ interface IProps {
 const ImagePreview: React.FC<IProps> = (props) => {
   return (
     <Dialog open={props.open} onClose={props.onClose}>
-      <img alt="" src={props.imageSrc} />
+      <img alt="" src={props.imageSrc} width={500} />
     </Dialog>
   );
 };

@@ -17,7 +17,7 @@ interface IRoomState {
   roomInfor: IRoom;
 }
 const initialState: IRoomState = {
-  roomInfor: { _id: '', board: {} as IBoard, newMessage: 0, image: '', isGeneral: false, members: [], name: '' },
+  roomInfor: { _id: '', board: {} as IBoard, newMessage: 0, image: 'none', isGeneral: false, members: [], name: 'all' },
 };
 
 const roomSlice = createSlice({
@@ -28,20 +28,12 @@ const roomSlice = createSlice({
     builder.addCase(getOneRoom.pending, (state) => {});
     builder.addCase(getOneRoom.rejected, (state) => {});
     builder.addCase(getOneRoom.fulfilled, (state, { payload }: PayloadAction<IRoom>) => {
-      state.roomInfor._id = payload._id;
-      state.roomInfor.board = payload.board;
-      state.roomInfor.isGeneral = payload.isGeneral;
-      state.roomInfor.members = payload.members;
-      state.roomInfor.name = payload.name;
+      state.roomInfor = payload;
     });
     builder.addCase(getGeneralRoom.pending, (state) => {});
     builder.addCase(getGeneralRoom.rejected, (state) => {});
     builder.addCase(getGeneralRoom.fulfilled, (state, { payload }: PayloadAction<IRoom>) => {
-      state.roomInfor._id = payload._id;
-      state.roomInfor.board = payload.board;
-      state.roomInfor.isGeneral = payload.isGeneral;
-      state.roomInfor.members = payload.members;
-      state.roomInfor.name = payload.name;
+      state.roomInfor = payload;
     });
   },
 });

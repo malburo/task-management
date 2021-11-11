@@ -1,23 +1,19 @@
 import { makeStyles } from '@mui/styles';
 
 const sidebarAppChatStyle = makeStyles({
-  sidebar: {
-    backgroundColor: 'rgb(18, 15, 19)',
-    height: '90vh',
-    width: '100%',
-    color: 'gray',
-    overflow: 'hidden',
+  surface: {
+    padding: '20px 7.5% 20px 7.5%',
   },
   sidebarHeader: {
-    margin: '3vh 7.5% 3vh 7.5%',
+    // margin: '3vh 7.5% 3vh 7.5%',
   },
   searchField: {
-    margin: '3vh 7.5% 3vh 7.5%',
+    margin: '3vh 0 3vh 0',
     border: 'none',
     outline: 'none',
     backgroundColor: 'white',
     color: 'white',
-    height: '6vh',
+    height: '55px',
     borderRadius: '10px',
     display: 'flex',
   },
@@ -40,6 +36,7 @@ const sidebarAppChatStyle = makeStyles({
   },
   listChanels: {
     height: '70vh',
+    width: '105%',
     overflowY: 'scroll',
   },
   avatar: {

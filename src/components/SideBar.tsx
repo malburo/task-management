@@ -7,7 +7,10 @@ import { Typography } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import Paper from '@mui/material/Paper';
+import { AppDispatch, RootState } from 'app/store';
+import { getGeneralRoom } from 'features/Chat/ReduxSlice/RoomSlice';
 import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 
 interface IParams {
@@ -17,6 +20,13 @@ interface IParams {
 export default function SideBar() {
   const history = useHistory();
   const { boardId } = useParams<IParams>();
+
+  const room = useSelector((state: RootState) => state.room.roomInfor);
+  const dispatch = useDispatch<AppDispatch>();
+
+  React.useEffect(() => {
+    dispatch(getGeneralRoom(boardId));
+  }, [boardId]);
 
   return (
     <Paper
@@ -39,7 +49,7 @@ export default function SideBar() {
           <DashboardIcon fontSize="small" sx={{ fill: '#4F4F4F' }} />
           <Typography variant="regular3">Board</Typography>
         </MenuItem>
-        <MenuItem sx={{ width: '100%' }} onClick={() => history.push(`/boards/${boardId}/rooms/all`)}>
+        <MenuItem sx={{ width: '100%' }} onClick={() => history.push(`/boards/${boardId}/rooms/${room._id}`)}>
           <ChatIcon fontSize="small" sx={{ fill: '#4F4F4F' }} />
           <Typography variant="regular3">Messages</Typography>
         </MenuItem>

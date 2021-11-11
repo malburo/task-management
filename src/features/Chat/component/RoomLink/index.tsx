@@ -19,7 +19,7 @@ const RoomLink: React.FC<IRoomLinkPros> = ({ roomInfor, hightlight, newMessage }
       sx={{ display: 'flex', justifyContent: 'space-between', overflow: 'hidden' }}
       className={`${hightlight ? style.roomLinkHightLight : style.roomLink} `}
     >
-      <Box sx={{ width: '90%', height: '60px', display: 'flex' }}>
+      <Box sx={{ width: '100%', height: '60px', display: 'flex' }}>
         <img
           alt="none"
           className={style.avatarImg}
@@ -36,7 +36,7 @@ const RoomLink: React.FC<IRoomLinkPros> = ({ roomInfor, hightlight, newMessage }
           className={style.roomName}
         >
           <Stack direction="row" spacing={1}>
-            <Typography>{_.truncate(roomInfor.name, { length: 10 })}</Typography>
+            <Typography>{_.truncate(roomInfor?.name, { length: 10 })}</Typography>
             {roomInfor.isGeneral && <Chip label="ALL" color="primary" />}
             {newMessage > 0 && <Chip label={newMessage > 0 && `${newMessage > 5 ? '5+' : newMessage}`} color="error" />}
           </Stack>

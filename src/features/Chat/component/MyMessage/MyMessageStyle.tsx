@@ -49,6 +49,7 @@ export default makeStyles({
     },
   },
   image: {
+    cursor: 'pointer',
     maxWidth: '100%',
   },
   editForm: {

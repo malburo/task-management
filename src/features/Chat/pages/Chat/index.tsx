@@ -1,8 +1,8 @@
-import { Stack, Box } from '@mui/material';
-import { AppDispatch } from 'app/store';
+import { Stack, Box, Typography } from '@mui/material';
+import { AppDispatch, RootState } from 'app/store';
 import SideBar from 'components/SideBar';
 import { getGeneralRoom, getOneRoom } from 'features/Chat/ReduxSlice/RoomSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useEffect } from 'react';
 import useChat from 'hooks/useChat';
@@ -12,6 +12,7 @@ import { socketClient } from 'api/socketClient';
 import SidebarAppChat from 'features/Chat/component/Sidebar';
 import chatPageStyles from './style';
 import SendMessageForm from 'features/Chat/component/SendMessageForm';
+import theme from 'theme';
 
 interface IParams {
   boardId: string;
@@ -19,9 +20,9 @@ interface IParams {
 }
 
 export default function Chat() {
-  const style = chatPageStyles();
+  const style = chatPageStyles(theme);
   const dispatch = useDispatch<AppDispatch>();
-
+  const room = useSelector((state: RootState) => state.room.roomInfor);
   const { roomId, boardId } = useParams<IParams>();
   // eslint-disable-next-line
   const chat = useChat();
@@ -43,11 +44,16 @@ export default function Chat() {
     <Stack direction="row">
       <SideBar />
       <Box className={style.surface} height="100vh" bgcolor="#fff" flex={1} overflow="hidden">
-        <Box className={style.chatAppBox}>
+        <Box bgcolor="#f8f9fa" className={style.chatAppSidebar}>
           <SidebarAppChat />
         </Box>
-        <Box className={style.chatBox}>
-          <MessageBox />
+        <Box bgcolor="#f8f9fa" className={style.chatBox}>
+          <Box className={style.chatBoxHeader}>
+            <Typography variant="bold5">{room.name}</Typography>
+          </Box>
+          <Box className={style.messagesField}>
+            <MessageBox />
+          </Box>
           <Box className={style.sendMessageField}>
             <SendMessageForm />
           </Box>

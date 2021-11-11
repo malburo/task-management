@@ -12,6 +12,7 @@ import ImageFailed from '../Loader/ImageFailed';
 import ISelectFormMessage from 'models/selectMessage';
 import { IUser } from 'models/user';
 import messageApi from 'api/messageApi';
+import theme from 'theme';
 import ConfirmDeleteMessage from '../FormDialog/ConfirmDeleteMessage';
 import EditMessageForm from '../FormDialog/EditFormMessage';
 import { LinkPreview } from '@dhaiwat10/react-link-preview';
@@ -88,7 +89,7 @@ const MyMessage: React.FC<IMessagePros> = (props) => {
       );
     else if (type === 2)
       return (
-        <div className={`${style.messageContent} ${style.imageContent}`}>
+        <Box className={`${style.messageContent} ${style.imageContent}`}>
           {isLoading && <ImageLoading />}
           {isError && <ImageFailed />}
           <img
@@ -107,7 +108,7 @@ const MyMessage: React.FC<IMessagePros> = (props) => {
             src={contentMsg}
             alt=""
           />
-        </div>
+        </Box>
       );
     else if (type === 3)
       return (

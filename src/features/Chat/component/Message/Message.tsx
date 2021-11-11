@@ -15,6 +15,7 @@ import messageApi from 'api/messageApi';
 import { LinkPreview } from '@dhaiwat10/react-link-preview';
 import LinkPreviewSkeleteon from '../skeleton/LinkPreviewSkeletion';
 import AlignVerticalBottomIcon from '@mui/icons-material/AlignVerticalBottom';
+import theme from 'theme';
 
 interface IMessagePros {
   name: string;
@@ -69,10 +70,10 @@ const Message: React.FC<IMessagePros> = (props) => {
       {timeline}
       <Box className={style.message}>
         <Box className={style.avatar}>
-          <img className={style.avatarImg} alt="none" src={props.profilePictureUrl}></img>
+          <img className={style.avatarImg} alt="none" src={props.profilePictureUrl} />
         </Box>
         <Box>
-          <Box sx={{ display: 'flex' }}>
+          <Box flex="true">
             {type === 3 && (
               <Box className={style.messageContent}>
                 <AlignVerticalBottomIcon sx={{ float: 'right' }} />

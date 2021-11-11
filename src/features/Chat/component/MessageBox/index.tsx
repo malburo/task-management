@@ -1,9 +1,7 @@
 import { Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { AppDispatch, RootState } from 'app/store';
-import { getGeneralRoom, getOneRoom } from 'features/Chat/ReduxSlice/RoomSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
 import { useEffect, useState } from 'react';
 import Message from 'features/Chat/component/Message/Message';
 import MyMessage from 'features/Chat/component/MyMessage/MyMessage';
@@ -19,41 +17,29 @@ import ImagePreview from '../ImagePreview';
 
 const useStyle = makeStyles({
   messagesField: {
-    height: 'calc(100% - 80px)',
+    height: '100%',
   },
   sendMessageField: {
     height: '80px',
   },
 });
 
-interface IParams {
-  boardId: string;
-  roomId: string;
-}
-
 export default function MessageBox() {
   let timeLine = 0;
-  const style = useStyle();
-  const dispatch = useDispatch<AppDispatch>();
-
-  const { roomId, boardId } = useParams<IParams>();
-  const room = useSelector((state: RootState) => state.room.roomInfor);
-  const messages = useSelector(messagesSeletor.selectAll);
-  const me = useSelector((state: RootState) => state.auth.currentUser) as IUser;
   const [seed, setSeed] = useState(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [imageSrc, setImageSrc] = useState<string>('');
   const [openImage, setOpenImage] = useState<boolean>(false);
   const messagesBox = React.useRef<HTMLDivElement>(null);
+
+  const style = useStyle();
+  const dispatch = useDispatch<AppDispatch>();
+  const room = useSelector((state: RootState) => state.room.roomInfor);
+  const messages = useSelector(messagesSeletor.selectAll);
+  const me = useSelector((state: RootState) => state.auth.currentUser) as IUser;
+
   // eslint-disable-next-line
   const chat = useChat();
-
-  useEffect(() => {
-    if (roomId !== 'all') dispatch(getOneRoom(roomId));
-    else dispatch(getGeneralRoom(boardId));
-
-    // eslint-disable-next-line
-  }, [roomId, boardId]);
 
   useEffect(() => {
     setSeed(0);
@@ -63,21 +49,17 @@ export default function MessageBox() {
       setIsLoading(false);
       messagesBox.current?.scroll({ top: messagesBox.current.scrollHeight });
     });
-
-    // eslint-disable-next-line
   }, [room]);
 
-  const fetchMoreMsg = (scrollPosition: Number) => {
-    (async () => {
-      if (scrollPosition !== 0) return;
-      if (room._id === '') return;
-      setIsLoading(true);
-      const positionScroll = messagesBox.current?.scrollHeight || 0;
-      await dispatch(getMessageInRoom({ id: room._id, seed: seed + 1 }));
-      setIsLoading(false);
-      await messagesBox.current?.scroll({ top: messagesBox.current?.scrollHeight - positionScroll });
-      setSeed(seed + 1);
-    })();
+  const fetchMoreMsg = async (scrollPosition: Number) => {
+    if (scrollPosition !== 0) return;
+    if (room._id === '') return;
+    setIsLoading(true);
+    const positionScroll = messagesBox.current?.scrollHeight || 0;
+    await dispatch(getMessageInRoom({ id: room._id, seed: seed + 1 }));
+    setIsLoading(false);
+    await messagesBox.current?.scroll({ top: messagesBox.current?.scrollHeight - positionScroll });
+    setSeed(seed + 1);
   };
 
   const debounceCall = debounce((scrollPosition) => fetchMoreMsg(scrollPosition), 500);
