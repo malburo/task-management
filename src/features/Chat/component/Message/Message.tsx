@@ -4,7 +4,7 @@ import _ from 'lodash';
 import dateUtil from 'utilities/dateUtil';
 import TimeLine from '../HorizontalRule/TimeLine';
 import { Box } from '@mui/system';
-import { Button, Input, Typography } from '@mui/material';
+import { Avatar, Button, Input, Tooltip, Typography } from '@mui/material';
 import ImageLoading from '../Loader/ImageLoading';
 import ImageFailed from '../Loader/ImageFailed';
 import { useSelector } from 'react-redux';
@@ -15,16 +15,15 @@ import messageApi from 'api/messageApi';
 import { LinkPreview } from '@dhaiwat10/react-link-preview';
 import LinkPreviewSkeleteon from '../skeleton/LinkPreviewSkeletion';
 import AlignVerticalBottomIcon from '@mui/icons-material/AlignVerticalBottom';
-import theme from 'theme';
+import AccountPreview from '../AccountPreview';
 
 interface IMessagePros {
-  name: string;
   postedDate: Date;
   content: string;
-  profilePictureUrl: string;
   renderTimeLine: Boolean;
   time: Date;
   type: Number;
+  owner: IUser;
   form?: ISelectFormMessage;
   setImageView: (value: boolean) => void;
   setImageSrc: (value: string) => void;
@@ -40,6 +39,8 @@ const Message: React.FC<IMessagePros> = (props) => {
   const me = useSelector((state: RootState) => state.auth.currentUser) as IUser;
   const [url, setUrl] = useState<string>();
   let sortedData = [...(form?.options ?? [])].sort((a, b) => (b.userId?.length ?? 0) - (a.userId?.length ?? 0));
+
+  const [openTooltip, setOpenTooltip] = React.useState(false);
 
   const chooseOption = (e: React.FormEvent<HTMLButtonElement>) => {
     messageApi.chooseOption(room._id, e.currentTarget.value);
@@ -70,7 +71,15 @@ const Message: React.FC<IMessagePros> = (props) => {
       {timeline}
       <Box className={style.message}>
         <Box className={style.avatar}>
-          <img className={style.avatarImg} alt="none" src={props.profilePictureUrl} />
+          <Tooltip arrow placement="top" open={openTooltip} title={<AccountPreview value={props.owner} />}>
+            <Avatar
+              onMouseEnter={() => setOpenTooltip(true)}
+              onMouseLeave={() => setOpenTooltip(false)}
+              className={style.avatarImg}
+              alt="none"
+              src={props.owner.profilePictureUrl}
+            />
+          </Tooltip>
         </Box>
         <Box>
           <Box flex="true">
@@ -159,9 +168,9 @@ const Message: React.FC<IMessagePros> = (props) => {
             </Box>
           )}
           <Box className={style.accountInfor}>
-            <Typography sx={{ fontSize: '0.75em' }} variant="subtitle2" className={style.name}>
+            {/* <Typography sx={{ fontSize: '0.75em' }} variant="subtitle2" className={style.name}>
               {props.name},
-            </Typography>
+            </Typography> */}
             <Typography sx={{ fontSize: '0.75em' }} variant="subtitle2">
               {dateUtil.fortmatDate(props.postedDate)}
             </Typography>

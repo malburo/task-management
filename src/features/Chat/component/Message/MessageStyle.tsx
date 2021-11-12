@@ -42,6 +42,8 @@ export default makeStyles({
     color: 'white!important',
     padding: '1rem',
     borderRadius: '20px',
+    maxWidth: '70%',
+    width: 'fit-content',
   },
   linkPreview: {
     width: '100%',

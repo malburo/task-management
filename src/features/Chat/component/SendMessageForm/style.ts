@@ -1,8 +1,13 @@
 import { Theme } from '@mui/material';
 import { createStyles, makeStyles } from '@mui/styles';
 
-const useSendMessageFormStyles = makeStyles((theme: Theme) =>
-  createStyles({
+const useSendMessageFormStyles = makeStyles((theme: Theme) => {
+  let bgColor = { bg: '#e7e7e7', text: 'default' };
+  if (theme.palette.mode === 'dark') {
+    bgColor.bg = 'gray';
+    bgColor.text = 'white';
+  }
+  return createStyles({
     formField: {
       height: '80px',
       width: '100%',
@@ -11,7 +16,13 @@ const useSendMessageFormStyles = makeStyles((theme: Theme) =>
     messageInput: {
       marginTop: '15px',
       marginLeft: '5%',
-      width: '90%',
+      [theme.breakpoints.up('sm')]: {
+        width: '90%',
+      },
+      [theme.breakpoints.down('sm')]: {
+        width: '98%',
+        margin: '2.5px 1% 0px 1%',
+      },
       height: '50px',
       display: 'inline-block',
       borderRadius: '10px',
@@ -27,7 +38,8 @@ const useSendMessageFormStyles = makeStyles((theme: Theme) =>
       outline: 'none',
       width: '90%',
       height: '45px',
-      backgroundColor: '#e7e7e7',
+      backgroundColor: bgColor.bg,
+      color: bgColor.text,
       borderRadius: '10px',
       margin: '2.5px 10px 0px 10px',
       paddingLeft: '1%',
@@ -43,15 +55,12 @@ const useSendMessageFormStyles = makeStyles((theme: Theme) =>
     },
     imageButton: {
       borderRadius: '10px !important',
-      margin: '2.5px !important',
       height: '45px !important',
-      backgroundColor: '#2F80ED !important',
-      color: 'white !important',
       boxShadow: 'none',
       width: '56px',
-      marginLeft: '10px !important',
+      marginLeft: '5px !important',
     },
-  })
-);
+  });
+});
 
 export default useSendMessageFormStyles;

@@ -79,7 +79,7 @@ export default function SendMessageForm() {
             type="file"
           />
           <label htmlFor="contained-button-file">
-            <Fab component="span" className={style.imageButton}>
+            <Fab component="span" className={style.imageButton} color="primary">
               <AddPhotoAlternateIcon />
             </Fab>
           </label>
@@ -92,7 +92,7 @@ export default function SendMessageForm() {
             type="text"
             placeholder="Type a message here"
             {...register('msgContent')}
-          ></input>
+          />
           {!errors.msgContent && (
             <Button type="submit" className={style.messageSubmit} variant="contained" color="primary">
               <SendIcon />

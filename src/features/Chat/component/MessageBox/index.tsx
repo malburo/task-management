@@ -49,6 +49,7 @@ export default function MessageBox() {
       setIsLoading(false);
       messagesBox.current?.scroll({ top: messagesBox.current.scrollHeight });
     });
+    // eslint-disable-next-line
   }, [room]);
 
   const fetchMoreMsg = async (scrollPosition: Number) => {
@@ -90,8 +91,6 @@ export default function MessageBox() {
           return (
             <Message
               key={item._id}
-              profilePictureUrl={item.postedBy.profilePictureUrl}
-              name={item.postedBy.fullname}
               postedDate={date}
               content={item.content}
               renderTimeLine={renderTimeline}
@@ -100,6 +99,7 @@ export default function MessageBox() {
               form={item.form}
               setImageView={setOpenImage}
               setImageSrc={setImageSrc}
+              owner={item.postedBy}
             />
           );
         else

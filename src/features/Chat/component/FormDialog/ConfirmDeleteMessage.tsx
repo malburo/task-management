@@ -1,11 +1,9 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 import React from 'react';
 import { Dispatch, SetStateAction } from 'react-transition-group/node_modules/@types/react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from 'app/store';
 import { deleteOne } from 'features/Chat/ReduxSlice/MessagesSlice';
-import CloseIcon from '@mui/icons-material/Close';
-import DoneIcon from '@mui/icons-material/Done';
 import { unwrapResult } from '@reduxjs/toolkit';
 import toast from 'react-hot-toast';
 
@@ -31,20 +29,20 @@ const ConfirmDeleteMessage: React.FC<IPropsAlert> = (props) => {
 
   return (
     <Dialog open={props.isOpen}>
-      <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
+      <DialogTitle>
         <Typography sx={{ lineHeight: '32px' }}>Confirm</Typography>
-        <IconButton color="error" onClick={() => props.setClose(false)}>
-          <CloseIcon />
-        </IconButton>
       </DialogTitle>
       <DialogContent>
-        <Typography variant="body2" sx={{ textAlign: 'center', marginTop: '10px' }}>
+        <Typography variant="body2" sx={{ color: '#afafaf', fontSize: 20, fontWeight: 500 }}>
           Are you sure to delete this message?
         </Typography>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleDelete} color="success" startIcon={<DoneIcon />}>
-          Yes
+        <Button onClick={() => props.setClose(false)} color="secondary" variant="contained">
+          Cancel
+        </Button>
+        <Button onClick={handleDelete} color="primary" variant="contained" autoFocus>
+          Ok
         </Button>
       </DialogActions>
     </Dialog>

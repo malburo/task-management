@@ -34,7 +34,7 @@ interface IMessagePros {
 
 const MyMessage: React.FC<IMessagePros> = (props) => {
   const { content, profilePictureUrl, renderTimeLine, type, form, setImageSrc, setImageView } = props;
-  const style = MyMessageStyle();
+  const style = MyMessageStyle(theme);
   const me = useSelector((state: RootState) => state.auth.currentUser) as IUser;
   const [timeline, setTimeline] = useState<ReactElement>();
   const [deleteDialog, setDeleteDialog] = useState<boolean>(false);

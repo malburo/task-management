@@ -3,11 +3,12 @@ import { IRoom } from 'models/room';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import RoomLink from '../RoomLink';
-import { useSelector } from 'react-redux';
-import { RootState } from 'app/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from 'app/store';
 import { Box } from '@mui/material';
 import { socketClient } from 'api/socketClient';
 import useListRoomStyles from './style';
+import { setIsOpenMenu } from 'features/Chat/ReduxSlice/uiSlice';
 
 interface IListRoom {
   term: string;
@@ -17,6 +18,7 @@ const ListRooms: React.FC<IListRoom> = (props) => {
   const [rooms, setRooms] = useState<IRoom[]>([]);
   const board = useSelector((state: RootState) => state.board);
   const room = useSelector((state: RootState) => state.room.roomInfor);
+  const dispatch = useDispatch<AppDispatch>();
   const style = useListRoomStyles();
 
   useEffect(() => {
@@ -55,7 +57,12 @@ const ListRooms: React.FC<IListRoom> = (props) => {
           let hightlight = false;
           if (i._id === room._id) hightlight = true;
           return (
-            <Link key={i._id} to={`/boards/${board._id}/rooms/${i._id}`} className={style.link}>
+            <Link
+              key={i._id}
+              to={`/boards/${board._id}/rooms/${i._id}`}
+              className={style.link}
+              onClick={() => dispatch(setIsOpenMenu(false))}
+            >
               <RoomLink newMessage={i.newMessage} hightlight={hightlight} roomInfor={i} />
             </Link>
           );
