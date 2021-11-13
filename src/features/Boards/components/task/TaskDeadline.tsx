@@ -3,16 +3,23 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Button, Grid, Popover, Typography } from '@mui/material';
 import { Box } from '@mui/system';
+import taskApi from 'api/taskApi';
 import { format } from 'date-fns';
 import React, { useState } from 'react';
+import { useParams } from 'react-router';
 
 interface Props {
   value: Date;
+  status: string;
+}
+interface Params {
+  boardId: string;
+  taskId: string;
 }
 
-const TaskDeadline: React.FC<Props> = ({ value }) => {
+const TaskDeadline: React.FC<Props> = ({ value, status }) => {
+  const { boardId, taskId } = useParams<Params>();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [status, setStatus] = useState<'UNFINISHED' | 'FINISHED'>('UNFINISHED');
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -25,12 +32,14 @@ const TaskDeadline: React.FC<Props> = ({ value }) => {
   const open = Boolean(anchorEl);
   const id = open ? 'deadline-popover' : undefined;
 
-  const handleClickUnfinished = () => {
-    setStatus('UNFINISHED');
+  const handleClickUnfinished = async () => {
+    const payload = { boardId, taskId, data: { status: 'UNFINISHED' } };
+    await taskApi.update(payload);
     setAnchorEl(null);
   };
-  const handleClickFinished = () => {
-    setStatus('FINISHED');
+  const handleClickFinished = async () => {
+    const payload = { boardId, taskId, data: { status: 'FINISHED' } };
+    await taskApi.update(payload);
     setAnchorEl(null);
   };
 
@@ -42,7 +51,7 @@ const TaskDeadline: React.FC<Props> = ({ value }) => {
         variant="contained"
         startIcon={<AccessTimeIcon />}
         sx={{
-          backgroundColor: status === 'UNFINISHED' ? '#f54a3ecc' : '#5cd061',
+          backgroundColor: status === 'UNFINISHED' ? '#EB5757' : '#5fb181',
           '&:hover': { backgroundColor: status === 'UNFINISHED' ? '#d14137cc' : '#54c059' },
         }}
       >
@@ -63,14 +72,9 @@ const TaskDeadline: React.FC<Props> = ({ value }) => {
         }}
         sx={{
           marginTop: '12px',
-          marginLeft: '8px',
         }}
       >
-        <Box
-          sx={{
-            padding: '16px',
-          }}
-        >
+        <Box padding="16px">
           <Box>
             <Typography variant="bold2">Deadline</Typography>
           </Box>
@@ -86,10 +90,10 @@ const TaskDeadline: React.FC<Props> = ({ value }) => {
             sx={{ cursor: 'pointer', '&:hover': { backgroundColor: '#F2F2F2' } }}
           >
             <Grid container alignItems="center">
-              <ErrorIcon sx={{ marginRight: '8px' }} />
-              <Typography variant="regular2">UnFinished</Typography>
+              <ErrorIcon sx={{ marginRight: '8px', color: '#EB5757' }} />
+              <Typography variant="regular2">Unfinished</Typography>
             </Grid>
-            <Typography variant="regular1">Anyone on the internet can see this.</Typography>
+            <Typography variant="regular1">choose when you haven't finished the task.</Typography>
           </Box>
           <Box
             padding="12px"
@@ -99,10 +103,10 @@ const TaskDeadline: React.FC<Props> = ({ value }) => {
             sx={{ cursor: 'pointer', '&:hover': { backgroundColor: '#F2F2F2' } }}
           >
             <Grid container alignItems="center">
-              <CheckCircleIcon sx={{ marginRight: '8px' }} />
+              <CheckCircleIcon sx={{ marginRight: '8px', color: '#5fb181' }} />
               <Typography variant="regular2">Finished</Typography>
             </Grid>
-            <Typography variant="regular1">Anyone on the internet can see this.</Typography>
+            <Typography variant="regular1">Choose when you have finished task.</Typography>
           </Box>
         </Box>
       </Popover>

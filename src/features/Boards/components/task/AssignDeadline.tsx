@@ -31,7 +31,7 @@ const AssignDeadline: React.FC<Props> = ({ value }) => {
   };
   const onSubmit = async () => {
     if (!dateTimeValue) return;
-    const payload = { boardId, taskId, data: { deadlineDay: dateTimeValue } };
+    const payload = { boardId, taskId, data: { deadlineDay: dateTimeValue, status: 'UNFINISHED' } };
     await taskApi.update(payload);
     setAnchorEl(null);
   };

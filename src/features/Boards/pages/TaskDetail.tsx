@@ -144,12 +144,14 @@ export default function TaskDetail() {
               {labels.map((label) => (
                 <Chip
                   label={label.name}
-                  sx={{ bgcolor: `${label.color}26`, color: label.color, margin: '0px 4px 4px 0px', fontWeight: '700' }}
+                  sx={{ bgcolor: `${label.color}26`, color: label.color, margin: '0px 8px 4px 0px', fontSize: '12px' }}
                   key={label._id}
                 />
               ))}
             </Box>
-            <Box marginTop="12px">{task.deadlineDay && <TaskDeadline value={task.deadlineDay} />}</Box>
+            <Box marginTop="12px">
+              {task.deadlineDay && <TaskDeadline value={task.deadlineDay} status={task.status} />}
+            </Box>
           </Box>
           <IconButton
             aria-label="close"

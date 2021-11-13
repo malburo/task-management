@@ -53,7 +53,12 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
           {labels.map((label) => (
             <Chip
               label={label.name}
-              sx={{ bgcolor: `${label.color}26`, color: label.color, margin: '0px 4px 4px 0px', fontWeight: '700' }}
+              sx={{
+                bgcolor: `${label.color}26`,
+                color: label.color,
+                margin: '0px 8px 4px 0px',
+                fontSize: '12px',
+              }}
               key={label._id}
             />
           ))}
@@ -66,7 +71,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
           </AvatarGroup>
           {task.deadlineDay && (
             <Box
-              bgcolor="#f54a3ecc"
+              bgcolor={`${task.status === 'UNFINISHED' ? '#EB5757' : '#5fb181'}`}
               borderRadius="4px "
               padding="4px 8px"
               display="flex"
