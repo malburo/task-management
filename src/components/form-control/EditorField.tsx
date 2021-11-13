@@ -1,10 +1,4 @@
-import {
-  BoldButton,
-  ItalicButton,
-  OrderedListButton,
-  UnderlineButton,
-  UnorderedListButton,
-} from '@draft-js-plugins/buttons';
+import { BoldButton, ItalicButton, UnderlineButton, UnorderedListButton } from '@draft-js-plugins/buttons';
 import Editor from '@draft-js-plugins/editor';
 import createInlineToolbarPlugin from '@draft-js-plugins/inline-toolbar';
 import '@draft-js-plugins/inline-toolbar/lib/plugin.css';

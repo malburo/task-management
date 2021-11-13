@@ -10,6 +10,7 @@ import { useHistory, useLocation } from 'react-router';
 import BoardCard from '../components/board/BoardCard';
 import AddBoard, { AddBoardFormValues } from '../components/board/AddBoard';
 import BoardSkeleton from '../components/skeleton/BoardSkeleton';
+import Header from 'components/Header';
 
 const Boards = () => {
   const [boardList, setBoardList] = useState<IBoard[]>([]);
@@ -63,6 +64,7 @@ const Boards = () => {
   };
   return (
     <>
+      <Header />
       <Container sx={{ minHeight: 'calc(100vh - 145px)', marginTop: '65px', paddingTop: '24px' }}>
         <Stack direction="row" justifyContent="space-between" alignItems="center" marginBottom="24px">
           <Typography variant="regular6">All Boards</Typography>

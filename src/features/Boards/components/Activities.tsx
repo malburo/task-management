@@ -1,8 +1,7 @@
-import { Stack, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import activityApi from 'api/activityApi';
 import { socketClient } from 'api/socketClient';
-import SideBar from 'components/SideBar';
 import { IActivity } from 'models/activity';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';

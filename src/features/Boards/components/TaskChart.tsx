@@ -28,17 +28,7 @@ const data = {
     },
   ],
 };
-const options = {
-  scales: {
-    yAxes: [
-      {
-        ticks: {
-          beginAtZero: true,
-        },
-      },
-    ],
-  },
-};
+
 const TaskChart = () => {
   return (
     <Box padding="48px" borderRadius="12px" width="800px" bgcolor="#fff" boxSizing="border-box" marginTop="24px">
