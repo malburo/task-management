@@ -1,4 +1,4 @@
-import { AddColumnPayload } from 'features/Boards/components/form/AddColumn';
+import { AddColumnPayload } from 'features/Boards/components/column/AddColumn';
 import { Response } from 'models/common';
 import { IColumn } from './../models/column';
 import axiosClient from './axiosClient';
