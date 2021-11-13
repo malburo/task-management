@@ -7,8 +7,8 @@ import { IParams } from 'models/common';
 import queryString from 'query-string';
 import { useEffect, useMemo, useState } from 'react';
 import { useHistory, useLocation } from 'react-router';
-import BoardCard from '../components/BoardCard';
-import AddBoard, { AddBoardFormValues } from '../components/form/AddBoard';
+import BoardCard from '../components/board/BoardCard';
+import AddBoard, { AddBoardFormValues } from '../components/board/AddBoard';
 import BoardSkeleton from '../components/skeleton/BoardSkeleton';
 
 const Boards = () => {

@@ -1,10 +1,10 @@
 import AddIcon from '@mui/icons-material/Add';
 import GroupIcon from '@mui/icons-material/Group';
+import RemoveIcon from '@mui/icons-material/Remove';
 import SearchIcon from '@mui/icons-material/Search';
 import { Avatar, Box, Button, Popover, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import taskApi from 'api/taskApi';
-import { RootState } from 'app/store';
 import InputBaseField from 'components/form-control/InputBaseField';
 import { membersSelector } from 'features/Boards/boardSlice';
 import { ITask } from 'models/task';
@@ -27,33 +27,33 @@ interface Props {
 const AssignTask: React.FC<Props> = ({ task }) => {
   const { boardId, taskId } = useParams<Params>();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const members: IUser[] = useSelector((state: RootState) =>
-    membersSelector.selectAll(state).filter((member: IUser) => !task.membersId.includes(member._id))
-  );
+  const memberList: IUser[] = useSelector(membersSelector.selectAll);
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popper' : undefined;
+
+  const form = useForm({
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+    defaultValues: {
+      search: '',
+    },
+  });
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
+    form.reset();
   };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popper' : undefined;
-
-  const form = useForm({
-    mode: 'onSubmit',
-    reValidateMode: 'onChange',
-    defaultValues: {
-      search: '',
-    },
-  });
 
   const onClickAssignTask = async (memberId: string) => {
     await taskApi.pushMember({ boardId, taskId, memberId });
-    setAnchorEl(null);
   };
-  const onSubmit = async ({ search }: FormValues) => {};
+  const onClickReAssignTask = async (memberId: string) => {
+    await taskApi.pullMember({ boardId, taskId, memberId });
+  };
+  const handleSearchMember = async ({ search }: FormValues) => {};
   return (
     <Box>
       <Button
@@ -91,31 +91,46 @@ const AssignTask: React.FC<Props> = ({ task }) => {
             <Typography variant="regular2">Assign members to this card </Typography>
           </Box>
           <Box boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)" marginTop="12px" borderRadius="8px">
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <form onSubmit={form.handleSubmit(handleSearchMember)}>
               <InputBaseField
                 form={form}
                 name="search"
                 placeholder="User..."
                 sx={{ fontSize: '14px', padding: '4px 12px' }}
                 endAdornment={
-                  <IconButton color="primary">
+                  <IconButton color="primary" type="submit">
                     <SearchIcon sx={{ fontSize: '16px' }} />
                   </IconButton>
                 }
               />
             </form>
           </Box>
-          <Box padding="12px" marginTop="24px" boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)" borderRadius="12px">
-            {members.length > 0 &&
-              members.map((member) => (
+          <Box
+            padding="12px"
+            margin="24px 0px 12px 0px"
+            boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)"
+            borderRadius="12px"
+          >
+            {memberList
+              .filter((member) => member.username.includes(form.getValues('search')))
+              .map((member) => (
                 <Box display="flex" alignItems="center" justifyContent="space-between" marginY="12px" key={member._id}>
                   <Box display="flex" alignItems="center" justifyContent="space-between">
                     <Avatar src={member.profilePictureUrl} sx={{ marginRight: '12px' }} />
                     <Typography variant="regular2">{member.username}</Typography>
                   </Box>
-                  <IconButton color="primary" onClick={() => onClickAssignTask(member._id)}>
-                    <AddIcon sx={{ fontSize: '16px' }} />
-                  </IconButton>
+                  {task.membersId.includes(member._id) ? (
+                    <IconButton
+                      onClick={() => onClickReAssignTask(member._id)}
+                      sx={{ backgroundColor: '#ff6357', '&:hover': { backgroundColor: '#e5574d' } }}
+                    >
+                      <RemoveIcon sx={{ fontSize: '16px' }} />
+                    </IconButton>
+                  ) : (
+                    <IconButton color="primary" onClick={() => onClickAssignTask(member._id)}>
+                      <AddIcon sx={{ fontSize: '16px' }} />
+                    </IconButton>
+                  )}
                 </Box>
               ))}
           </Box>
