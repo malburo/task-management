@@ -12,7 +12,7 @@ interface InputFieldProps {
   size?: string;
   startIcon?: JSX.Element;
   endIcon?: JSX.Element;
-  autoComplete?: string; // Thêm cái này để t chống auto complete cho cái message input nha
+  autoComplete?: string;
 }
 
 const InputField: React.FC<InputFieldProps> = (props) => {
