@@ -8,6 +8,6 @@ export interface ITask {
   labelsId: string[];
   deadlineDay: Date;
   reminderDay: Date;
-  createAt: Date;
+  createdAt: Date;
   updatedAt: Date;
 }

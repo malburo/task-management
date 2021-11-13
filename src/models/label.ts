@@ -3,6 +3,6 @@ export interface ILabel {
   boardId: string;
   name: string;
   color: string;
-  createAt: Date;
+  createdAt: Date;
   updatedAt: Date;
 }
