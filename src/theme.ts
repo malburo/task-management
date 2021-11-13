@@ -321,6 +321,13 @@ const theme = createTheme({
         },
       },
     },
+    MuiDialogContent: {
+      styleOverrides: {
+        root: {
+          overflowY: 'unset',
+        },
+      },
+    },
   },
 });
 
