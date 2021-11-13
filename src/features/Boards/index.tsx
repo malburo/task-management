@@ -1,19 +1,43 @@
+import { socketClient } from 'api/socketClient';
+import { AppDispatch } from 'app/store';
 import Chat from 'features/Chat/pages/Chat';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { Route, Switch, useParams } from 'react-router-dom';
 import Header from '../../components/Header';
+import { getOneBoard } from './boardSlice';
 import BoardDetail from './pages/BoardDetail';
-import Boards from './pages/Boards';
+import DashBoard from './pages/DashBoard';
+
+interface IParams {
+  boardId: string;
+}
 
 const BoardFeature: React.FC = () => {
-  const match = useRouteMatch();
+  const { boardId } = useParams<IParams>();
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    socketClient.emit('board:join', boardId);
+    return () => {
+      socketClient.emit('board:leave', boardId);
+    };
+  }, [boardId]);
+
+  useEffect(() => {
+    (async () => {
+      await dispatch(getOneBoard({ boardId: boardId }));
+    })();
+  }, [dispatch, boardId]);
+
   return (
     <>
       <Header />
       <Switch>
-        <Route exact path={`${match.url}`} component={Boards} />
-        <Route exact path={`${match.url}/:boardId/rooms/:roomId`} component={Chat} />
-        <Route exact path={`${match.url}/:boardId`} component={BoardDetail} />
-        <Route exact path={`${match.url}/:boardId/tasks/:taskId`} component={BoardDetail} />
+        <Route exact path={`/boards/:boardId/rooms/:roomId`} component={Chat} />
+        <Route exact path={`/boards/:boardId`} component={BoardDetail} />
+        <Route exact path={`/boards/:boardId/dashboard`} component={DashBoard} />
+        <Route exact path={`/boards/:boardId/tasks/:taskId`} component={BoardDetail} />
       </Switch>
     </>
   );
