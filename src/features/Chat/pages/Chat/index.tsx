@@ -1,17 +1,14 @@
-import { Stack, Box } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { Box, Stack } from '@mui/material';
 import { AppDispatch } from 'app/store';
 import SideBar from 'components/SideBar';
+import MessageBox from 'features/Chat/component/MessageBox';
+import SendMessageForm from 'features/Chat/component/SendMessageForm/SendMessageForm';
+import SidebarAppChat from 'features/Chat/component/Sidebar';
 import { getGeneralRoom, getOneRoom } from 'features/Chat/ReduxSlice/RoomSlice';
+import useChat from 'hooks/useChat';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
-import { useEffect } from 'react';
-import SendMessageForm from 'features/Chat/component/SendMessageForm/SendMessageForm';
-import useChat from 'hooks/useChat';
-import MessageBox from 'features/Chat/component/MessageBox';
-import { getOneBoard } from 'features/Boards/boardSlice';
-import { socketClient } from 'api/socketClient';
-import SidebarAppChat from 'features/Chat/component/Sidebar';
 import chatPageStyles from './style';
 
 interface IParams {
@@ -29,14 +26,7 @@ export default function Chat() {
   useEffect(() => {
     if (roomId !== 'all') dispatch(getOneRoom(roomId));
     else dispatch(getGeneralRoom(boardId));
-
-    dispatch(getOneBoard({ boardId }));
-    socketClient.emit('board:join', boardId);
-
-    return () => {
-      socketClient.emit('board:leave', boardId);
-    };
-  }, [roomId, boardId]);
+  }, [roomId, boardId, dispatch]);
 
   return (
     <Stack direction="row">
