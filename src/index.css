@@ -4,7 +4,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box !important;
-  background-color: #f8f9fd;
+  /* background-color: #f8f9fd; */
 }
 a {
   text-decoration: none;

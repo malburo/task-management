@@ -54,7 +54,7 @@ const Header = () => {
           <Stack direction="row" alignItems="center">
             <img src={Logo} alt="logo" onClick={() => history.push('/')} style={{ cursor: 'pointer' }} />
             <Typography variant="semiBold5" sx={{ marginX: 4, display: { xs: 'none', md: 'block' } }}>
-              Task
+              Tasker
             </Typography>
           </Stack>
           <Box display="flex" alignItems="center">
@@ -62,7 +62,11 @@ const Header = () => {
               <>
                 <Search />
                 <NotificationFeature />
-                <Avatar variant="rounded" onClick={handleProfileMenuOpen} src={currentUser?.profilePictureUrl} />
+                <Avatar
+                  onClick={handleProfileMenuOpen}
+                  src={currentUser?.profilePictureUrl}
+                  sx={{ width: '40px', height: '40px' }}
+                />
               </>
             ) : (
               <>

@@ -19,7 +19,18 @@ const NotificationFeature: React.FC = () => {
   };
   return (
     <Box>
-      <IconButton onClick={handleOpen}>
+      <IconButton
+        onClick={handleOpen}
+        color="inherit"
+        sx={{
+          marginRight: '12px',
+          backgroundColor: 'transparent',
+          color: '#898989',
+          '&:hover': { backgroundColor: '#efefef' },
+          width: '40px',
+          height: '40px',
+        }}
+      >
         <NotificationsIcon />
       </IconButton>
       <Popover
