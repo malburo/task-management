@@ -324,7 +324,7 @@ const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          zIndex: 999,
+          zIndex: 1000,
         },
       },
     },
