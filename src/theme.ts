@@ -324,7 +324,14 @@ const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          zIndex: 1000,
+          zIndex: 900,
+        },
+      },
+    },
+    MuiDialogContent: {
+      styleOverrides: {
+        root: {
+          overflowY: 'unset',
         },
       },
     },

@@ -11,11 +11,11 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { applyDrag } from 'utilities/dragDrop';
 import { mapOrder } from 'utilities/sorts';
-import { tasksSelector, updateColumn, updateTask } from '../boardSlice';
-import AddTask from './form/AddTask';
-import DeleteColumn from './form/DeleteColumn';
-import EditColumnTitle from './form/EditColumTitle';
-import TaskCard from './TaskCard';
+import { tasksSelector, updateColumn, updateTask } from '../../boardSlice';
+import AddTask from '../task/AddTask';
+import DeleteColumn from './DeleteColumn';
+import EditColumnTitle from './EditColumTitle';
+import TaskCard from '../task/TaskCard';
 
 interface ColumnProps {
   column: IColumn;

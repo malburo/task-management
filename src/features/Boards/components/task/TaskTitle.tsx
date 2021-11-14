@@ -1,4 +1,5 @@
-import { Box } from '@mui/material';
+import SubtitlesIcon from '@mui/icons-material/Subtitles';
+import { Box, Typography } from '@mui/material';
 import taskApi from 'api/taskApi';
 import EditableField from 'components/form-control/EditableField';
 import { useEffect } from 'react';
@@ -8,7 +9,7 @@ import { useParams } from 'react-router';
 interface FormValues {
   title: string;
 }
-interface EditTaskTitleState {
+interface Props {
   value: string;
 }
 interface Params {
@@ -16,7 +17,7 @@ interface Params {
   taskId: string;
 }
 
-const EditTaskTitle: React.FC<EditTaskTitleState> = ({ value }) => {
+const TaskTitle: React.FC<Props> = ({ value }) => {
   const { boardId, taskId } = useParams<Params>();
   const form = useForm({
     mode: 'onSubmit',
@@ -41,10 +42,18 @@ const EditTaskTitle: React.FC<EditTaskTitleState> = ({ value }) => {
   };
 
   return (
-    <Box height="30px">
-      <EditableField form={form} name="title" placeholder="Title..." onBlur={onSubmit} maxLength={40} />
-    </Box>
+    <>
+      <Box display="flex" alignItems="center" color="#BDBDBD" marginBottom="12px" height="30px">
+        <SubtitlesIcon sx={{ width: '20px', height: '20px', marginRight: '4px' }} />
+        <Typography variant="regular2" sx={{ marginRight: '4px' }}>
+          Title
+        </Typography>
+      </Box>
+      <Box height="30px" bgcolor="#f7f7f7b0" borderRadius="8px" padding="12px">
+        <EditableField form={form} name="title" placeholder="Title..." onBlur={onSubmit} maxLength={40} />
+      </Box>
+    </>
   );
 };
 
-export default EditTaskTitle;
+export default TaskTitle;

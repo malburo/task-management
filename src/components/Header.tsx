@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import { Box } from '@mui/system';
 import { AppDispatch, RootState } from 'app/store';
 import { logout } from 'features/Auth/authSlice';
+import NotificationFeature from 'features/Notification';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
@@ -28,13 +29,9 @@ const Header = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleClickProfile = () => {
+  const handleClickMenuItem = (path: string) => {
     setAnchorEl(null);
-    history.push('/profile/general');
-  };
-  const handleClickAllBoard = () => {
-    setAnchorEl(null);
-    history.push('/boards');
+    history.push(path);
   };
   const handleLogout = () => {
     dispatch(logout());
@@ -57,14 +54,19 @@ const Header = () => {
           <Stack direction="row" alignItems="center">
             <img src={Logo} alt="logo" onClick={() => history.push('/')} style={{ cursor: 'pointer' }} />
             <Typography variant="semiBold5" sx={{ marginX: 4, display: { xs: 'none', md: 'block' } }}>
-              Task Management
+              Tasker
             </Typography>
           </Stack>
           <Box display="flex" alignItems="center">
             {isAuth ? (
               <>
                 <Search />
-                <Avatar variant="rounded" onClick={handleProfileMenuOpen} src={currentUser?.profilePictureUrl} />
+                <NotificationFeature />
+                <Avatar
+                  onClick={handleProfileMenuOpen}
+                  src={currentUser?.profilePictureUrl}
+                  sx={{ width: '40px', height: '40px' }}
+                />
               </>
             ) : (
               <>
@@ -109,11 +111,11 @@ const Header = () => {
           marginTop: '12px',
         }}
       >
-        <MenuItem onClick={handleClickProfile}>
+        <MenuItem onClick={() => handleClickMenuItem('/profile/general')}>
           <AccountCircleIcon fontSize="small" sx={{ fill: '#4F4F4F' }} />
           <Typography variant="regular2">Profile</Typography>
         </MenuItem>
-        <MenuItem onClick={handleClickAllBoard}>
+        <MenuItem onClick={() => handleClickMenuItem('/boards')}>
           <AppsIcon fontSize="small" sx={{ fill: '#4F4F4F' }} />
           <Typography variant="regular2">All boards</Typography>
         </MenuItem>

@@ -1,4 +1,4 @@
-import { AddBoardFormValues } from 'features/Boards/components/form/AddBoard';
+import { AddBoardFormValues } from 'features/Boards/components/board/AddBoard';
 import { IBoard } from 'models/board';
 import { Response, ResponseList, IParams } from 'models/common';
 import axiosClient from './axiosClient';

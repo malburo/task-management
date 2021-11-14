@@ -1,4 +1,3 @@
-import FileUploadIcon from '@mui/icons-material/FileUpload';
 import ImageIcon from '@mui/icons-material/Image';
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, Button, CardMedia, Grid, IconButton, Popover, Typography } from '@mui/material';
@@ -116,35 +115,20 @@ const SearchPhoto: React.FC<SearchPhotoProps> = ({ onSelectPhoto, onUploadPhoto 
           <Box>
             <Typography variant="regular1">Search photos.</Typography>
           </Box>
-          <Box display="flex" alignItems="center" justifyContent="space-between" marginTop={3} marginBottom={5}>
-            <Box boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)" borderRadius={2} marginRight="12px">
-              <form onSubmit={form.handleSubmit(onSubmit)}>
-                <InputBaseField
-                  placeholder="Keyword..."
-                  name="search"
-                  form={form}
-                  endAdornment={
-                    <IconButton color="primary">
-                      <SearchIcon sx={{ fontSize: '16px' }} />
-                    </IconButton>
-                  }
-                />
-              </form>
-            </Box>
-            <label htmlFor="upload-cover-image">
-              <input id="upload-cover-image" type="file" onChange={handleUploadPhoto} style={{ display: 'none' }} />
-              <Box
-                color="white"
-                bgcolor="#2F80ED"
-                fontSize="12px"
-                lineHeight="10px"
-                padding="4px"
-                borderRadius="8px"
-                style={{ cursor: 'pointer' }}
-              >
-                <FileUploadIcon />
-              </Box>
-            </label>
+          <Box boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)" marginTop="12px" marginBottom="24px" borderRadius="8px">
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <InputBaseField
+                placeholder="Keyword..."
+                name="search"
+                form={form}
+                sx={{ fontSize: '14px', padding: '4px 12px' }}
+                endAdornment={
+                  <IconButton color="primary" type="submit">
+                    <SearchIcon sx={{ fontSize: '16px' }} />
+                  </IconButton>
+                }
+              />
+            </form>
           </Box>
           <Grid container spacing={3}>
             {photos.length > 0 &&
@@ -167,6 +151,10 @@ const SearchPhoto: React.FC<SearchPhotoProps> = ({ onSelectPhoto, onUploadPhoto 
                 </Grid>
               ))}
           </Grid>
+          <Button variant="contained" color="inherit" fullWidth sx={{ marginTop: '12px' }} component="label">
+            <input type="file" onChange={handleUploadPhoto} hidden />
+            Upload your photo
+          </Button>
         </Box>
       </Popover>
     </div>

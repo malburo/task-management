@@ -7,7 +7,7 @@ export interface IBoard {
   coverUrl: string;
   isPrivate: boolean;
   columnOrder: string[] | [];
-  createAt: Date;
+  createdAt: Date;
   updatedAt: Date;
   members: IUser[] | [];
 }

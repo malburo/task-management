@@ -1,4 +1,6 @@
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CloseIcon from '@mui/icons-material/Close';
+import GroupIcon from '@mui/icons-material/Group';
 import { LoadingButton } from '@mui/lab';
 import {
   Avatar,
@@ -12,6 +14,7 @@ import {
   IconButton,
   Typography,
 } from '@mui/material';
+import { socketClient } from 'api/socketClient';
 import taskApi from 'api/taskApi';
 import uploadApi from 'api/uploadApi';
 import { RootState } from 'app/store';
@@ -22,11 +25,15 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { labelsSelector, membersSelector, tasksSelector } from '../boardSlice';
-import DescriptionEditor from '../components/editor/DescriptionEditor';
-import AssignLabel from '../components/form/AssignLabel';
-import AssignTask from '../components/form/AssignTask';
-import EditTaskTitle from '../components/form/EditTaskTitle';
-import SearchPhoto from '../components/form/SearchPhoto';
+import AddComment from '../components/comment/AddComment';
+import CommentList from '../components/comment/CommentList';
+import SearchPhoto from '../components/SearchPhoto';
+import AssignDeadline from '../components/task/AssignDeadline';
+import AssignLabel from '../components/task/AssignLabel';
+import AssignTask from '../components/task/AssignTask';
+import TaskDeadline from '../components/task/TaskDeadline';
+import TaskDescription from '../components/task/TaskDescription';
+import TaskTitle from '../components/task/TaskTitle';
 
 interface Params {
   boardId: string;
@@ -36,6 +43,12 @@ interface Params {
 export default function TaskDetail() {
   const { boardId, taskId } = useParams<Params>();
   const history = useHistory();
+  const [open, setOpen] = useState(true);
+  const [coverUrl, setCoverUrl] = useState<string>('https://www.viet247.net/images/noimage_food_viet247.jpg');
+  const [coverObj, setCoverObj] = useState<any>(null);
+  const [isUpdating, setIsUpdating] = useState<boolean>(false);
+  const [showSaveButton, setShowSaveButton] = useState<boolean>(false);
+
   const task: ITask = useSelector((state: RootState) => tasksSelector.selectById(state, taskId))!;
   const labels: ILabel[] = useSelector((state: RootState) =>
     labelsSelector.selectAll(state).filter((label: ILabel) => task.labelsId.includes(label._id))
@@ -43,16 +56,18 @@ export default function TaskDetail() {
   const members: IUser[] = useSelector((state: RootState) =>
     membersSelector.selectAll(state).filter((member: IUser) => task.membersId.includes(member._id))
   );
-  const [open, setOpen] = useState(true);
-  const [coverUrl, setCoverUrl] = useState<string>('https://www.viet247.net/images/noimage_food_viet247.jpg');
-  const [coverObj, setCoverObj] = useState<any>(null);
-  const [isUpdating, setIsUpdating] = useState<boolean>(false);
-  const [showSaveButton, setShowSaveButton] = useState<boolean>(false);
 
   useEffect(() => {
     if (!task?.coverUrl) return;
     setCoverUrl(task?.coverUrl);
   }, [task?.coverUrl]);
+
+  useEffect(() => {
+    socketClient.emit('task:join', taskId);
+    return () => {
+      socketClient.emit('task:leave', taskId);
+    };
+  }, [taskId]);
 
   const handleClose = () => {
     setOpen(false);
@@ -89,7 +104,7 @@ export default function TaskDetail() {
     setShowSaveButton(false);
   };
   const handleClickCancelSaveImage = () => {
-    setCoverUrl(task?.coverUrl);
+    setCoverUrl(task?.coverUrl || 'https://www.viet247.net/images/noimage_food_viet247.jpg');
     setIsUpdating(false);
     setShowSaveButton(false);
   };
@@ -102,15 +117,6 @@ export default function TaskDetail() {
         <Box padding="24px 24px 0px 24px">
           <Box position="relative">
             <CardMedia image={coverUrl} style={{ height: '180px', borderRadius: '8px' }} />
-            <Box paddingTop="8px" marginTop="12px">
-              {labels.map((label) => (
-                <Chip
-                  label={label.name}
-                  sx={{ bgcolor: label.color, color: 'white', margin: '0px 4px 4px 0px' }}
-                  key={label._id}
-                />
-              ))}
-            </Box>
             {showSaveButton && (
               <Box position="absolute" right="12px" bottom="12px">
                 <Button
@@ -133,6 +139,20 @@ export default function TaskDetail() {
               </Box>
             )}
           </Box>
+          <Box paddingTop="8px" marginTop="12px">
+            <Box>
+              {labels.map((label) => (
+                <Chip
+                  label={label.name}
+                  sx={{ bgcolor: `${label.color}26`, color: label.color, margin: '0px 8px 4px 0px', fontSize: '12px' }}
+                  key={label._id}
+                />
+              ))}
+            </Box>
+            <Box marginTop="12px">
+              {task.deadlineDay && <TaskDeadline value={task.deadlineDay} status={task.status} />}
+            </Box>
+          </Box>
           <IconButton
             aria-label="close"
             onClick={handleClose}
@@ -148,30 +168,33 @@ export default function TaskDetail() {
         <DialogContent>
           <Grid container spacing={4} sx={{ minHeight: '500px' }}>
             <Grid item xs={9}>
-              <Box>
-                <EditTaskTitle value={task.title} />
-                {/* <Typography variant="bold1">In list inprogress</Typography> */}
-              </Box>
-              <DescriptionEditor content={task.description} />
+              <TaskTitle value={task.title} />
+              <TaskDescription value={task.description} />
+              <AddComment />
+              <CommentList taskId={taskId} />
             </Grid>
             <Grid item xs={3}>
+              <Box display="flex" alignItems="center" color="#BDBDBD" marginBottom="12px" height="30px">
+                <AccountCircleIcon sx={{ width: '20px', height: '20px', marginRight: '4px' }} />
+                <Typography variant="regular2" sx={{ marginRight: '4px' }}>
+                  Actions
+                </Typography>
+              </Box>
               <Box>
                 <SearchPhoto onSelectPhoto={handleSelectPhoto} onUploadPhoto={handleUploadPhoto} />
-                {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <Stack spacing={3}>
-                    <DateTimePicker
-                      renderInput={(params) => <TextField {...params} placeholder="deadline date" />}
-                      value={value}
-                      onChange={(newValue) => {
-                        setValue(newValue);
-                      }}
-                    />
-                  </Stack>
-                </LocalizationProvider> */}
+                <AssignDeadline value={task.deadlineDay} />
                 <AssignLabel task={task} />
                 <AssignTask task={task} />
               </Box>
               <Box marginTop="16px">
+                {members.length > 0 && (
+                  <Box display="flex" alignItems="center" color="#BDBDBD" margin="12px 0px 12px 0px">
+                    <GroupIcon sx={{ width: '20px', height: '20px', marginRight: '4px' }} />
+                    <Typography variant="regular2" sx={{ marginRight: '4px' }}>
+                      Members
+                    </Typography>
+                  </Box>
+                )}
                 {members.map((member) => (
                   <Box display="flex" alignItems="center" marginTop="16px" key={member._id}>
                     <Avatar sx={{ marginRight: '16px' }} src={member.profilePictureUrl} />

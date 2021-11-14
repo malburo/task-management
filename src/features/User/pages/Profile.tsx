@@ -11,7 +11,8 @@ import EditFullname from '../component/form/EditFullname';
 import EditUsername from '../component/form/EditUsername';
 
 const Profile = () => {
-  const currentUser = useSelector((state: RootState) => state.auth.currentUser)!;
+  const currentUser = useSelector((state: RootState) => state.auth.currentUser);
+  if (!currentUser) return <p>Loading...</p>;
   return (
     <Container>
       <Grid container sx={{ marginTop: '65px', paddingTop: '48px' }}>
@@ -48,9 +49,9 @@ const Profile = () => {
           </Box>
         </Grid>
         <Grid item xs={9}>
-          <EditAvatar userId={currentUser?._id} value={currentUser?.profilePictureUrl} />
-          <EditFullname userId={currentUser?._id} value={currentUser?.fullname} />
-          <EditUsername userId={currentUser?._id} value={currentUser?.username} />
+          <EditAvatar userId={currentUser._id} value={currentUser.profilePictureUrl} />
+          <EditFullname userId={currentUser._id} value={currentUser.fullname} />
+          <EditUsername userId={currentUser._id} value={currentUser.username} />
         </Grid>
       </Grid>
     </Container>

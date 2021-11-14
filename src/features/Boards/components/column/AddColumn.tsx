@@ -58,7 +58,7 @@ const AddColumn = () => {
             width: '260px',
             padding: '8px 15px',
             boxShadow: 'none',
-            marginX: '24px',
+            marginX: '48px',
             justifyContent: 'space-between',
           }}
         >
@@ -66,7 +66,7 @@ const AddColumn = () => {
         </Button>
       )}
       {isToggle && (
-        <Card sx={{ width: '280px', border: '2px solid #0000000a', marginX: '24px' }}>
+        <Card sx={{ width: '280px', border: '2px solid #0000000a', marginX: '48px' }}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <Grid container direction="column" justifyContent="center" alignItems="flex-start">
               <InputBaseField form={form} name="title" placeholder="Enter a title for this column..." autoFocus />

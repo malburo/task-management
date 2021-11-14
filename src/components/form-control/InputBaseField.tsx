@@ -14,11 +14,13 @@ interface InputBaseProps {
   startIcon?: JSX.Element;
   endIcon?: JSX.Element;
   endAdornment?: JSX.Element;
-  sx?: SxProps;
+  sx?: any;
+  showError?: boolean;
+  maxLength?: number;
 }
 
 const InputBaseField: React.FC<InputBaseProps> = (props) => {
-  const { form, name, placeholder, endAdornment, autoFocus, sx } = props;
+  const { form, name, placeholder, endAdornment, autoFocus, sx, showError, maxLength } = props;
   const { errors } = form.formState;
   const hasError = !!errors[name];
   return (
@@ -32,10 +34,11 @@ const InputBaseField: React.FC<InputBaseProps> = (props) => {
             sx={sx}
             placeholder={placeholder}
             endAdornment={endAdornment}
-            fullWidth
             autoFocus={autoFocus}
+            autoComplete="off"
+            inputProps={{ maxLength }}
           />
-          {errors[name] && <FormHelperText>{errors[name]?.message}</FormHelperText>}
+          {showError && errors[name] && <FormHelperText>{errors[name]?.message}</FormHelperText>}
         </FormControl>
       )}
     />
