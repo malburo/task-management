@@ -1,26 +1,21 @@
-import { Stack, Box, Typography, Hidden, SwipeableDrawer, Button } from '@mui/material';
+import { Box, Button, Hidden, Stack, SwipeableDrawer, Typography } from '@mui/material';
+import roomApi from 'api/roomApi';
+import { socketClient } from 'api/socketClient';
 import { AppDispatch, RootState } from 'app/store';
 import SideBar from 'components/SideBar';
+import { getOneBoard } from 'features/Boards/boardSlice';
 import MessageBox from 'features/Chat/component/MessageBox';
-import SendMessageForm from 'features/Chat/component/SendMessageForm/SendMessageForm';
+import SendMessageForm from 'features/Chat/component/SendMessageForm';
 import SidebarAppChat from 'features/Chat/component/Sidebar';
 import { getGeneralRoom, getOneRoom } from 'features/Chat/ReduxSlice/RoomSlice';
+import { setIsOpenMenu } from 'features/Chat/ReduxSlice/uiSlice';
+import useChat from 'hooks/useChat';
+import AccessDeny from 'images/access_deny.png';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { useEffect } from 'react';
-import useChat from 'hooks/useChat';
-import MessageBox from 'features/Chat/component/MessageBox';
-import { getOneBoard } from 'features/Boards/boardSlice';
-import { socketClient } from 'api/socketClient';
-import SidebarAppChat from 'features/Chat/component/Sidebar';
-
-import chatPageStyles from './style';
-import SendMessageForm from 'features/Chat/component/SendMessageForm';
 import theme from 'theme';
-import { useState } from 'react';
-import { setIsOpenMenu } from 'features/Chat/ReduxSlice/uiSlice';
-import AccessDeny from 'images/access_deny.png';
-import roomApi from 'api/roomApi';
+import chatPageStyles from './style';
 
 interface IParams {
   boardId: string;
@@ -53,7 +48,6 @@ export default function Chat() {
     });
     // eslint-disable-next-line
   }, [roomId, boardId]);
-
 
   const setOpenMenu = () => {
     dispatch(setIsOpenMenu(true));
