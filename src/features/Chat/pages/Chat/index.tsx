@@ -1,6 +1,9 @@
 import { Stack, Box, Typography, Hidden, SwipeableDrawer, Button } from '@mui/material';
 import { AppDispatch, RootState } from 'app/store';
 import SideBar from 'components/SideBar';
+import MessageBox from 'features/Chat/component/MessageBox';
+import SendMessageForm from 'features/Chat/component/SendMessageForm/SendMessageForm';
+import SidebarAppChat from 'features/Chat/component/Sidebar';
 import { getGeneralRoom, getOneRoom } from 'features/Chat/ReduxSlice/RoomSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
@@ -10,6 +13,7 @@ import MessageBox from 'features/Chat/component/MessageBox';
 import { getOneBoard } from 'features/Boards/boardSlice';
 import { socketClient } from 'api/socketClient';
 import SidebarAppChat from 'features/Chat/component/Sidebar';
+
 import chatPageStyles from './style';
 import SendMessageForm from 'features/Chat/component/SendMessageForm';
 import theme from 'theme';
@@ -47,9 +51,9 @@ export default function Chat() {
         socketClient.emit('board:leave', boardId);
       };
     });
-
     // eslint-disable-next-line
   }, [roomId, boardId]);
+
 
   const setOpenMenu = () => {
     dispatch(setIsOpenMenu(true));

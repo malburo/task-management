@@ -325,6 +325,13 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           zIndex: 999,
+        }
+      }
+    },
+    MuiDialogContent: {
+      styleOverrides: {
+        root: {
+          overflowY: 'unset',
         },
       },
     },

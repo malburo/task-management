@@ -16,13 +16,19 @@ interface EditAvatarState {
 const EditAvatar: React.FC<EditAvatarState> = ({ userId, value }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isValid, setIsValid] = useState<boolean>(false);
-  const [profilePictureUrl, setProfilePictureUrl] = useState<string>('');
+  const [profilePictureUrl, setProfilePictureUrl] = useState<string>(value);
   const [profilePictureObj, setProfilePictureObj] = useState<any>(null);
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     setProfilePictureUrl(value);
   }, [value]);
+
+  useEffect(() => {
+    return () => {
+      profilePictureObj && URL.revokeObjectURL(profilePictureUrl);
+    };
+  }, [profilePictureObj, profilePictureUrl]);
 
   const handleChangeAvatar = async (event: any) => {
     const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];

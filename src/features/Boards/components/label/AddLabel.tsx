@@ -1,14 +1,26 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import CheckIcon from '@mui/icons-material/Check';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import { Box, Grid, Typography } from '@mui/material';
 import labelApi from 'api/labelApi';
 import taskApi from 'api/taskApi';
 import InputBaseField from 'components/form-control/InputBaseField';
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm, useFormState } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
+import * as yup from 'yup';
+
+const schema = yup
+  .object()
+  .shape({
+    name: yup.string().required().min(2).max(16),
+    color: yup.string().required(),
+  })
+  .required();
 
 interface FormValues {
   name: string;
+  color: string;
 }
 interface Params {
   boardId: string;
@@ -34,26 +46,35 @@ const colors = [
 
 const AddLabel: React.FC<Props> = ({ onClose }) => {
   const { boardId, taskId } = useParams<Params>();
-  const [selectColor, setSelectColor] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const form = useForm<FormValues>({
-    mode: 'onSubmit',
+    mode: 'onChange',
     reValidateMode: 'onChange',
     defaultValues: {
       name: '',
+      color: '',
     },
+    resolver: yupResolver(schema),
   });
+  const { isValid } = useFormState({ control: form.control });
 
   const onSelectColor = async (color: string) => {
-    setSelectColor(color);
+    form.setValue('color', color);
+    form.trigger();
   };
-  const onClickAdd = async () => {
-    const payload = { boardId, name: form.getValues('name'), color: selectColor };
-    const { data } = await labelApi.create(payload);
-    await taskApi.pushLabel({ boardId, taskId, labelId: data.newLabel._id });
-    setSelectColor('');
-    form.reset();
-    onClose();
+  const onSubmit: SubmitHandler<FormValues> = async ({ name, color }) => {
+    try {
+      setIsLoading(true);
+      const payload = { boardId, name, color };
+      const { data } = await labelApi.create(payload);
+      await taskApi.pushLabel({ boardId, taskId, labelId: data.newLabel._id });
+      form.reset();
+      onClose();
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
   };
   return (
     <Box>
@@ -64,7 +85,15 @@ const AddLabel: React.FC<Props> = ({ onClose }) => {
         <Typography variant="regular2">Select a name and color</Typography>
       </Box>
       <Box boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)" marginTop="12px" marginBottom="24px">
-        <InputBaseField form={form} name="name" placeholder="Label..." sx={{ fontSize: '14px', padding: '4px 12px' }} />
+        <form id="label-form" onSubmit={form.handleSubmit(onSubmit)}>
+          <InputBaseField
+            form={form}
+            name="name"
+            placeholder="Label..."
+            sx={{ fontSize: '14px', padding: '4px 12px' }}
+            maxLength={16}
+          />
+        </form>
       </Box>
       <Grid container spacing={2}>
         {colors.map((color: string) => (
@@ -84,15 +113,22 @@ const AddLabel: React.FC<Props> = ({ onClose }) => {
                 cursor: 'pointer',
               }}
             >
-              {selectColor === color && <CheckIcon sx={{ color: 'white' }} />}
+              {form.getValues('color') === color && <CheckIcon sx={{ color: 'white' }} />}
             </Box>
           </Grid>
         ))}
       </Grid>
       <Box textAlign="center" marginTop="12px">
-        <Button onClick={onClickAdd} variant="contained" color="primary">
+        <LoadingButton
+          type="submit"
+          loading={isLoading}
+          variant="contained"
+          color="primary"
+          disabled={isLoading || !isValid}
+          form="label-form"
+        >
           Add
-        </Button>
+        </LoadingButton>
       </Box>
     </Box>
   );

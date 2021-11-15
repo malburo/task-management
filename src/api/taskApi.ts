@@ -1,4 +1,4 @@
-import { AddTaskPayload } from 'features/Boards/components/form/AddTask';
+import { AddTaskPayload } from 'features/Boards/components/task/AddTask';
 import { Response } from 'models/common';
 import { ITask } from 'models/task';
 import axiosClient from './axiosClient';
@@ -18,6 +18,9 @@ const taskApi = {
   },
   pushMember(payload: { boardId: string; taskId: string; memberId: string }): Promise<Response<ITask>> {
     return axiosClient.post(`/boards/${payload.boardId}/tasks/${payload.taskId}/members`, payload);
+  },
+  pullMember(payload: { boardId: string; taskId: string; memberId: string }): Promise<Response<ITask>> {
+    return axiosClient.delete(`/boards/${payload.boardId}/tasks/${payload.taskId}/members`, { data: payload });
   },
 };
 

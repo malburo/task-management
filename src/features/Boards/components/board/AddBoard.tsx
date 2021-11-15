@@ -6,8 +6,8 @@ import uploadApi from 'api/uploadApi';
 import InputField from 'components/form-control/InputField';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Visibility from '../Visibility';
-import SearchPhoto from './SearchPhoto';
+import Visibility from './Visibility';
+import SearchPhoto from '../SearchPhoto';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 

@@ -3,6 +3,6 @@ export interface IColumn {
   title: string;
   boardId: string;
   taskOrder: string[] | [];
-  createAt: Date;
+  createdAt: Date;
   updatedAt: Date;
 }

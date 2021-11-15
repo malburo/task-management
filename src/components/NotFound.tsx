@@ -1,32 +1,55 @@
-import { makeStyles } from '@mui/styles';
-import { Link } from 'react-router-dom';
-import Header from './Header';
+import { Button, Container, Grid, Typography } from '@mui/material';
+import { Box } from '@mui/system';
+import Footer from 'components/Footer';
+import Header from 'components/Header';
+import ErrorPNG from 'images/error.png';
+import { useHistory } from 'react-router';
 
-const useStyles = makeStyles(() => ({
-  wrapper: {
-    fontFamily: 'Noto Sans,sans-serif',
-    marginTop: 160,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-}));
-
-function NotFound() {
-  const classes = useStyles();
+const NotFoundPage = () => {
+  const history = useHistory();
   return (
     <>
       <Header />
-      <div className={classes.wrapper}>
-        <p>
-          Sorry, this page isn't available. Go back to{' '}
-          <Link to="/">
-            <span>Bullo app</span>
-          </Link>
-        </p>
-      </div>
+      <Container>
+        <Grid container alignItems="center" justifyContent="center" sx={{ minHeight: '100vh' }}>
+          <Grid item sm={6}>
+            <Box maxWidth="550px">
+              <Typography sx={{ color: '#272E35', fontSize: '52px', lineHeight: '70px', fontWeight: '600' }}>
+                Page Not Found
+              </Typography>
+            </Box>
+            <Box marginY="24px" maxWidth="280px">
+              <Typography sx={{ color: '#6E757C', fontSize: '18px', lineHeight: '32px', fontWeight: '400' }}>
+                The page you are looking for doesn't exist
+              </Typography>
+            </Box>
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{
+                fontSize: '16px',
+                lineHeight: '20px',
+                fontWeight: '700',
+                paddingX: '24px',
+                height: '48px',
+                borderRadius: '16px',
+                marginRight: '24px',
+              }}
+              onClick={() => history.push('/')}
+            >
+              Return Home
+            </Button>
+          </Grid>
+          <Grid item sm={6}>
+            <Box width="800px">
+              <img src={ErrorPNG} alt="404-page" width="100%" />
+            </Box>
+          </Grid>
+        </Grid>
+      </Container>
+      <Footer />
     </>
   );
-}
+};
 
-export default NotFound;
+export default NotFoundPage;

@@ -2,12 +2,13 @@ import { Avatar, AvatarGroup, Card, Chip, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Box } from '@mui/system';
 import { RootState } from 'app/store';
+import { format } from 'date-fns';
 import { ILabel } from 'models/label';
 import { ITask } from 'models/task';
 import { IUser } from 'models/user';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
-import { labelsSelector, membersSelector } from '../boardSlice';
+import { labelsSelector, membersSelector } from '../../boardSlice';
 
 const useStyles = makeStyles({
   cover: {
@@ -15,12 +16,6 @@ const useStyles = makeStyles({
     height: 120,
     objectFit: 'cover',
     borderRadius: 'inherit',
-  },
-  title: {
-    margin: '12px 0px',
-  },
-  label: {
-    marginRight: '12px',
     marginBottom: '12px',
   },
 });
@@ -46,18 +41,24 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
     history.push(`/boards/${boardId}/tasks/${task._id}`);
   };
   return (
-    <div>
-      <Card sx={{ border: '2px solid #0000000a', marginBottom: '12px' }} onClick={handleClickTask}>
+    <Box>
+      <Card sx={{ marginBottom: '12px', cursor: 'pointer' }} onClick={handleClickTask}>
         {task?.coverUrl?.length >= 0 && (
           <img src={task.coverUrl} alt="task cover" className={classes.cover} draggable="false" />
         )}
-
-        <Typography variant="regular4">{task.title}</Typography>
+        <Box>
+          <Typography variant="regular4">{task.title}</Typography>
+        </Box>
         <Box marginTop="12px">
           {labels.map((label) => (
             <Chip
               label={label.name}
-              sx={{ bgcolor: label.color, color: 'white', margin: '0px 4px 4px 0px' }}
+              sx={{
+                bgcolor: `${label.color}26`,
+                color: label.color,
+                margin: '0px 8px 4px 0px',
+                fontSize: '12px',
+              }}
               key={label._id}
             />
           ))}
@@ -68,13 +69,23 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
               <Avatar variant="rounded" src={member.profilePictureUrl} key={member._id} />
             ))}
           </AvatarGroup>
-          {/* <Box display="flex" alignItems="center">
-          <CommentIcon style={{ width: 14, height: 14, color: '#BDBDB' }} />
-          <Typography variant="regular1">6</Typography>
-        </Box> */}
+          {task.deadlineDay && (
+            <Box
+              bgcolor={`${task.status === 'UNFINISHED' ? '#EB5757' : '#5fb181'}`}
+              borderRadius="4px "
+              padding="4px 8px"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Typography variant="regular1" sx={{ color: 'white' }}>
+                {format(new Date(task.deadlineDay), 'dd-MM HH:mm')}
+              </Typography>
+            </Box>
+          )}
         </Box>
       </Card>
-    </div>
+    </Box>
   );
 };
 

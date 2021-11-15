@@ -1,6 +1,6 @@
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
-import { Avatar, Box, Button, Popover, Typography } from '@mui/material';
+import { Avatar, Box, Popover, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import memberApi from 'api/memberApi';
 import searchApi from 'api/searchApi';
@@ -62,7 +62,7 @@ const AddMember: React.FC = () => {
         onClose={handleClose}
         anchorOrigin={{
           vertical: 'bottom',
-          horizontal: 'left',
+          horizontal: 'center',
         }}
         transformOrigin={{
           vertical: 'top',
@@ -79,41 +79,41 @@ const AddMember: React.FC = () => {
           <Box>
             <Typography variant="regular2">Search users you want to invite.</Typography>
           </Box>
-          <Box boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)" marginTop="12px">
+          <Box boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)" marginTop="12px" borderRadius="8px">
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <InputBaseField
                 form={form}
                 name="search"
                 placeholder="Keyword..."
+                sx={{ fontSize: '14px', padding: '4px 12px' }}
                 endAdornment={
-                  <IconButton color="primary">
+                  <IconButton color="primary" type="submit">
                     <SearchIcon sx={{ fontSize: '16px' }} />
                   </IconButton>
                 }
               />
             </form>
           </Box>
-          {users.length > 0 &&
-            users.map((user) => (
-              <Box
-                display="flex"
-                alignItems="center"
-                justifyContent="space-between"
-                padding="12px"
-                border="1px solid #E0E0E0"
-                marginY="24px"
-                boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)"
-                borderRadius="12px"
-              >
-                <Avatar variant="rounded" src={user.profilePictureUrl} />
-                <Box marginX="12px">
-                  <Typography>{user.username}</Typography>
+          {users.length > 0 && (
+            <Box
+              padding="12px"
+              margin="24px 0px 12px 0px"
+              boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)"
+              borderRadius="12px"
+            >
+              {users.map((user) => (
+                <Box display="flex" alignItems="center" justifyContent="space-between" marginY="12px" key={user._id}>
+                  <Box display="flex" alignItems="center" justifyContent="space-between">
+                    <Avatar src={user.profilePictureUrl} sx={{ marginRight: '12px' }} />
+                    <Typography variant="regular2">{user.username}</Typography>
+                  </Box>
+                  <IconButton color="primary" onClick={() => handleInviteClick(user._id)}>
+                    <AddIcon sx={{ fontSize: '16px' }} />
+                  </IconButton>
                 </Box>
-                <Button onClick={() => handleInviteClick(user._id)} variant="contained" color="primary">
-                  Invite
-                </Button>
-              </Box>
-            ))}
+              ))}
+            </Box>
+          )}
         </Box>
       </Popover>
     </Box>
