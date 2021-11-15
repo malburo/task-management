@@ -12,6 +12,7 @@ import ImageFailed from '../Loader/ImageFailed';
 import ISelectFormMessage from 'models/selectMessage';
 import { IUser } from 'models/user';
 import messageApi from 'api/messageApi';
+import theme from 'theme';
 import ConfirmDeleteMessage from '../FormDialog/ConfirmDeleteMessage';
 import EditMessageForm from '../FormDialog/EditFormMessage';
 import { LinkPreview } from '@dhaiwat10/react-link-preview';
@@ -27,19 +28,13 @@ interface IMessagePros {
   _id: string;
   type: Number;
   form?: ISelectFormMessage;
+  setImageView: (value: boolean) => void;
+  setImageSrc: (value: string) => void;
 }
 
-const MyMessage: React.FC<IMessagePros> = ({
-  _id,
-  postedDate,
-  content,
-  profilePictureUrl,
-  renderTimeLine,
-  time,
-  type,
-  form,
-}) => {
-  const style = MyMessageStyle();
+const MyMessage: React.FC<IMessagePros> = (props) => {
+  const { content, profilePictureUrl, renderTimeLine, type, form, setImageSrc, setImageView } = props;
+  const style = MyMessageStyle(theme);
   const me = useSelector((state: RootState) => state.auth.currentUser) as IUser;
   const [timeline, setTimeline] = useState<ReactElement>();
   const [deleteDialog, setDeleteDialog] = useState<boolean>(false);
@@ -76,8 +71,8 @@ const MyMessage: React.FC<IMessagePros> = ({
   };
 
   useEffect(() => {
-    if (renderTimeLine === true) setTimeline(<TimeLine time={new Date(time)} />);
-  }, [renderTimeLine, time]);
+    if (renderTimeLine === true) setTimeline(<TimeLine time={new Date(props.time)} />);
+  }, [renderTimeLine, props.time]);
 
   const chooseOption = (e: React.FormEvent<HTMLButtonElement>) => {
     messageApi.chooseOption(room._id, e.currentTarget.value);
@@ -94,7 +89,7 @@ const MyMessage: React.FC<IMessagePros> = ({
       );
     else if (type === 2)
       return (
-        <div className={`${style.messageContent} ${style.imageContent}`}>
+        <Box className={`${style.messageContent} ${style.imageContent}`}>
           {isLoading && <ImageLoading />}
           {isError && <ImageFailed />}
           <img
@@ -106,10 +101,14 @@ const MyMessage: React.FC<IMessagePros> = ({
               setIsLoading(false);
               setIsError(true);
             }}
+            onClick={() => {
+              setImageView(true);
+              setImageSrc(content);
+            }}
             src={contentMsg}
             alt=""
           />
-        </div>
+        </Box>
       );
     else if (type === 3)
       return (
@@ -128,9 +127,9 @@ const MyMessage: React.FC<IMessagePros> = ({
                   fullWidth
                   variant="contained"
                   color="primary"
-                  sx={{ margin: '10px 10px 10px 0', display: 'flex', justifyContent: 'space-between' }}
+                  className={style.option}
                 >
-                  <Typography>{item.text}</Typography>
+                  <Typography className={style.optionValue}>{item.text}</Typography>
                   <Typography>{item.userId.length > 0 ? item.userId.length : ''}</Typography>
                 </Button>
               );
@@ -143,9 +142,9 @@ const MyMessage: React.FC<IMessagePros> = ({
                   onClick={chooseOption}
                   variant="contained"
                   color="secondary"
-                  sx={{ margin: '10px 10px 10px 0', display: 'flex', justifyContent: 'space-between' }}
+                  className={style.option}
                 >
-                  <Typography>{item.text}</Typography>
+                  <Typography className={style.optionValue}>{item.text}</Typography>
                   <Typography>{item.userId.length > 0 ? item.userId.length : ''}</Typography>
                 </Button>
               );
@@ -164,8 +163,8 @@ const MyMessage: React.FC<IMessagePros> = ({
 
   return (
     <React.Fragment>
-      <ConfirmDeleteMessage isOpen={deleteDialog} setClose={setDeleteDialog} payload={_id} />
-      <EditMessageForm isOpen={editDialog} setClose={setEditDialog} payload={_id} contentMsg={content} />
+      <ConfirmDeleteMessage isOpen={deleteDialog} setClose={setDeleteDialog} payload={props._id} />
+      <EditMessageForm isOpen={editDialog} setClose={setEditDialog} payload={props._id} contentMsg={content} />
       {timeline}
 
       <div className={style.message}>
@@ -202,7 +201,7 @@ const MyMessage: React.FC<IMessagePros> = ({
           )}
           <div className={style.accountInfor}>
             <Typography variant="subtitle2" sx={{ fontSize: '0.75em' }} className={style.date}>
-              {dateUtil.fortmatDate(postedDate)}
+              {dateUtil.fortmatDate(props.postedDate)}
             </Typography>
           </div>
         </Box>

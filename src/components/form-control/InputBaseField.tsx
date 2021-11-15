@@ -1,3 +1,4 @@
+import { SxProps } from '@mui/lab/node_modules/@mui/system';
 import { FormHelperText, InputBase } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import { Controller, UseFormReturn } from 'react-hook-form';

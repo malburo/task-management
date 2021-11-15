@@ -31,6 +31,7 @@ interface BoardState {
   _id: string;
   isPrivate: boolean;
   columnOrder: string[];
+  coverUrl: string;
   createdAt: string;
   updatedAt: string;
   columns: EntityState<IColumn>;
@@ -43,6 +44,7 @@ const initialState: BoardState = {
   _id: '',
   isPrivate: false,
   columnOrder: [],
+  coverUrl: '',
   createdAt: '',
   updatedAt: '',
   columns: columnsAdapter.getInitialState(),
@@ -95,6 +97,7 @@ const boardSlice = createSlice({
       state.columnOrder = payload.board.columnOrder;
       state.createdAt = payload.board.createdAt;
       state.updatedAt = payload.board.updatedAt;
+      state.coverUrl = payload.board.coverUrl;
       columnsAdapter.setAll(state.columns, payload.columns);
       membersAdapter.setAll(state.members, payload.members);
       tasksAdapter.setAll(state.tasks, payload.tasks);

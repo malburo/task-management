@@ -1,15 +1,26 @@
-import { Box, Stack } from '@mui/material';
-import { AppDispatch } from 'app/store';
+import { Stack, Box, Typography, Hidden, SwipeableDrawer, Button } from '@mui/material';
+import { AppDispatch, RootState } from 'app/store';
 import SideBar from 'components/SideBar';
 import MessageBox from 'features/Chat/component/MessageBox';
 import SendMessageForm from 'features/Chat/component/SendMessageForm/SendMessageForm';
 import SidebarAppChat from 'features/Chat/component/Sidebar';
 import { getGeneralRoom, getOneRoom } from 'features/Chat/ReduxSlice/RoomSlice';
-import useChat from 'hooks/useChat';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import { useEffect } from 'react';
+import useChat from 'hooks/useChat';
+import MessageBox from 'features/Chat/component/MessageBox';
+import { getOneBoard } from 'features/Boards/boardSlice';
+import { socketClient } from 'api/socketClient';
+import SidebarAppChat from 'features/Chat/component/Sidebar';
+
 import chatPageStyles from './style';
+import SendMessageForm from 'features/Chat/component/SendMessageForm';
+import theme from 'theme';
+import { useState } from 'react';
+import { setIsOpenMenu } from 'features/Chat/ReduxSlice/uiSlice';
+import AccessDeny from 'images/access_deny.png';
+import roomApi from 'api/roomApi';
 
 interface IParams {
   boardId: string;
@@ -17,31 +28,90 @@ interface IParams {
 }
 
 export default function Chat() {
-  const style = chatPageStyles();
+  const style = chatPageStyles(theme);
+  const openMenu = useSelector((state: RootState) => state.chatUI.isOpenMenu);
   const dispatch = useDispatch<AppDispatch>();
-
+  const [isMember, setIsMember] = useState<boolean>(false);
+  const room = useSelector((state: RootState) => state.room.roomInfor);
   const { roomId, boardId } = useParams<IParams>();
+  // eslint-disable-next-line
   const chat = useChat();
 
   useEffect(() => {
-    if (roomId !== 'all') dispatch(getOneRoom(roomId));
-    else dispatch(getGeneralRoom(boardId));
-  }, [roomId, boardId, dispatch]);
+    roomApi.getAllYourRoomInBoard(boardId).then((res) => {
+      if (res.data.rooms.length > 0) setIsMember(true);
+      else return;
+      if (roomId !== 'all') dispatch(getOneRoom(roomId));
+      else dispatch(getGeneralRoom(boardId));
+
+      dispatch(getOneBoard({ boardId }));
+      socketClient.emit('board:join', boardId);
+
+      return () => {
+        socketClient.emit('board:leave', boardId);
+      };
+    });
+    // eslint-disable-next-line
+  }, [roomId, boardId]);
+
+
+  const setOpenMenu = () => {
+    dispatch(setIsOpenMenu(true));
+  };
+
+  const setCloseMenu = () => {
+    dispatch(setIsOpenMenu(false));
+  };
 
   return (
     <Stack direction="row">
       <SideBar />
-      <Box className={style.surface} height="100vh" bgcolor="#fff" flex={1} overflow="hidden">
-        <Box className={style.chatAppBox}>
-          <SidebarAppChat />
-        </Box>
-        <Box className={style.chatBox}>
-          <MessageBox />
-          <Box className={style.sendMessageField}>
-            <SendMessageForm />
+      {!isMember && (
+        <Box className={style.surface} height="100vh" bgcolor="#fff" flex={1} overflow="hidden">
+          <Box className={style.accessDeny}>
+            <img src={AccessDeny} alt="" style={{ width: '40%', marginBottom: '20px' }} />
+            <Typography variant="bold6" sx={{ color: '#afafaf' }}>
+              You must be a member of project to use this feature
+            </Typography>
           </Box>
         </Box>
-      </Box>
+      )}
+      {isMember && (
+        <Box className={style.surface} height="100vh" bgcolor="#fff" flex={1} overflow="hidden">
+          <Hidden smDown>
+            <Box className={style.chatAppSidebar}>
+              <SidebarAppChat />
+            </Box>
+          </Hidden>
+          <Box className={style.chatBox} sx={{ position: 'relative' }}>
+            <Hidden smUp>
+              <SwipeableDrawer
+                onClose={setCloseMenu}
+                onOpen={setOpenMenu}
+                open={openMenu}
+                variant="persistent"
+                PaperProps={{
+                  style: { position: 'absolute', width: '100%' },
+                }}
+              >
+                <SidebarAppChat />
+              </SwipeableDrawer>
+            </Hidden>
+            <Box className={style.chatBoxHeader}>
+              <Hidden smUp>
+                <Button onClick={setOpenMenu}>+</Button>
+              </Hidden>
+              <Typography variant="bold5">{room.name}</Typography>
+            </Box>
+            <Box className={style.messagesField}>
+              <MessageBox />
+            </Box>
+            <Box className={style.sendMessageField}>
+              <SendMessageForm />
+            </Box>
+          </Box>
+        </Box>
+      )}
     </Stack>
   );
 }

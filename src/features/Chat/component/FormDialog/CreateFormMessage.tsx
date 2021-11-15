@@ -84,7 +84,7 @@ const CreateFormMessage: React.FC<IPropsFormMessage> = (props) => {
   return (
     <Dialog open={props.isOpen}>
       <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography sx={{ lineHeight: '32px' }}>Create a polling box</Typography>
+        <Typography sx={{ lineHeight: '32px' }}>Create a voting</Typography>
         <IconButton color="error" onClick={() => props.setClose(false)}>
           <CloseIcon />
         </IconButton>

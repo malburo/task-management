@@ -2,24 +2,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from 'app/store';
 import { addNewMessage, editOneMessage, removeOneMessage } from 'features/Chat/ReduxSlice/MessagesSlice';
 import { IUser } from 'models/user';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { IMessage } from 'models/messages';
 import { socketClient } from 'api/socketClient';
-import messageApi from 'api/messageApi';
 
 const useChat = () => {
   const dispatch = useDispatch<AppDispatch>();
   const room = useSelector((state: RootState) => state.room.roomInfor);
   const me = useSelector((state: RootState) => state.auth.currentUser) as IUser;
-  const ref = useRef<string>();
-  let prevRoom = ref.current;
 
   useEffect(() => {
-    ref.current = room._id;
-    if (room._id === '') return;
-    leaveRoom(prevRoom);
     joinRoom(room._id);
-    messageApi.read(room._id);
+    return () => {
+      leaveRoom(room._id);
+    };
     // eslint-disable-next-line
   }, [room]);
 
@@ -35,7 +31,6 @@ const useChat = () => {
     if (me?._id === undefined) return;
     socketClient.on('chat:add-message', (data) => {
       let message = data.message as IMessage;
-      console.log(data);
       dispatch(
         addNewMessage({
           _id: message._id,

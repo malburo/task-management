@@ -9,15 +9,16 @@ import messageApi from 'api/messageApi';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from 'app/store';
-import SendMessageFormStyle from './SendMessageFormStyle';
 import { createOne } from 'features/Chat/ReduxSlice/MessagesSlice';
 import CreateFormMessage from '../FormDialog/CreateFormMessage';
 import { useState } from 'react';
+import useSendMessageFormStyles from './style';
+import theme from 'theme';
 
 const scheme = yup
   .object()
   .shape({
-    msgContent: yup.string().required('Please enter message').max(200, 'Please enter up to 100 characters'),
+    msgContent: yup.string().required('Please enter message').min(1).max(200, 'Please enter up to 100 characters'),
   })
   .required();
 interface IInputMessage {
@@ -29,7 +30,7 @@ export default function SendMessageForm() {
   const dispatch = useDispatch<AppDispatch>();
   const [isCreateFormMessage, setIsCreateFormMessage] = useState<boolean>(false);
 
-  const style = SendMessageFormStyle();
+  const style = useSendMessageFormStyles(theme);
 
   const {
     register,
@@ -37,6 +38,10 @@ export default function SendMessageForm() {
     reset,
     formState: { errors },
   } = useForm<IInputMessage>({
+    mode: 'onSubmit',
+    defaultValues: {
+      msgContent: '',
+    },
     resolver: yupResolver(scheme),
   });
 
@@ -56,11 +61,9 @@ export default function SendMessageForm() {
     }
   };
 
-  const sendMessageHandler = (data: IInputMessage) => {
-    (async () => {
-      await dispatch(createOne({ _id: room._id, content: data.msgContent }));
-      reset();
-    })();
+  const sendMessageHandler = async (data: IInputMessage) => {
+    await dispatch(createOne({ _id: room._id, content: data.msgContent }));
+    reset();
   };
   return (
     <Box className={style.formField}>
@@ -76,15 +79,11 @@ export default function SendMessageForm() {
             type="file"
           />
           <label htmlFor="contained-button-file">
-            <Fab component="span" className={style.imageButton}>
+            <Fab component="span" className={style.imageButton} color="primary">
               <AddPhotoAlternateIcon />
             </Fab>
           </label>
-          <IconButton
-            onClick={() => setIsCreateFormMessage(true)}
-            className={style.imageButton}
-            sx={{ width: '56px', marginLeft: '10px !important' }}
-          >
+          <IconButton onClick={() => setIsCreateFormMessage(true)} className={style.imageButton}>
             <FormatListBulletedIcon />
           </IconButton>
           <input
@@ -93,7 +92,7 @@ export default function SendMessageForm() {
             type="text"
             placeholder="Type a message here"
             {...register('msgContent')}
-          ></input>
+          />
           {!errors.msgContent && (
             <Button type="submit" className={style.messageSubmit} variant="contained" color="primary">
               <SendIcon />

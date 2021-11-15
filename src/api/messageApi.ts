@@ -4,7 +4,7 @@ import axiosClient from './axiosClient';
 
 const messageApi = {
   getAllInRoom(id: string, seed: number): Promise<Response<IMessage[]>> {
-    if (seed == null) seed = 0;
+    if (seed === null) seed = 0;
     return axiosClient.get(`messages/room/${id}/${seed}`);
   },
   create(payload: Pick<IMessage, '_id' | 'content'>): Promise<Response<IMessage>> {
@@ -21,9 +21,9 @@ const messageApi = {
   deleteOne(messageId: string): Promise<Response<IMessage>> {
     return axiosClient.delete(`messages/${messageId}`);
   },
-  read(boardId: string): Promise<any> {
-    return axiosClient.patch(`messages/room/${boardId}`);
-  },
+  // read(boardId: string): Promise<any> {
+  //   return axiosClient.patch(`messages/room/${boardId}`);
+  // },
   createFormMessage(payload: any): Promise<Response<IMessage>> {
     return axiosClient.post(`messages/form/select/${payload.roomId}`, payload);
   },

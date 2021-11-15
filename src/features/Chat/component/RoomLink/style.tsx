@@ -4,7 +4,7 @@ const roomLinkStyles = makeStyles({
   roomLink: {
     display: 'flex',
     height: '60px !important',
-    margin: '10px 7.5% 10px 7.5%',
+    margin: '10px 0 10px 0',
   },
   roomLinkHightLight: {
     display: 'flex',
@@ -12,7 +12,7 @@ const roomLinkStyles = makeStyles({
     backgroundColor: '#e4e3e3',
     borderRadius: '13px',
     color: 'white !important',
-    margin: '10px 7.5% 10px 7.5%',
+    margin: '10px 0 10px 0',
   },
   online: {
     '&:after': {
@@ -28,6 +28,7 @@ const roomLinkStyles = makeStyles({
   },
   avatarImg: {
     height: '55px',
+    width: '55px',
     transform: 'scale(0.75,0.75)',
     marginTop: '2.5px',
     borderRadius: '10px',

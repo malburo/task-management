@@ -3,12 +3,14 @@ import authReducer from 'features/Auth/authSlice';
 import boardReducer from 'features/Boards/boardSlice';
 import messagesReducer from 'features/Chat/ReduxSlice/MessagesSlice';
 import roomReducer from 'features/Chat/ReduxSlice/RoomSlice';
+import chatUIReducer from 'features/Chat/ReduxSlice/uiSlice';
 
 const rootReducer = {
   auth: authReducer,
   board: boardReducer,
   room: roomReducer,
   message: messagesReducer,
+  chatUI: chatUIReducer,
 };
 
 const store = configureStore({

@@ -321,6 +321,13 @@ const theme = createTheme({
         },
       },
     },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          zIndex: 999,
+        }
+      }
+    },
     MuiDialogContent: {
       styleOverrides: {
         root: {

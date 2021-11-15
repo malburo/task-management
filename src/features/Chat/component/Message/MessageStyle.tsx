@@ -3,16 +3,16 @@ import { makeStyles } from '@mui/styles';
 export default makeStyles({
   message: {
     boxSizing: 'border-box',
+    width: '100% !important',
     display: 'flex',
     marginTop: '4vh',
     marginBottom: '4vh',
     paddingLeft: '6%',
     paddingRight: '30%',
-    maxWidth: '40%',
   },
   avatar: {
     height: '5vh',
-    marginRight: '20%',
+    marginRight: '2%',
   },
   imageContent: {
     marginLeft: '2%',
@@ -31,7 +31,8 @@ export default makeStyles({
   },
 
   image: {
-    maxWidth: '40vw !important',
+    maxWidth: '100%',
+    cursor: 'pointer',
   },
   name: {
     margin: '0 3% 0 2%!important',
@@ -41,9 +42,18 @@ export default makeStyles({
     color: 'white!important',
     padding: '1rem',
     borderRadius: '20px',
+    maxWidth: '70%',
+    width: 'fit-content',
   },
   linkPreview: {
     width: '100%',
     maxWidth: '80vw',
   },
+  option: {
+    margin: '10px 10px 10px 0',
+    display: 'flex',
+    justifyContent: 'space-between',
+    height: 'auto',
+  },
+  optionValue: { textAlign: 'initial', marginRight: '20px' },
 });

@@ -4,7 +4,7 @@ import _ from 'lodash';
 import dateUtil from 'utilities/dateUtil';
 import TimeLine from '../HorizontalRule/TimeLine';
 import { Box } from '@mui/system';
-import { Button, Input, Typography } from '@mui/material';
+import { Avatar, Button, Input, Tooltip, Typography } from '@mui/material';
 import ImageLoading from '../Loader/ImageLoading';
 import ImageFailed from '../Loader/ImageFailed';
 import { useSelector } from 'react-redux';
@@ -15,28 +15,22 @@ import messageApi from 'api/messageApi';
 import { LinkPreview } from '@dhaiwat10/react-link-preview';
 import LinkPreviewSkeleteon from '../skeleton/LinkPreviewSkeletion';
 import AlignVerticalBottomIcon from '@mui/icons-material/AlignVerticalBottom';
+import AccountPreview from '../AccountPreview';
 
 interface IMessagePros {
-  name: string;
   postedDate: Date;
   content: string;
-  profilePictureUrl: string;
   renderTimeLine: Boolean;
   time: Date;
   type: Number;
+  owner: IUser;
   form?: ISelectFormMessage;
+  setImageView: (value: boolean) => void;
+  setImageSrc: (value: string) => void;
 }
 
-const Message: React.FC<IMessagePros> = ({
-  name,
-  postedDate,
-  content,
-  profilePictureUrl,
-  renderTimeLine,
-  time,
-  type,
-  form,
-}) => {
+const Message: React.FC<IMessagePros> = (props) => {
+  const { form, content, renderTimeLine, type, setImageView, setImageSrc } = props;
   const style = MessageStyle();
   const [timeline, setTimeline] = useState<ReactElement>();
   const [isLoading, setIsLoading] = useState<Boolean>(true);
@@ -45,6 +39,8 @@ const Message: React.FC<IMessagePros> = ({
   const me = useSelector((state: RootState) => state.auth.currentUser) as IUser;
   const [url, setUrl] = useState<string>();
   let sortedData = [...(form?.options ?? [])].sort((a, b) => (b.userId?.length ?? 0) - (a.userId?.length ?? 0));
+
+  const [openTooltip, setOpenTooltip] = React.useState(false);
 
   const chooseOption = (e: React.FormEvent<HTMLButtonElement>) => {
     messageApi.chooseOption(room._id, e.currentTarget.value);
@@ -59,7 +55,7 @@ const Message: React.FC<IMessagePros> = ({
   }, [content]);
 
   useEffect(() => {
-    if (renderTimeLine === true) setTimeline(<TimeLine time={new Date(time)} />);
+    if (renderTimeLine === true) setTimeline(<TimeLine time={new Date(props.time)} />);
     // eslint-disable-next-line
   }, [renderTimeLine]);
 
@@ -73,14 +69,22 @@ const Message: React.FC<IMessagePros> = ({
   return (
     <React.Fragment>
       {timeline}
-      <div className={style.message}>
-        <div className={style.avatar}>
-          <img className={style.avatarImg} alt="none" src={profilePictureUrl}></img>
-        </div>
-        <div>
-          <Box sx={{ display: 'flex' }}>
+      <Box className={style.message}>
+        <Box className={style.avatar}>
+          <Tooltip arrow placement="top" open={openTooltip} title={<AccountPreview value={props.owner} />}>
+            <Avatar
+              onMouseEnter={() => setOpenTooltip(true)}
+              onMouseLeave={() => setOpenTooltip(false)}
+              className={style.avatarImg}
+              alt="none"
+              src={props.owner.profilePictureUrl}
+            />
+          </Tooltip>
+        </Box>
+        <Box>
+          <Box flex="true">
             {type === 3 && (
-              <div className={style.messageContent}>
+              <Box className={style.messageContent}>
                 <AlignVerticalBottomIcon sx={{ float: 'right' }} />
                 <Typography variant="body2" sx={{ minWidth: '200px', marginBottom: '10px' }}>
                   {content}
@@ -95,9 +99,9 @@ const Message: React.FC<IMessagePros> = ({
                         fullWidth
                         variant="contained"
                         color="primary"
-                        sx={{ margin: '10px 10px 10px 0', display: 'flex', justifyContent: 'space-between' }}
+                        className={style.option}
                       >
-                        <Typography>{item.text}</Typography>
+                        <Typography className={style.optionValue}>{item.text}</Typography>
                         <Typography>{item.userId.length > 0 ? item.userId.length : ''}</Typography>
                       </Button>
                     );
@@ -110,9 +114,9 @@ const Message: React.FC<IMessagePros> = ({
                         color="secondary"
                         value={item._id}
                         onClick={chooseOption}
-                        sx={{ margin: '10px 10px 10px 0', display: 'flex', justifyContent: 'space-between' }}
+                        className={style.option}
                       >
-                        <Typography>{item.text}</Typography>
+                        <Typography className={style.optionValue}>{item.text}</Typography>
                         <Typography>{item.userId.length > 0 ? item.userId.length : ''}</Typography>
                       </Button>
                     );
@@ -125,7 +129,7 @@ const Message: React.FC<IMessagePros> = ({
                     onKeyDown={addToOptions}
                   />
                 )}
-              </div>
+              </Box>
             )}
             {type === 1 && (
               <Box className={style.messageContent}>
@@ -135,10 +139,9 @@ const Message: React.FC<IMessagePros> = ({
               </Box>
             )}
             {type === 2 && (
-              <div className={`${style.messageContent} ${style.imageContent}`}>
+              <Box className={`${style.messageContent} ${style.imageContent}`}>
                 {isLoading && <ImageLoading />}
                 {isError && <ImageFailed />}
-
                 <img
                   style={isLoading || isError ? { height: '0' } : {}}
                   onLoad={() => {
@@ -148,11 +151,15 @@ const Message: React.FC<IMessagePros> = ({
                     setIsLoading(false);
                     setIsError(true);
                   }}
+                  onClick={() => {
+                    setImageView(true);
+                    setImageSrc(content);
+                  }}
                   src={content}
                   className={style.image}
                   alt=""
                 />
-              </div>
+              </Box>
             )}
           </Box>
           {url && type === 1 && (
@@ -160,16 +167,16 @@ const Message: React.FC<IMessagePros> = ({
               <LinkPreview url={url} className={style.linkPreview} customLoader={<LinkPreviewSkeleteon />} />
             </Box>
           )}
-          <div className={style.accountInfor}>
-            <Typography sx={{ fontSize: '0.75em' }} variant="subtitle2" className={style.name}>
-              {name},
-            </Typography>
+          <Box className={style.accountInfor}>
+            {/* <Typography sx={{ fontSize: '0.75em' }} variant="subtitle2" className={style.name}>
+              {props.name},
+            </Typography> */}
             <Typography sx={{ fontSize: '0.75em' }} variant="subtitle2">
-              {dateUtil.fortmatDate(postedDate)}
+              {dateUtil.fortmatDate(props.postedDate)}
             </Typography>
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
     </React.Fragment>
   );
 };
