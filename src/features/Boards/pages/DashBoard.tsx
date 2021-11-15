@@ -12,6 +12,7 @@ const DashBoard = () => {
       <Box height="100vh" flex={1} overflow="hidden">
         <Box height="65px" />
         <Box height="calc(100vh - 145px)" padding="48px" display="flex">
+          <Activities />
           <Box>
             <Statistics />
             <TaskChart />
