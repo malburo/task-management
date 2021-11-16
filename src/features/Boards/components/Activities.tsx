@@ -37,9 +37,56 @@ const Activities = () => {
   return (
     <Box padding="24px" borderRadius="12px" marginX="24px" bgcolor="#fff" height="500px" width="300px">
       <Typography variant="regular2">Activities</Typography>
-      {activityList.map((activity) => (
-        <Box>"asd"</Box>
-      ))}
+      {activityList.map((activity) => {
+        if (activity.type === 'BOARD:ADD_MEMBER') {
+          return <Box>{activity.content.sender.username} add member</Box>;
+        }
+        if (activity.type === 'TASK:DRAG_DROP') {
+          return <Box>{activity.content.sender.username} drag drop</Box>;
+        }
+        if (activity.type === 'TASK:ASSIGN_MEMBER') {
+          return (
+            <Box>
+              {activity.content.sender.username} was assigned {activity.content.task.title} to{' '}
+              {activity.content.receiver.username}
+            </Box>
+          );
+        }
+        if (activity.type === 'TASK:REASSIGN_MEMBER') {
+          return (
+            <Box>
+              {activity.content.sender.username} was reassigned {activity.content.task.title} to{' '}
+              {activity.content.receiver.username}
+            </Box>
+          );
+        }
+        if (activity.type === 'TASK:ASSIGN_DEADLINE') {
+          return (
+            <Box>
+              {activity.content.sender.username} was change deadline {activity.content.task.title} in 20-11-2021
+            </Box>
+          );
+        }
+        if (activity.type === 'TASK:FINISHED_DEADLINE') {
+          return <Box>{activity.content.sender.username} finished dealine</Box>;
+        }
+        // if (activity.type === 'TASK:UNFINISHED_DEADLINE') {
+        //   return (
+        //     <Box>
+        //       {activity.content.sender.username} was assigned {activity.content.task.title} to{' '}
+        //       {activity.content.receiver.username}
+        //     </Box>
+        //   );
+        // }
+        if (activity.type === 'TASK:ADD_COMMENT') {
+          return (
+            <Box>
+              {activity.content.sender.username} was assigned {activity.content.task.title} to{' '}
+              {activity.content.receiver.username}
+            </Box>
+          );
+        }
+      })}
     </Box>
   );
 };

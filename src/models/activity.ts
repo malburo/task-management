@@ -5,6 +5,7 @@ export interface IActivity {
   content: any;
   sender: IUser;
   boardId: string;
+  type: string;
   createdAt: Date;
   updatedAt: Date;
 }
