@@ -168,9 +168,6 @@ const Message: React.FC<IMessagePros> = (props) => {
             </Box>
           )}
           <Box className={style.accountInfor}>
-            {/* <Typography sx={{ fontSize: '0.75em' }} variant="subtitle2" className={style.name}>
-              {props.name},
-            </Typography> */}
             <Typography sx={{ fontSize: '0.75em' }} variant="subtitle2">
               {dateUtil.fortmatDate(props.postedDate)}
             </Typography>

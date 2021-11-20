@@ -19,7 +19,12 @@ const chatPageStyles = makeStyles((theme: Theme) => {
       boxShadow:
         '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
     },
-    chatBoxHeader: { height: '30px', padding: '7.5px 0 7.5px 20px' },
+    chatBoxHeader: {
+      height: '30px',
+      padding: '7.5px 0 7.5px 20px',
+      position: 'relative',
+      boxShadow: 'rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px',
+    },
     chatBox: {
       width: '-webkit-fill-available',
       marginTop: '80px',

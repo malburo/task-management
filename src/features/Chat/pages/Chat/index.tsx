@@ -1,9 +1,7 @@
 import { Box, Button, Hidden, Stack, SwipeableDrawer, Typography } from '@mui/material';
 import roomApi from 'api/roomApi';
-import { socketClient } from 'api/socketClient';
 import { AppDispatch, RootState } from 'app/store';
 import SideBar from 'components/SideBar';
-import { getOneBoard } from 'features/Boards/boardSlice';
 import MessageBox from 'features/Chat/component/MessageBox';
 import SendMessageForm from 'features/Chat/component/SendMessageForm';
 import SidebarAppChat from 'features/Chat/component/Sidebar';
@@ -29,22 +27,17 @@ export default function Chat() {
   const [isMember, setIsMember] = useState<boolean>(false);
   const room = useSelector((state: RootState) => state.room.roomInfor);
   const { roomId, boardId } = useParams<IParams>();
-  // eslint-disable-next-line
-  const chat = useChat();
+  useChat();
 
   useEffect(() => {
     roomApi.getAllYourRoomInBoard(boardId).then((res) => {
       if (res.data.rooms.length > 0) setIsMember(true);
-      else return;
+      else {
+        setIsMember(false);
+        return;
+      }
       if (roomId !== 'all') dispatch(getOneRoom(roomId));
       else dispatch(getGeneralRoom(boardId));
-
-      dispatch(getOneBoard({ boardId }));
-      socketClient.emit('board:join', boardId);
-
-      return () => {
-        socketClient.emit('board:leave', boardId);
-      };
     });
     // eslint-disable-next-line
   }, [roomId, boardId]);
@@ -64,7 +57,7 @@ export default function Chat() {
         <Box className={style.surface} height="100vh" bgcolor="#fff" flex={1} overflow="hidden">
           <Box className={style.accessDeny}>
             <img src={AccessDeny} alt="" style={{ width: '40%', marginBottom: '20px' }} />
-            <Typography variant="bold6" sx={{ color: '#afafaf' }}>
+            <Typography variant="bold6" color="#afafaf">
               You must be a member of project to use this feature
             </Typography>
           </Box>
@@ -95,7 +88,7 @@ export default function Chat() {
               <Hidden smUp>
                 <Button onClick={setOpenMenu}>+</Button>
               </Hidden>
-              <Typography variant="bold5">{room.name}</Typography>
+              <Typography variant="bold5">{room.name === undefined ? room.board.title : room.name}</Typography>
             </Box>
             <Box className={style.messagesField}>
               <MessageBox />

@@ -29,7 +29,7 @@ const AccountPreview: React.FC<IProps> = (props) => {
         </Box>
       </Box>
       {member && <Typography>Role: {member?.role}</Typography>}
-      {member && <Typography>Join at: {`${dateUtil.getDateMeaning(new Date(member?.createdAt))}`}</Typography>}
+      {member && <Typography>Join: {`${dateUtil.getDateMeaning(new Date(member?.createdAt))}`}</Typography>}
     </Box>
   );
 };

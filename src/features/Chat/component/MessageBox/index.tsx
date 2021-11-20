@@ -11,6 +11,7 @@ import { IUser } from 'models/user';
 import { DateCount } from 'utilities/dateUtil';
 import React from 'react';
 import useChat from 'hooks/useChat';
+import { socketClient } from 'api/socketClient';
 import { debounce } from 'lodash';
 import Loader from 'features/Chat/component/Loader/Loader';
 import 'react-image-lightbox/style.css';
@@ -18,7 +19,11 @@ import Lightbox from 'react-image-lightbox';
 
 const useStyle = makeStyles({
   messagesField: {
-    height: '100%',
+    height: '100%' /* Handle */,
+    '&::-webkit-scrollbar-thumb': {
+      background: 'rgb(172, 172, 172)',
+      borderRadius: '2px',
+    },
   },
   sendMessageField: {
     height: '80px',
@@ -40,7 +45,7 @@ export default function MessageBox() {
   const me = useSelector((state: RootState) => state.auth.currentUser) as IUser;
 
   // eslint-disable-next-line
-  const chat = useChat();
+  useChat();
 
   useEffect(() => {
     setSeed(0);
@@ -52,6 +57,12 @@ export default function MessageBox() {
     });
     // eslint-disable-next-line
   }, [room]);
+
+  useEffect(() => {
+    socketClient.on('chat:add-message', () => {
+      messagesBox.current?.scroll({ top: messagesBox.current.scrollHeight });
+    });
+  });
 
   const fetchMoreMsg = async (scrollPosition: Number) => {
     if (scrollPosition !== 0) return;

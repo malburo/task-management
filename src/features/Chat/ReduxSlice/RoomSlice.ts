@@ -10,6 +10,7 @@ export const getOneRoom = createAsyncThunk('room/getOneRoom', async (payload: st
 
 export const getGeneralRoom = createAsyncThunk('room/getGeneralRoom', async (payload: string) => {
   const response = await roomApi.getGeneralRoom(payload);
+  console.log(response);
   return response.data.room;
 });
 

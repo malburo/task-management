@@ -35,7 +35,7 @@ const BoardFeature: React.FC = () => {
     <>
       <Header />
       <Switch>
-        <Route exact path={`/boards/:boardId/rooms/:roomId`} component={Chat} />
+        <Route path={`/boards/:boardId/rooms/:roomId`} component={Chat} />
         <Route exact path={`/boards/:boardId`} component={BoardDetail} />
         <Route exact path={`/boards/:boardId/dashboard`} component={DashBoard} />
         <Route exact path={`/boards/:boardId/members`} component={Members} />

@@ -54,22 +54,22 @@ const EditMessageForm: React.FC<IPropsAlert> = (props) => {
 
   return (
     <Dialog open={props.isOpen}>
-      <DialogTitle>
-        <Typography sx={{ lineHeight: '32px' }}>Edit</Typography>
-      </DialogTitle>
-      <Box>
-        <form className={style.form} onSubmit={sendForm.handleSubmit(handleEdit)}>
+      <form onSubmit={sendForm.handleSubmit(handleEdit)}>
+        <DialogTitle>
+          <Typography sx={{ lineHeight: '32px' }}>Edit</Typography>
+        </DialogTitle>
+        <Box className={style.form}>
           <InputField autoComplete="off" name="msgContent" placeholder="type a new message here" form={sendForm} />
-        </form>
-      </Box>
-      <DialogActions>
-        <Button onClick={() => props.setClose(false)} color="secondary" variant="contained">
-          Cancel
-        </Button>
-        <Button type="submit" color="primary" variant="contained" autoFocus>
-          Ok
-        </Button>
-      </DialogActions>
+        </Box>
+        <DialogActions>
+          <Button onClick={() => props.setClose(false)} color="secondary" variant="contained">
+            Cancel
+          </Button>
+          <Button type="submit" color="primary" variant="contained" autoFocus>
+            Ok
+          </Button>
+        </DialogActions>
+      </form>
     </Dialog>
   );
 };

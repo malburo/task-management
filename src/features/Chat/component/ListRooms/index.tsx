@@ -39,7 +39,7 @@ const ListRooms: React.FC<IListRoom> = (props) => {
     });
 
     // eslint-disable-next-line
-  }, [board]);
+  }, [board, room]);
 
   useEffect(() => {
     if (board._id === '') return;
