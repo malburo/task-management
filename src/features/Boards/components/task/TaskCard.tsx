@@ -71,7 +71,9 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
           </AvatarGroup>
           {task.deadlineDay && (
             <Box
-              bgcolor={`${task.status === 'UNFINISHED' ? '#EB5757' : '#5fb181'}`}
+              bgcolor={`${
+                task.status === 'FINISHED' ? '#5fb181' : task.status === 'DEADLINE_EXPIRED' ? '#EB5757' : '#999999'
+              }`}
               borderRadius="4px "
               padding="4px 8px"
               display="flex"
