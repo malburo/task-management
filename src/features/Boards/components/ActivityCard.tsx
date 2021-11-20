@@ -4,10 +4,10 @@ import { formatDistanceToNow } from 'date-fns';
 import { IUser } from 'models/user';
 
 interface Props {
-  sender: IUser | undefined;
+  sender: IUser;
   time: Date;
 }
-const NotificationCard: React.FC<Props> = ({ sender, children, time }) => {
+const ActivityCard: React.FC<Props> = ({ sender, children, time }) => {
   return (
     <Box
       display="flex"
@@ -19,11 +19,11 @@ const NotificationCard: React.FC<Props> = ({ sender, children, time }) => {
       marginY="12px"
     >
       <Box>
-        <Avatar sx={{ marginRight: '12px' }} src={sender?.profilePictureUrl} />
+        <Avatar sx={{ marginRight: '12px' }} src={sender.profilePictureUrl} />
       </Box>
       <Box flex={1}>
         <Box display="flex" alignItems="center" justifyContent="space-between">
-          <Typography variant="regular2">{sender ? sender.username : 'System'}</Typography>
+          <Typography variant="regular2">{sender.username}</Typography>
           <Typography variant="regular2">{formatDistanceToNow(new Date(time))}</Typography>
         </Box>
         <Box>{children}</Box>
@@ -32,4 +32,4 @@ const NotificationCard: React.FC<Props> = ({ sender, children, time }) => {
   );
 };
 
-export default NotificationCard;
+export default ActivityCard;
