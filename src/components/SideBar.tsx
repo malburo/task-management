@@ -22,15 +22,15 @@ export default function SideBar() {
         display: 'flex',
         flexDirection: 'column',
         paddingX: '24px',
-        width: '200px',
+        width: { sm: '60px', md: '200px' },
         height: '100vh',
         bgcolor: '#fff',
-        zIndex: 1100,
+        zIndex: 1000,
       }}
     >
       <Stack direction="row" alignItems="center" margin="24px">
         <img src={Logo} alt="logo" onClick={() => history.push('/')} style={{ cursor: 'pointer' }} />
-        <Typography variant="semiBold5" sx={{ marginX: 4 }}>
+        <Typography variant="semiBold5" sx={{ marginX: 4, display: { xs: 'none', md: 'block' } }}>
           Tasker
         </Typography>
       </Stack>
@@ -49,8 +49,10 @@ export default function SideBar() {
             borderRadius="4px"
             sx={{ '&:hover': { backgroundColor: '#ebebeb', color: '#454545' } }}
           >
-            <InsertChartIcon sx={{ marginRight: '24px' }} />
-            <Typography variant="regular3">General</Typography>
+            <InsertChartIcon />
+            <Typography variant="regular3" sx={{ marginLeft: '24px', display: { xs: 'none', md: 'block' } }}>
+              General
+            </Typography>
           </Box>
         </ListItem>
         <ListItem
@@ -68,8 +70,10 @@ export default function SideBar() {
             borderRadius="4px"
             sx={{ '&:hover': { backgroundColor: '#ebebeb', color: '#454545' } }}
           >
-            <DashboardIcon sx={{ marginRight: '24px' }} />
-            <Typography variant="regular3">Board</Typography>
+            <DashboardIcon />
+            <Typography variant="regular3" sx={{ marginLeft: '24px', display: { xs: 'none', md: 'block' } }}>
+              Board
+            </Typography>
           </Box>
         </ListItem>
         <ListItem
@@ -86,8 +90,10 @@ export default function SideBar() {
             borderRadius="4px"
             sx={{ '&:hover': { backgroundColor: '#ebebeb', color: '#454545' } }}
           >
-            <ChatIcon sx={{ marginRight: '24px' }} />
-            <Typography variant="regular3">Messages</Typography>
+            <ChatIcon />
+            <Typography variant="regular3" sx={{ marginLeft: '24px', display: { xs: 'none', md: 'block' } }}>
+              Messages
+            </Typography>
           </Box>
         </ListItem>
         <ListItem
@@ -104,8 +110,10 @@ export default function SideBar() {
             borderRadius="4px"
             sx={{ '&:hover': { backgroundColor: '#ebebeb', color: '#454545' } }}
           >
-            <GroupIcon sx={{ marginRight: '24px' }} />
-            <Typography variant="regular3">Members</Typography>
+            <GroupIcon />
+            <Typography variant="regular3" sx={{ marginLeft: '24px', display: { xs: 'none', md: 'block' } }}>
+              Members
+            </Typography>
           </Box>
         </ListItem>
       </List>
