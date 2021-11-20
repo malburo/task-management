@@ -14,7 +14,7 @@ interface IParams {
 }
 
 const Members = () => {
-  const { boardId, memberId } = useParams<IParams>();
+  const { boardId } = useParams<IParams>();
   const history = useHistory();
   const members = useSelector(membersSelector.selectAll);
 

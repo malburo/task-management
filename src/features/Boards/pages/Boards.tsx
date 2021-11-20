@@ -1,17 +1,17 @@
-import { Container, Grid, Pagination, Stack, Typography } from '@mui/material';
+import { Container, Grid, Pagination, Stack } from '@mui/material';
 import { Box } from '@mui/system';
 import boardApi from 'api/boardApi';
 import Footer from 'components/Footer';
+import Header from 'components/Header';
 import { IBoard } from 'models/board';
 import { IParams } from 'models/common';
 import queryString from 'query-string';
 import { useEffect, useMemo, useState } from 'react';
 import { useHistory, useLocation } from 'react-router';
-import BoardCard from '../components/board/BoardCard';
 import AddBoard, { AddBoardFormValues } from '../components/board/AddBoard';
-import BoardSkeleton from '../components/skeleton/BoardSkeleton';
-import Header from 'components/Header';
+import BoardCard from '../components/board/BoardCard';
 import BoardFilter from '../components/BoardFilter';
+import BoardSkeleton from '../components/skeleton/BoardSkeleton';
 
 const Boards = () => {
   const [boardList, setBoardList] = useState<IBoard[]>([]);

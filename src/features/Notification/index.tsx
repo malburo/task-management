@@ -1,13 +1,13 @@
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { Avatar, IconButton, Popover, Typography } from '@mui/material';
+import { IconButton, Popover, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import notificationApi from 'api/notificationApi';
 import { socketClient } from 'api/socketClient';
 import { RootState } from 'app/store';
+import NotificationCard from 'features/Notification/components/NotificationCard';
 import { INotification } from 'models/notification';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import NotificationCard from 'features/Notification/components/NotificationCard';
 import { useHistory } from 'react-router';
 
 const NotificationFeature: React.FC = () => {
@@ -96,7 +96,7 @@ const NotificationFeature: React.FC = () => {
                         }
                       >
                         <NotificationCard sender={notification.senderId} time={notification.createdAt}>
-                          <Typography variant="regular2">task a has expired</Typography>
+                          <Typography variant="regular2">{notification.content.task.title} has expired</Typography>
                         </NotificationCard>
                       </Box>
                     );
