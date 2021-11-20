@@ -1,9 +1,7 @@
 import { Box, Button, Hidden, Stack, SwipeableDrawer, Typography } from '@mui/material';
 import roomApi from 'api/roomApi';
-import { socketClient } from 'api/socketClient';
 import { AppDispatch, RootState } from 'app/store';
 import SideBar from 'components/SideBar';
-import { getOneBoard } from 'features/Boards/boardSlice';
 import MessageBox from 'features/Chat/component/MessageBox';
 import SendMessageForm from 'features/Chat/component/SendMessageForm';
 import SidebarAppChat from 'features/Chat/component/Sidebar';

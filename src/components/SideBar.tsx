@@ -5,7 +5,7 @@ import InsertChartIcon from '@mui/icons-material/InsertChart';
 import { List, ListItem, Stack, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { Box } from '@mui/system';
-import { useHistory, useParams } from 'react-router';
+import { useHistory, useLocation, useParams } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import Logo from '../images/Logo-small.svg';
 
@@ -16,6 +16,7 @@ interface IParams {
 export default function SideBar() {
   const { boardId } = useParams<IParams>();
   const history = useHistory();
+  const { pathname } = useLocation();
   return (
     <Paper
       sx={{
@@ -75,6 +76,7 @@ export default function SideBar() {
         <ListItem
           component={NavLink}
           to={`/boards/${boardId}/rooms/all`}
+          isActive={() => pathname.includes('/rooms')}
           activeStyle={{ color: '#454545', fontWeight: 'bold' }}
           sx={{ padding: '4px 8px', color: '#ccc' }}
         >

@@ -12,6 +12,7 @@ const sidebarAppChatStyle = makeStyles((theme: Theme) => {
     },
     sidebarHeader: {
       // margin: '3vh 7.5% 3vh 7.5%',
+      width: '280px',
     },
     searchField: {
       margin: '3vh 0 3vh 0',
