@@ -88,7 +88,7 @@ export default function Chat() {
               <Hidden smUp>
                 <Button onClick={setOpenMenu}>+</Button>
               </Hidden>
-              <Typography variant="bold5">{room.name}</Typography>
+              <Typography variant="bold5">{room.name === undefined ? room.board.title : room.name}</Typography>
             </Box>
             <Box className={style.messagesField}>
               <MessageBox />
