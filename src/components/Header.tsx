@@ -60,7 +60,9 @@ const Header = () => {
           <Box display="flex" alignItems="center">
             {isAuth ? (
               <>
-                <Search />
+                <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+                  <Search />
+                </Box>
                 <NotificationFeature />
                 <Avatar
                   onClick={handleProfileMenuOpen}

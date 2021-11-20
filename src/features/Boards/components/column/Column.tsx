@@ -13,9 +13,9 @@ import { applyDrag } from 'utilities/dragDrop';
 import { mapOrder } from 'utilities/sorts';
 import { tasksSelector, updateColumn, updateTask } from '../../boardSlice';
 import AddTask from '../task/AddTask';
+import TaskCard from '../task/TaskCard';
 import DeleteColumn from './DeleteColumn';
 import EditColumnTitle from './EditColumTitle';
-import TaskCard from '../task/TaskCard';
 
 interface ColumnProps {
   column: IColumn;
@@ -27,9 +27,12 @@ const Column: React.FC<ColumnProps> = ({ column }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const scrollBottomRef = useRef<null | HTMLDivElement>(null);
   const didMount = useRef(false);
-
+  const filter = useSelector((state: RootState) => state.board.filter);
   const tasks: ITask[] = useSelector((state: RootState) => {
-    const allTasks = tasksSelector.selectAll(state).filter((task: ITask) => task.columnId === column._id);
+    const allTasks = tasksSelector.selectAll(state).filter((task: ITask) => {
+      if (filter === '') return task.columnId === column._id;
+      return task.columnId === column._id && task.labelsId.includes(filter);
+    });
     return mapOrder(allTasks, column.taskOrder, '_id');
   });
 
@@ -70,8 +73,9 @@ const Column: React.FC<ColumnProps> = ({ column }) => {
     setAnchorEl(null);
     setShowAddTaskForm(true);
   };
+
   return (
-    <Box marginLeft={12} bgcolor="#f8f9fd" borderRadius="8px" paddingTop="8px" width="280px">
+    <Box marginLeft={12} bgcolor="#f8f9fd" borderRadius="8px" paddingTop="8px" width="270px">
       <Box display="flex" justifyContent="space-between" height="40px">
         <EditColumnTitle columnId={column._id} value={column.title} />
         <Box onClick={handleMenuOpen} marginRight="12px" className="column-move" sx={{ cursor: 'move' }}>

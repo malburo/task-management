@@ -7,6 +7,12 @@ const boardApi = {
   getAll(params?: IParams): Promise<ResponseList<IBoard[]>> {
     return axiosClient.get('/boards', { params });
   },
+  getMyBoards(params?: IParams): Promise<ResponseList<IBoard[]>> {
+    return axiosClient.get('/boards/myBoard/owner', { params });
+  },
+  getMyBoardsJoined(params?: IParams): Promise<ResponseList<IBoard[]>> {
+    return axiosClient.get('/boards/myBoard/joined', { params });
+  },
   getOne(payload: { boardId: string }): Promise<Response<IBoard>> {
     return axiosClient.get(`/boards/${payload.boardId}`);
   },

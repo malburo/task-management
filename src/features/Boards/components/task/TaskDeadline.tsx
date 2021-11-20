@@ -1,6 +1,6 @@
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import ErrorIcon from '@mui/icons-material/Error';
+import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import { Button, Grid, Popover, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import taskApi from 'api/taskApi';
@@ -49,10 +49,18 @@ const TaskDeadline: React.FC<Props> = ({ value, status }) => {
         aria-describedby={id}
         onClick={handleClick}
         variant="contained"
+        disabled={status === 'DEADLINE_EXPIRED'}
         startIcon={<AccessTimeIcon />}
         sx={{
-          backgroundColor: status === 'UNFINISHED' ? '#EB5757' : '#5fb181',
-          '&:hover': { backgroundColor: status === 'UNFINISHED' ? '#d14137cc' : '#54c059' },
+          backgroundColor: status === 'FINISHED' ? '#5fb181' : status === 'DEADLINE_EXPIRED' ? '#EB5757' : '#999999',
+          '&:hover': {
+            backgroundColor:
+              status === 'FINISHED' ? '#54c059' : status === 'DEADLINE_EXPIRED' ? '#d14137cc' : '#8d8d8d',
+          },
+          '&:disabled': {
+            backgroundColor: '#EB5757',
+            color: 'white',
+          },
         }}
       >
         {format(new Date(value), 'EEEE dd-MM-yyyy HH:mm')}
@@ -79,7 +87,7 @@ const TaskDeadline: React.FC<Props> = ({ value, status }) => {
             <Typography variant="bold2">Deadline</Typography>
           </Box>
           <Box>
-            <Typography variant="regular2">Choose who can see to this board.</Typography>
+            <Typography variant="regular2">Choose status task.</Typography>
           </Box>
           <Box
             padding="12px"
@@ -90,8 +98,8 @@ const TaskDeadline: React.FC<Props> = ({ value, status }) => {
             sx={{ cursor: 'pointer', '&:hover': { backgroundColor: '#F2F2F2' } }}
           >
             <Grid container alignItems="center">
-              <ErrorIcon sx={{ marginRight: '8px', color: '#EB5757' }} />
-              <Typography variant="regular2">Unfinished</Typography>
+              <EmojiEmotionsIcon sx={{ marginRight: '8px', color: '#999999' }} />
+              <Typography variant="regular2">Doing</Typography>
             </Grid>
             <Typography variant="regular1">choose when you haven't finished the task.</Typography>
           </Box>

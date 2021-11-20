@@ -7,11 +7,14 @@ import { RootState } from 'app/store';
 import { INotification } from 'models/notification';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import NotificationCard from 'features/Notification/components/NotificationCard';
+import { useHistory } from 'react-router';
 
 const NotificationFeature: React.FC = () => {
   const { currentUser } = useSelector((state: RootState) => state.auth);
   const [notificationList, setNotificationList] = useState<INotification[]>([]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const history = useHistory();
 
   const open = Boolean(anchorEl);
   const id = open ? 'notification-popover' : undefined;
@@ -85,45 +88,51 @@ const NotificationFeature: React.FC = () => {
               </Box>
               <Box maxHeight="400px" overflow="scroll">
                 {notificationList.map((notification) => {
+                  if (notification.type === 'TASK:DEADLINE_EXPIRED')
+                    return (
+                      <Box
+                        onClick={() =>
+                          history.push(`/boards/${notification.boardId}/tasks/${notification.content.task._id}`)
+                        }
+                      >
+                        <NotificationCard sender={notification.senderId} time={notification.createdAt}>
+                          <Typography variant="regular2">task a has expired</Typography>
+                        </NotificationCard>
+                      </Box>
+                    );
                   if (notification.type === 'TASK:ASSIGN_MEMBER')
                     return (
                       <Box
-                        display="flex"
-                        alignItems="center"
-                        padding="12px"
-                        borderRadius="8px"
-                        sx={{ cursor: 'pointer', '&:hover': { bgcolor: '#2f80ed', color: 'white' } }}
+                        onClick={() =>
+                          history.push(`/boards/${notification.boardId}/tasks/${notification.content.task._id}`)
+                        }
                       >
-                        <Box>
-                          <Avatar sx={{ marginRight: '12px' }} src={notification.senderId.profilePictureUrl} />
-                        </Box>
-                        <Box flex={1}>
-                          <Box display="flex" alignItems="center" justifyContent="space-between">
-                            <Typography variant="regular2">{notification.senderId.username}</Typography>
-                            <Typography variant="regular2">2h</Typography>
-                          </Box>
-                          <Box>
-                            <Typography variant="regular2">dẵ thêm công ziệc cho bạn</Typography>
-                          </Box>
-                        </Box>
+                        <NotificationCard sender={notification.senderId} time={notification.createdAt}>
+                          <Typography variant="regular2">
+                            {notification.senderId.username} was assigned {notification.content.task.title} to you
+                          </Typography>
+                        </NotificationCard>
                       </Box>
                     );
                   if (notification.type === 'TASK:REASSIGN_MEMBER')
                     return (
-                      <Box>
-                        <Box display="flex" alignItems="center">
-                          <Avatar sx={{ marginRight: '12px' }} src={notification.senderId.profilePictureUrl} />
+                      <Box
+                        onClick={() =>
+                          history.push(`/boards/${notification.boardId}/tasks/${notification.content.task._id}`)
+                        }
+                      >
+                        <NotificationCard sender={notification.senderId} time={notification.createdAt}>
                           <Typography variant="regular2">
-                            {notification.senderId.username} dẵ xoa ban khỏi cong viec
+                            {notification.senderId.username} was reassigned {notification.content.task.title} to you
                           </Typography>
-                        </Box>
+                        </NotificationCard>
                       </Box>
                     );
                 })}
               </Box>
-              <Box padding="12px" textAlign="center">
+              {/* <Box padding="12px" textAlign="center">
                 <Typography variant="bold4">Load more...</Typography>
-              </Box>
+              </Box> */}
             </Box>
           </Box>
         </Box>

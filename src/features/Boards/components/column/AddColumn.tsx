@@ -58,7 +58,7 @@ const AddColumn = () => {
             width: '260px',
             padding: '8px 15px',
             boxShadow: 'none',
-            marginX: '48px',
+            margin: '0px 24px 0px 48px',
             justifyContent: 'space-between',
           }}
         >
