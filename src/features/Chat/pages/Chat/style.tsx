@@ -34,7 +34,8 @@ const chatPageStyles = makeStyles((theme: Theme) => {
       borderRadius: '15px',
       overflow: 'hidden',
       backgroundColor: bgColor,
-      boxShadow: 'rgba(33, 35, 38, 0.1) 0px 10px 10px -10px',
+      boxShadow:
+        '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
     },
     messagesField: {
       height: 'calc(100% - 120px)',
