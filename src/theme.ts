@@ -312,7 +312,11 @@ const theme = createTheme({
         root: {
           padding: '16px',
           borderRadius: '8px',
-          boxShadow: 'none',
+          boxShadow: `0px 0.2px 0.2px hsl(229deg 15% 79% / 0.14),
+          0px 0.4px 0.5px -0.6px hsl(229deg 15% 79% / 0.14),
+          0px 0.8px 0.9px -1.2px hsl(229deg 15% 79% / 0.14),
+          -0.1px 1.5px 1.7px -1.9px hsl(229deg 15% 79% / 0.14),
+          -0.2px 2.8px 3.2px -2.5px hsl(229deg 15% 79% / 0.14)`,
           whiteSpace: 'normal',
           boxSizing: 'border-box',
           '&:hover': {
@@ -325,8 +329,8 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           zIndex: 999,
-        }
-      }
+        },
+      },
     },
     MuiDialogContent: {
       styleOverrides: {

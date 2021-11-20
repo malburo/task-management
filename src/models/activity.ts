@@ -3,7 +3,7 @@ import { IUser } from 'models/user';
 export interface IActivity {
   _id: string;
   content: any;
-  sender: IUser;
+  senderId: IUser;
   boardId: string;
   type: string;
   createdAt: Date;

@@ -11,6 +11,7 @@ import BoardCard from '../components/board/BoardCard';
 import AddBoard, { AddBoardFormValues } from '../components/board/AddBoard';
 import BoardSkeleton from '../components/skeleton/BoardSkeleton';
 import Header from 'components/Header';
+import BoardFilter from '../components/BoardFilter';
 
 const Boards = () => {
   const [boardList, setBoardList] = useState<IBoard[]>([]);
@@ -29,6 +30,7 @@ const Boards = () => {
       ...params,
       page: Number(params.page) || 1,
       limit: Number(params.limit) || 12,
+      type: params.type || 'myBoards',
     };
   }, [location.search]);
 
@@ -36,16 +38,28 @@ const Boards = () => {
     const fetchBoardsData = async () => {
       try {
         setIsLoading(true);
-        const { data } = await boardApi.getAll(queryParams);
-        setBoardList(data.boards as IBoard[]);
-        setPagination(data.pagination);
+        if (queryParams.type === 'myBoards') {
+          const { data } = await boardApi.getMyBoards(queryParams);
+          setBoardList(data.boards as IBoard[]);
+          setPagination(data.pagination);
+        }
+        if (queryParams.type === 'myBoardsJoined') {
+          const { data } = await boardApi.getMyBoardsJoined(queryParams);
+          setBoardList(data.boards as IBoard[]);
+          setPagination(data.pagination);
+        }
+        if (queryParams.type === 'public') {
+          const { data } = await boardApi.getAll(queryParams);
+          setBoardList(data.boards as IBoard[]);
+          setPagination(data.pagination);
+        }
       } catch (error) {
         console.log(error);
       }
       setIsLoading(false);
     };
     fetchBoardsData();
-  }, [queryParams, boardList.length]);
+  }, [queryParams]);
 
   const handlePageChange = (e: React.ChangeEvent<unknown>, page: number) => {
     const filters = {
@@ -58,16 +72,38 @@ const Boards = () => {
     });
   };
 
+  const handleTypeChange = (type: 'myBoards' | 'myBoardsJoined' | 'public') => {
+    const filters = {
+      ...queryParams,
+      type,
+    };
+    history.push({
+      pathname: history.location.pathname,
+      search: queryString.stringify(filters),
+    });
+  };
+
   const handleAddBoard = async (value: AddBoardFormValues) => {
     await boardApi.create(value);
-    setBoardList([]);
+    const fetchBoardsData = async () => {
+      try {
+        setIsLoading(true);
+        const { data } = await boardApi.getMyBoards(queryParams);
+        setBoardList(data.boards as IBoard[]);
+        setPagination(data.pagination);
+      } catch (error) {
+        console.log(error);
+      }
+      setIsLoading(false);
+    };
+    fetchBoardsData();
   };
   return (
     <>
       <Header />
       <Container sx={{ minHeight: 'calc(100vh - 145px)', marginTop: '65px', paddingTop: '24px' }}>
         <Stack direction="row" justifyContent="space-between" alignItems="center" marginBottom="24px">
-          <Typography variant="regular6">All Boards</Typography>
+          <BoardFilter handleTypeChange={handleTypeChange} type={queryParams.type} />
           <AddBoard onSubmit={handleAddBoard} />
         </Stack>
         <Grid container spacing={4}>
@@ -83,15 +119,17 @@ const Boards = () => {
                 </Grid>
               ))}
         </Grid>
-        <Box marginY="48px" display="flex" justifyContent="center">
-          <Pagination
-            color="primary"
-            count={Math.ceil(pagination.total / parseInt(pagination.limit)) || 0}
-            page={parseInt(pagination.page)}
-            onChange={handlePageChange}
-            shape="rounded"
-          />
-        </Box>
+        {Math.ceil(pagination.total / parseInt(pagination.limit)) > 1 && (
+          <Box marginY="48px" display="flex" justifyContent="center">
+            <Pagination
+              color="primary"
+              count={Math.ceil(pagination.total / parseInt(pagination.limit)) || 0}
+              page={parseInt(pagination.page)}
+              onChange={handlePageChange}
+              shape="rounded"
+            />
+          </Box>
+        )}
       </Container>
       <Footer />
     </>
