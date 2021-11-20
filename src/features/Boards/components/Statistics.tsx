@@ -4,23 +4,28 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import TaskIcon from '@mui/icons-material/Task';
 import ErrorIcon from '@mui/icons-material/Error';
 import Typography from '@mui/material/Typography';
+import { useSelector } from 'react-redux';
+import { membersSelector, tasksSelector } from '../boardSlice';
+import { ITask } from 'models/task';
 
 const Statistics = () => {
+  const members = useSelector(membersSelector.selectIds);
+  const tasks: ITask[] = useSelector(tasksSelector.selectAll);
   return (
     <Box
       padding="24px"
       boxSizing="border-box"
       borderRadius="12px"
-      width="800px"
       display="flex"
-      bgcolor="#fff"
+      flexWrap="wrap"
       justifyContent="space-around"
+      boxShadow="0 8px 30px rgba(0,0,0,0.12)"
     >
       <Box display="flex" alignItems="center">
         <Box
           bgcolor="#FFF2E9"
-          width="80px"
-          height="80px"
+          width="100px"
+          height="100px"
           borderRadius="16px"
           marginRight="12px"
           display="flex"
@@ -37,7 +42,7 @@ const Statistics = () => {
           </Box>
           <Box>
             <Typography variant="regular2" color="initial">
-              20
+              {members.length}
             </Typography>
           </Box>
         </Box>
@@ -45,8 +50,8 @@ const Statistics = () => {
       <Box display="flex" alignItems="center">
         <Box
           bgcolor="#EDE8FF"
-          width="80px"
-          height="80px"
+          width="100px"
+          height="100px"
           borderRadius="16px"
           marginRight="12px"
           display="flex"
@@ -63,7 +68,7 @@ const Statistics = () => {
           </Box>
           <Box>
             <Typography variant="regular2" color="initial">
-              20
+              {tasks.length}
             </Typography>
           </Box>
         </Box>
@@ -71,8 +76,8 @@ const Statistics = () => {
       <Box display="flex" alignItems="center">
         <Box
           bgcolor="#EAF9FF"
-          width="80px"
-          height="80px"
+          width="100px"
+          height="100px"
           borderRadius="16px"
           marginRight="12px"
           display="flex"
@@ -89,7 +94,7 @@ const Statistics = () => {
           </Box>
           <Box>
             <Typography variant="regular2" color="initial">
-              20
+              {tasks.filter((task) => task.status === 'FINISHED').length}
             </Typography>
           </Box>
         </Box>
@@ -97,8 +102,8 @@ const Statistics = () => {
       <Box display="flex" alignItems="center">
         <Box
           bgcolor="#FFEBEF"
-          width="80px"
-          height="80px"
+          width="100px"
+          height="100px"
           borderRadius="16px"
           marginRight="12px"
           display="flex"
@@ -110,12 +115,12 @@ const Statistics = () => {
         <Box>
           <Box>
             <Typography variant="regular2" color="initial">
-              Unfinished
+              Expired
             </Typography>
           </Box>
           <Box>
             <Typography variant="regular2" color="initial">
-              20
+              {tasks.filter((task) => task.status === 'DEADLINE_EXPIRED').length}
             </Typography>
           </Box>
         </Box>

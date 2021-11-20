@@ -13,6 +13,7 @@ import AddMember from '../components/board/AddMember';
 import EditVisibility from '../components/board/EditVisibility';
 import AddColumn from '../components/column/AddColumn';
 import Column from '../components/column/Column';
+import TaskFilter from '../components/task/TaskFilter';
 import '../style.css';
 import TaskDetail from './TaskDetail';
 
@@ -56,9 +57,7 @@ const BoardDetail = () => {
         <Stack
           direction="row"
           height="55px"
-          marginLeft="48px"
-          marginTop="12px"
-          marginBottom="12px"
+          margin="12px 24px 12px 48px"
           alignItems="center"
           justifyContent="space-between"
         >
@@ -71,6 +70,7 @@ const BoardDetail = () => {
             </AvatarGroup>
             <AddMember />
           </Stack>
+          <TaskFilter />
         </Stack>
         <Box
           sx={{

@@ -1,4 +1,4 @@
-import { Stack } from '@mui/material';
+import { Grid, Stack } from '@mui/material';
 import { Box } from '@mui/system';
 import SideBar from 'components/SideBar';
 import Activities from '../components/Activities';
@@ -9,18 +9,17 @@ const DashBoard = () => {
   return (
     <Stack direction="row">
       <SideBar />
-      <Box height="100vh" flex={1} overflow="hidden">
+      <Box height="100vh" flex={1} sx={{ overflowX: 'scroll' }}>
         <Box height="65px" />
-        <Box height="calc(100vh - 145px)" padding="48px" display="flex">
-          <Activities />
-          <Box>
+        <Grid container padding="48px">
+          <Grid item xs={12} md={12} lg={8}>
             <Statistics />
             <TaskChart />
-          </Box>
-          <Box>
+          </Grid>
+          <Grid item xs={12} md={12} lg={4}>
             <Activities />
-          </Box>
-        </Box>
+          </Grid>
+        </Grid>
       </Box>
     </Stack>
   );

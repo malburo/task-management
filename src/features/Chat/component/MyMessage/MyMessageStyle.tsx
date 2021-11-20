@@ -45,7 +45,7 @@ export default makeStyles((theme: Theme) => {
       maxWidth: '70%',
     },
     imageContent: {
-      maxWidth: '100% !important',
+      maxWidth: '200px',
     },
     iconButtonTool: {
       backgroundColor: 'transparent !important',
