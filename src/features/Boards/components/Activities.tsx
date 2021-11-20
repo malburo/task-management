@@ -31,16 +31,15 @@ const Activities = () => {
   useEffect(() => {
     (async () => {
       socketClient.on('activity:create', (newActivity: IActivity) => {
-        setActivityList([newActivity, ...activityList]);
+        setActivityList((prev) => [newActivity, ...prev]);
       });
     })();
-  }, [activityList]);
+  }, []);
 
   return (
     <Box
       padding="24px"
       borderRadius="12px"
-      marginX="24px"
       height="calc(90vh - 145px)"
       overflow="scroll"
       boxShadow="0 8px 30px rgba(0,0,0,0.12)"

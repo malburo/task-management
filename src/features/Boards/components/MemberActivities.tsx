@@ -36,19 +36,13 @@ const MemberActivities = () => {
   useEffect(() => {
     (async () => {
       socketClient.on('activity:create', (newActivity: IActivity) => {
-        if (newActivity.senderId._id === memberId) setActivityList([newActivity, ...activityList]);
+        if (newActivity.senderId._id === memberId) setActivityList((prev) => [newActivity, ...prev]);
       });
     })();
-  }, [activityList, memberId]);
+  }, [memberId]);
   if (!member) return <Box>loading</Box>;
   return (
-    <Box
-      padding="24px"
-      borderRadius="12px"
-      marginX="24px"
-      height="calc(90vh - 145px)"
-      boxShadow="0 8px 30px rgba(0,0,0,0.12)"
-    >
+    <Box padding="24px" borderRadius="12px" height="calc(90vh - 145px)" boxShadow="0 8px 30px rgba(0,0,0,0.12)">
       <Box display="flex" padding="12px" borderRadius="8px">
         <Box>
           <Avatar sx={{ marginRight: '12px', width: '150px', height: '150px' }} src={member.profilePictureUrl} />
