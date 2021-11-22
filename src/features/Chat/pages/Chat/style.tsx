@@ -20,7 +20,7 @@ const chatPageStyles = makeStyles((theme: Theme) => {
       width: '33.333%',
       borderRadius: '15px',
       backgroundColor: 'white',
-      marginRight: '24px',
+      marginRight: '16px',
       boxShadow: '0 8px 30px rgb(0 0 0 / 12%)',
     },
     chatBoxHeader: {
