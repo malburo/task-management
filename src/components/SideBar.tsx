@@ -22,7 +22,10 @@ export default function SideBar() {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        paddingX: '24px',
+        paddingX: {
+          sm: '10px',
+          md: '24px',
+        },
         width: { sm: '60px', md: '200px' },
         height: '100vh',
         bgcolor: '#fff',

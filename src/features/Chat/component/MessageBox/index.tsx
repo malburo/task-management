@@ -56,7 +56,7 @@ export default function MessageBox() {
       messagesBox.current?.scroll({ top: messagesBox.current.scrollHeight });
     });
     // eslint-disable-next-line
-  }, [room]);
+  }, [room._id]);
 
   useEffect(() => {
     socketClient.on('chat:add-message', () => {

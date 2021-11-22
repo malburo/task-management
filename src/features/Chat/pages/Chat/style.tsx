@@ -8,8 +8,13 @@ const chatPageStyles = makeStyles((theme: Theme) => {
     surface: {
       display: 'flex',
       justifyContent: 'column',
+      [theme.breakpoints.down('md')]: {
+        padding: '12px',
+      },
+      [theme.breakpoints.up('md')]: {
+        padding: '48px',
+      },
       marginTop: '65px',
-      padding: '48px',
     },
     chatAppSidebar: {
       width: '33.333%',

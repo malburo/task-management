@@ -2,7 +2,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import MyMessageStyle from './MyMessageStyle';
 import dateUtil from 'utilities/dateUtil';
 import TimeLine from '../HorizontalRule/TimeLine';
-import { Button, IconButton, Input, Tooltip, Typography, Box, Stack } from '@mui/material';
+import { Button, IconButton, Input, Tooltip, Typography, Box, Stack, Avatar } from '@mui/material';
 import Delete from '@mui/icons-material/Delete';
 import Edit from '@mui/icons-material/Edit';
 import { useSelector } from 'react-redux';
@@ -207,10 +207,6 @@ const MyMessage: React.FC<IMessagePros> = (props) => {
             </Typography>
           </div>
         </Box>
-
-        <div className={style.avatar}>
-          <img className={style.avatarImg} alt="none" src={profilePictureUrl}></img>
-        </div>
       </div>
     </React.Fragment>
   );

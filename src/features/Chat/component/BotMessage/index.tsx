@@ -2,7 +2,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import dateUtil from 'utilities/dateUtil';
 import TimeLine from '../HorizontalRule/TimeLine';
 import { Box } from '@mui/system';
-import { Avatar, Button, Dialog, DialogContent, DialogTitle, Tooltip, Typography } from '@mui/material';
+import { Avatar, Button, Dialog, DialogContent, DialogTitle, Stack, Tooltip, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from 'app/store';
 import { IUser } from 'models/user';
@@ -145,18 +145,18 @@ const BotMessage: React.FC<IProps> = (props) => {
                   {content}
                 </Typography>
                 <Dialog open={openDialogColumn}>
-                  <DialogTitle>
-                    Create Column
-                    <Button sx={{ float: 'right' }} variant="contained" onClick={handleCloseDialog}>
-                      X
-                    </Button>
-                  </DialogTitle>
+                  <DialogTitle>Create Column</DialogTitle>
                   <DialogContent sx={{ width: '40vw' }}>
                     <form onSubmit={sendForm.handleSubmit(onSubmit)}>
                       <InputField name="title" placeholder="type the column's title here" form={sendForm} />
-                      <Button sx={{ float: 'right', marginTop: '30px' }} variant="contained">
-                        Add
-                      </Button>
+                      <Stack direction="row" sx={{ marginTop: '30px' }} gap="20px" justifyContent="flex-end">
+                        <Button color="secondary" variant="contained" onClick={handleCloseDialog}>
+                          Cancel
+                        </Button>
+                        <Button type="submit" variant="contained">
+                          Add
+                        </Button>
+                      </Stack>
                     </form>
                   </DialogContent>
                 </Dialog>
@@ -168,12 +168,7 @@ const BotMessage: React.FC<IProps> = (props) => {
                   {content}
                 </Typography>
                 <Dialog open={openDialogTask}>
-                  <DialogTitle>
-                    Create Task
-                    <Button sx={{ float: 'right' }} variant="contained" onClick={handleCloseDialog}>
-                      X
-                    </Button>
-                  </DialogTitle>
+                  <DialogTitle>Create Task</DialogTitle>
                   <DialogContent sx={{ width: '40vw' }}>
                     <form onSubmit={createTaskForm.handleSubmit(handleCreateTask)}>
                       {columns.map((i) => (
@@ -187,9 +182,14 @@ const BotMessage: React.FC<IProps> = (props) => {
                         </Button>
                       ))}
                       <InputField name="title" placeholder="type the title of task here" form={createTaskForm} />
-                      <Button sx={{ float: 'right', marginTop: '30px' }} variant="contained">
-                        Add
-                      </Button>
+                      <Stack direction="row" sx={{ marginTop: '30px' }} gap="20px" justifyContent="flex-end">
+                        <Button variant="contained" color="secondary" onClick={handleCloseDialog}>
+                          Cancel
+                        </Button>
+                        <Button type="submit" variant="contained">
+                          Add
+                        </Button>
+                      </Stack>
                     </form>
                   </DialogContent>
                 </Dialog>

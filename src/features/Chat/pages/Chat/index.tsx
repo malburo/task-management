@@ -38,7 +38,6 @@ export default function Chat() {
         setIsMember(false);
         return;
       }
-      console.log('call by this');
       if (roomId !== 'all') dispatch(getOneRoom(roomId));
       else dispatch(getGeneralRoom(boardId));
     });
@@ -68,13 +67,13 @@ export default function Chat() {
       )}
       {isMember && (
         <Box className={style.surface} bgcolor="#fff" flex={1} overflow="hidden">
-          <Hidden smDown>
+          <Hidden mdDown>
             <Box className={style.chatAppSidebar}>
               <SidebarAppChat />
             </Box>
           </Hidden>
           <Box className={style.chatBox} sx={{ position: 'relative' }}>
-            <Hidden smUp>
+            <Hidden mdUp>
               <SwipeableDrawer
                 onClose={setCloseMenu}
                 onOpen={setOpenMenu}
@@ -88,7 +87,7 @@ export default function Chat() {
               </SwipeableDrawer>
             </Hidden>
             <Box className={style.chatBoxHeader}>
-              <Hidden smUp>
+              <Hidden mdUp>
                 <Button onClick={setOpenMenu}>+</Button>
               </Hidden>
               <Typography variant="bold5">{room.name === undefined ? room.board.title : room.name}</Typography>

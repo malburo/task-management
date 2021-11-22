@@ -14,7 +14,7 @@ export default makeStyles((theme: Theme) => {
       display: 'flex',
       marginTop: '4vh',
       marginBottom: '4vh',
-      paddingRight: '6%',
+      paddingRight: '3%',
       paddingLeft: '30%',
       justifyContent: 'flex-end',
     },
@@ -42,7 +42,12 @@ export default makeStyles((theme: Theme) => {
       padding: '1rem',
       borderRadius: '20px',
       textAlign: 'right',
-      maxWidth: '70%',
+      [theme.breakpoints.up('md')]: {
+        maxWidth: '70%',
+      },
+      [theme.breakpoints.down('md')]: {
+        maxWidth: '50%',
+      },
     },
     imageContent: {
       maxWidth: '200px',
