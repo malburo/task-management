@@ -2,22 +2,21 @@ import { Theme } from '@mui/material';
 import { createStyles, makeStyles } from '@mui/styles';
 
 const chatPageStyles = makeStyles((theme: Theme) => {
-  let bgColor = '#f8f9fa';
-  if (theme.palette.mode === 'dark') bgColor = '#242424';
+  // let bgColor = '#f8f9fa';
+  // if (theme.palette.mode === 'dark') bgColor = '#242424';
   return createStyles({
     surface: {
       display: 'flex',
       justifyContent: 'column',
+      marginTop: '65px',
+      padding: '48px',
     },
     chatAppSidebar: {
-      width: '30%',
-      height: '90%',
+      width: '33.333%',
       borderRadius: '15px',
-      marginLeft: '2.5%',
-      marginTop: '80px',
-      backgroundColor: bgColor,
-      boxShadow:
-        '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
+      backgroundColor: 'white',
+      marginRight: '24px',
+      boxShadow: '0 8px 30px rgb(0 0 0 / 12%)',
     },
     chatBoxHeader: {
       height: '30px',
@@ -27,15 +26,10 @@ const chatPageStyles = makeStyles((theme: Theme) => {
     },
     chatBox: {
       width: '-webkit-fill-available',
-      marginTop: '80px',
-      marginLeft: '2.5%',
-      height: '90%',
-      marginRight: '2.5%',
       borderRadius: '15px',
       overflow: 'hidden',
-      backgroundColor: bgColor,
-      boxShadow:
-        '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
+      backgroundColor: 'white',
+      boxShadow: '0 8px 30px rgb(0 0 0 / 12%)',
     },
     messagesField: {
       height: 'calc(100% - 120px)',

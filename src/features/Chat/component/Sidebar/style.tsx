@@ -39,7 +39,6 @@ const sidebarAppChatStyle = makeStyles((theme: Theme) => {
       marginLeft: '10px',
     },
     listChanels: {
-      height: '70vh',
       width: '105%',
       overflowY: 'scroll',
     },

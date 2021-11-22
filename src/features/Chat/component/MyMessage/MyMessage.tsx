@@ -2,7 +2,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import MyMessageStyle from './MyMessageStyle';
 import dateUtil from 'utilities/dateUtil';
 import TimeLine from '../HorizontalRule/TimeLine';
-import { Button, IconButton, Input, Tooltip, Typography, Box } from '@mui/material';
+import { Button, IconButton, Input, Tooltip, Typography, Box, Stack } from '@mui/material';
 import Delete from '@mui/icons-material/Delete';
 import Edit from '@mui/icons-material/Edit';
 import { useSelector } from 'react-redux';
@@ -113,10 +113,12 @@ const MyMessage: React.FC<IMessagePros> = (props) => {
     else if (type === 3)
       return (
         <div className={style.messageContent}>
-          <AlignVerticalBottomIcon sx={{ float: 'left' }} />
-          <Typography variant="body2" sx={{ minWidth: '200px', marginBottom: '20px' }}>
-            {contentMsg}
-          </Typography>
+          <Stack direction="row" justifyContent="space-between">
+            <AlignVerticalBottomIcon sx={{ float: 'left' }} />
+            <Typography variant="body2" sx={{ marginBottom: '20px' }}>
+              {contentMsg}
+            </Typography>
+          </Stack>
           {sortedData.map((item) => {
             if (item.userId.filter((i) => i === me._id).length > 0)
               return (

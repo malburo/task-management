@@ -2,6 +2,8 @@ import { Box, Button, Hidden, Stack, SwipeableDrawer, Typography } from '@mui/ma
 import roomApi from 'api/roomApi';
 import { AppDispatch, RootState } from 'app/store';
 import SideBar from 'components/SideBar';
+import BotMessageBox from 'features/Chat/component/BotMessageBox';
+import BotSendMessageForm from 'features/Chat/component/BotSendMessageForm';
 import MessageBox from 'features/Chat/component/MessageBox';
 import SendMessageForm from 'features/Chat/component/SendMessageForm';
 import SidebarAppChat from 'features/Chat/component/Sidebar';
@@ -36,6 +38,7 @@ export default function Chat() {
         setIsMember(false);
         return;
       }
+      console.log('call by this');
       if (roomId !== 'all') dispatch(getOneRoom(roomId));
       else dispatch(getGeneralRoom(boardId));
     });
@@ -51,7 +54,7 @@ export default function Chat() {
   };
 
   return (
-    <Stack direction="row">
+    <Stack direction="row" height="100vh">
       <SideBar />
       {!isMember && (
         <Box className={style.surface} height="100vh" bgcolor="#fff" flex={1} overflow="hidden">
@@ -64,7 +67,7 @@ export default function Chat() {
         </Box>
       )}
       {isMember && (
-        <Box className={style.surface} height="100vh" bgcolor="#fff" flex={1} overflow="hidden">
+        <Box className={style.surface} bgcolor="#fff" flex={1} overflow="hidden">
           <Hidden smDown>
             <Box className={style.chatAppSidebar}>
               <SidebarAppChat />
@@ -90,12 +93,8 @@ export default function Chat() {
               </Hidden>
               <Typography variant="bold5">{room.name === undefined ? room.board.title : room.name}</Typography>
             </Box>
-            <Box className={style.messagesField}>
-              <MessageBox />
-            </Box>
-            <Box className={style.sendMessageField}>
-              <SendMessageForm />
-            </Box>
+            <Box className={style.messagesField}>{room.isBot ? <BotMessageBox /> : <MessageBox />}</Box>
+            <Box className={style.sendMessageField}>{room.isBot ? <BotSendMessageForm /> : <SendMessageForm />}</Box>
           </Box>
         </Box>
       )}
