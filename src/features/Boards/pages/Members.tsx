@@ -14,7 +14,7 @@ interface IParams {
 }
 
 const Members = () => {
-  const { boardId, memberId } = useParams<IParams>();
+  const { boardId } = useParams<IParams>();
   const history = useHistory();
   const members = useSelector(membersSelector.selectAll);
 
@@ -29,8 +29,8 @@ const Members = () => {
       <Box height="100vh" flex={1} overflow="scroll">
         <Box height="65px" />
         <Box padding="48px" display="flex">
-          <Grid container>
-            <Grid item xs={4}>
+          <Grid container spacing={4}>
+            <Grid item sm={12} md={4}>
               <Box
                 boxShadow="0 8px 30px rgba(0,0,0,0.12)"
                 padding="24px"
@@ -61,7 +61,7 @@ const Members = () => {
                 ))}
               </Box>
             </Grid>
-            <Grid item xs={8}>
+            <Grid item sm={12} md={8}>
               <Box>
                 <MemberActivities />
               </Box>

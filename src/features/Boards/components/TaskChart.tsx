@@ -36,6 +36,7 @@ const TaskChart = () => {
       boxSizing="border-box"
       marginTop="24px"
       boxShadow="0 8px 30px rgba(0,0,0,0.12)"
+      marginBottom="24px"
     >
       <Bar data={data} options={options} />
     </Box>

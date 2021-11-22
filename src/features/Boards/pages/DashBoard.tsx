@@ -11,7 +11,7 @@ const DashBoard = () => {
       <SideBar />
       <Box height="100vh" flex={1} sx={{ overflowX: 'scroll' }}>
         <Box height="65px" />
-        <Grid container padding="48px">
+        <Grid container padding="48px" spacing={4}>
           <Grid item xs={12} md={12} lg={8}>
             <Statistics />
             <TaskChart />

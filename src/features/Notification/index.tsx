@@ -1,13 +1,14 @@
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { Avatar, IconButton, Popover, Typography } from '@mui/material';
+import { IconButton, Popover, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import notificationApi from 'api/notificationApi';
 import { socketClient } from 'api/socketClient';
 import { RootState } from 'app/store';
+import NotificationCard from 'features/Notification/components/NotificationCard';
 import { INotification } from 'models/notification';
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
-import NotificationCard from 'features/Notification/components/NotificationCard';
 import { useHistory } from 'react-router';
 
 const NotificationFeature: React.FC = () => {
@@ -23,7 +24,6 @@ const NotificationFeature: React.FC = () => {
       try {
         if (!currentUser) return;
         const { data } = await notificationApi.getAll();
-        console.log(data);
         setNotificationList(data.notifications.notifications);
       } catch (error) {
         console.log(error);
@@ -35,10 +35,22 @@ const NotificationFeature: React.FC = () => {
   useEffect(() => {
     (async () => {
       socketClient.on('notification:create', (newNotification: INotification) => {
-        setNotificationList([newNotification, ...notificationList]);
+        setNotificationList((prev) => [newNotification, ...prev]);
+        if (newNotification.type === 'BOARD:ADD_MEMBER')
+          toast.success(`${newNotification.senderId.username} invited you to ${newNotification.content.board.title}`);
+        if (newNotification.type === 'TASK:DEADLINE_EXPIRED')
+          toast.success(`${newNotification.content.task.title} has expired`);
+        if (newNotification.type === 'TASK:ASSIGN_MEMBER')
+          toast.success(
+            `${newNotification.senderId.username} was assigned ${newNotification.content.task.title} to you`
+          );
+        if (newNotification.type === 'TASK:REASSIGN_MEMBER')
+          toast.success(
+            `${newNotification.senderId.username} was reassigned ${newNotification.content.task.title} to you`
+          );
       });
     })();
-  }, [notificationList]);
+  }, []);
 
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -88,6 +100,16 @@ const NotificationFeature: React.FC = () => {
               </Box>
               <Box maxHeight="400px" overflow="scroll">
                 {notificationList.map((notification) => {
+                  if (notification.type === 'BOARD:ADD_MEMBER')
+                    return (
+                      <Box onClick={() => history.push(`/boards/${notification.boardId}`)}>
+                        <NotificationCard sender={notification.senderId} time={notification.createdAt}>
+                          <Typography variant="regular2">
+                            {notification.senderId.username} invited you to {notification.content.board.title}
+                          </Typography>
+                        </NotificationCard>
+                      </Box>
+                    );
                   if (notification.type === 'TASK:DEADLINE_EXPIRED')
                     return (
                       <Box
@@ -96,7 +118,7 @@ const NotificationFeature: React.FC = () => {
                         }
                       >
                         <NotificationCard sender={notification.senderId} time={notification.createdAt}>
-                          <Typography variant="regular2">task a has expired</Typography>
+                          <Typography variant="regular2">{notification.content.task.title} has expired</Typography>
                         </NotificationCard>
                       </Box>
                     );

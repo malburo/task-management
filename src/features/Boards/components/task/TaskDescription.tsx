@@ -9,6 +9,7 @@ import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useParams } from 'react-router';
+import { useEffect } from 'react';
 
 interface Props {
   value: string;
@@ -34,6 +35,13 @@ const TaskDescription: React.FC<Props> = ({ value }) => {
         value ? EditorState.createWithContent(convertFromRaw(JSON.parse(value))) : EditorState.createEmpty(),
     },
   });
+
+  useEffect(() => {
+    form.setValue('description', () =>
+      value ? EditorState.createWithContent(convertFromRaw(JSON.parse(value))) : EditorState.createEmpty()
+    );
+  }, [form, value]);
+
   const handleClickEditDescription = () => setMode('EDIT');
   const onClickCancel = () => {
     form.setValue('description', () =>
