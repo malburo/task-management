@@ -119,7 +119,6 @@ export default function MessageBox() {
             return (
               <MyMessage
                 key={item._id}
-                profilePictureUrl={item.postedBy.profilePictureUrl}
                 postedDate={date}
                 content={item.content}
                 renderTimeLine={renderTimeline}

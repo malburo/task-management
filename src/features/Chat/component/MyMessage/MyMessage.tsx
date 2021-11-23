@@ -2,7 +2,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import MyMessageStyle from './MyMessageStyle';
 import dateUtil from 'utilities/dateUtil';
 import TimeLine from '../HorizontalRule/TimeLine';
-import { Button, IconButton, Input, Tooltip, Typography, Box, Stack, Avatar } from '@mui/material';
+import { Button, IconButton, Input, Tooltip, Typography, Box, Stack } from '@mui/material';
 import Delete from '@mui/icons-material/Delete';
 import Edit from '@mui/icons-material/Edit';
 import { useSelector } from 'react-redux';
@@ -22,7 +22,6 @@ import AlignVerticalBottomIcon from '@mui/icons-material/AlignVerticalBottom';
 interface IMessagePros {
   postedDate: Date;
   content: string;
-  profilePictureUrl: string;
   renderTimeLine: Boolean;
   time: Date;
   _id: string;
@@ -33,7 +32,7 @@ interface IMessagePros {
 }
 
 const MyMessage: React.FC<IMessagePros> = (props) => {
-  const { content, profilePictureUrl, renderTimeLine, type, form, setImageSrc, setImageView } = props;
+  const { content, renderTimeLine, type, form, setImageSrc, setImageView } = props;
   const style = MyMessageStyle(theme);
   const me = useSelector((state: RootState) => state.auth.currentUser) as IUser;
   const [timeline, setTimeline] = useState<ReactElement>();

@@ -65,43 +65,43 @@ export default function BotMessageBox() {
       {openImage && <Lightbox mainSrc={imageSrc} onCloseRequest={() => setOpenImage(false)} />}
       <Box className={style.messagesField} sx={{ overflowX: 'hidden' }} ref={messagesBox} component="div">
         {isLoading && <Loader />}
-        {messages.map((item: IMessage) => {
-          let date = new Date(item.createdAt);
-          let renderTimeline = false;
-          if (timeLine + DateCount.ONE_DAY < date.getTime()) {
-            timeLine = date.getTime();
-            renderTimeline = true;
-          }
-          if (item.postedBy._id !== me._id)
-            return (
-              <BotMessage
-                key={item._id}
-                postedDate={date}
-                content={item.content}
-                renderTimeLine={renderTimeline}
-                time={new Date(timeLine)}
-                type={item.type ? item.type : 1}
-                form={item.form}
-                owner={item.postedBy}
-              />
-            );
-          else
-            return (
-              <MyMessage
-                key={item._id}
-                profilePictureUrl={item.postedBy.profilePictureUrl}
-                postedDate={date}
-                content={item.content}
-                renderTimeLine={renderTimeline}
-                time={new Date(timeLine)}
-                _id={item._id}
-                form={item.form}
-                type={item.type ? item.type : 1}
-                setImageView={setOpenImage}
-                setImageSrc={setImageSrc}
-              />
-            );
-        })}
+        {!isLoading &&
+          messages.map((item: IMessage) => {
+            let date = new Date(item.createdAt);
+            let renderTimeline = false;
+            if (timeLine + DateCount.ONE_DAY < date.getTime()) {
+              timeLine = date.getTime();
+              renderTimeline = true;
+            }
+            if (item.postedBy._id !== me._id)
+              return (
+                <BotMessage
+                  key={item._id}
+                  postedDate={date}
+                  content={item.content}
+                  renderTimeLine={renderTimeline}
+                  time={new Date(timeLine)}
+                  type={item.type ? item.type : 1}
+                  form={item.form}
+                  owner={item.postedBy}
+                />
+              );
+            else
+              return (
+                <MyMessage
+                  key={item._id}
+                  postedDate={date}
+                  content={item.content}
+                  renderTimeLine={renderTimeline}
+                  time={new Date(timeLine)}
+                  _id={item._id}
+                  form={item.form}
+                  type={item.type ? item.type : 1}
+                  setImageView={setOpenImage}
+                  setImageSrc={setImageSrc}
+                />
+              );
+          })}
       </Box>
     </>
   );
