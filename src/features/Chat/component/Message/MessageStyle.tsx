@@ -21,8 +21,6 @@ export default makeStyles((theme: Theme) =>
       maxWidth: '100%',
     },
     avatarImg: {
-      height: '45px',
-      width: '45px',
       borderRadius: '5px',
     },
     accountInfor: {
@@ -48,7 +46,7 @@ export default makeStyles((theme: Theme) =>
         maxWidth: '70%',
       },
       [theme.breakpoints.down('md')]: {
-        maxWidth: '50%',
+        maxWidth: '65%',
       },
       width: 'fit-content',
     },

@@ -10,8 +10,8 @@ const ImageLoading: React.FC = () => {
     <Box
       sx={{
         display: 'flex',
-        width: '400px',
-        height: '400px',
+        width: '100%',
+        height: '200px',
         alignItems: 'center',
         justifyContent: 'center',
       }}

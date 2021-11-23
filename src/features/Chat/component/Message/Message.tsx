@@ -73,6 +73,16 @@ const Message: React.FC<IMessagePros> = (props) => {
         <Box className={style.avatar}>
           <Tooltip arrow placement="top" open={openTooltip} title={<AccountPreview value={props.owner} />}>
             <Avatar
+              sx={{
+                width: {
+                  md: 30,
+                  lg: 45,
+                },
+                height: {
+                  md: 30,
+                  lg: 45,
+                },
+              }}
               onMouseEnter={() => setOpenTooltip(true)}
               onMouseLeave={() => setOpenTooltip(false)}
               className={style.avatarImg}
