@@ -111,7 +111,7 @@ const MyMessage: React.FC<IMessagePros> = (props) => {
       );
     else if (type === 3)
       return (
-        <div className={style.messageContent}>
+        <div className={style.messageContent} style={{ minWidth: '150px' }}>
           <Stack direction="row" justifyContent="space-between">
             <AlignVerticalBottomIcon sx={{ float: 'left' }} />
             <Typography variant="body2" sx={{ marginBottom: '20px' }}>
