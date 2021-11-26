@@ -65,7 +65,7 @@ const Activities = () => {
   }, []);
 
   return (
-    <Box padding="24px" borderRadius="12px" boxShadow="0 8px 30px rgba(0,0,0,0.12)">
+    <Box padding="24px" borderRadius="12px" boxShadow="0 8px 30px rgba(0,0,0,0.12)" minHeight="calc(90vh - 145px)">
       <Typography variant="regular2">Activities</Typography>
       {pagination.total > 0 && (
         <InfiniteScroll

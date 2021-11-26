@@ -13,7 +13,7 @@ interface Props {
 }
 
 const Reminder: React.FC<Props> = ({ remindTime, deadlineTime, handleRemindTimeChange }) => {
-  const [date, setDate] = useState<string>('3');
+  const [date, setDate] = useState<string>('0');
 
   const handleChange = (event: SelectChangeEvent) => {
     if (!deadlineTime) return;

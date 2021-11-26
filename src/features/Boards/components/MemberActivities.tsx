@@ -71,7 +71,7 @@ const MemberActivities = () => {
   if (!member) return <Box>loading</Box>;
 
   return (
-    <Box padding="24px" borderRadius="12px" boxShadow="0 8px 30px rgba(0,0,0,0.12)">
+    <Box padding="24px" borderRadius="12px" boxShadow="0 8px 30px rgba(0,0,0,0.12)" minHeight="calc(90vh - 145px)">
       <Box display="flex" padding="12px" borderRadius="8px">
         <Box>
           <Avatar sx={{ marginRight: '12px', width: '150px', height: '150px' }} src={member.profilePictureUrl} />

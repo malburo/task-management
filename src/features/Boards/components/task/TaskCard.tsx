@@ -72,7 +72,13 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
           {task.deadlineDay && (
             <Box
               bgcolor={`${
-                task.status === 'FINISHED' ? '#5fb181' : task.status === 'DEADLINE_EXPIRED' ? '#EB5757' : '#999999'
+                task.status === 'FINISHED'
+                  ? '#5fb181'
+                  : task.status === 'DEADLINE_EXPIRED'
+                  ? '#EB5757'
+                  : task.status === 'REMINDER'
+                  ? '#f7b554'
+                  : '#999999'
               }`}
               borderRadius="4px "
               padding="4px 8px"
