@@ -1,6 +1,6 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 import React from 'react';
-import { Dispatch, SetStateAction } from 'react-transition-group/node_modules/@types/react';
+import { Dispatch, SetStateAction } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from 'app/store';
 import { deleteOne } from 'features/Chat/ReduxSlice/MessagesSlice';
