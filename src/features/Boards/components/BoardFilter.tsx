@@ -1,10 +1,9 @@
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import LockIcon from '@mui/icons-material/Lock';
+import PeopleIcon from '@mui/icons-material/People';
+import PublicIcon from '@mui/icons-material/Public';
 import { Box, Button, Grid, Popover, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import PublicIcon from '@mui/icons-material/Public';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import PeopleIcon from '@mui/icons-material/People';
 
 interface Props {
   handleTypeChange: (type: 'myBoards' | 'myBoardsJoined' | 'public') => void;

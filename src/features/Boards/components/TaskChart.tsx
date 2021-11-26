@@ -1,8 +1,11 @@
 import { Box } from '@mui/system';
 import { ITask } from 'models/task';
-import { Bar } from 'react-chartjs-2';
 import { useSelector } from 'react-redux';
 import { tasksSelector } from '../boardSlice';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const TaskChart = () => {
   const tasks: ITask[] = useSelector(tasksSelector.selectAll);
@@ -22,6 +25,7 @@ const TaskChart = () => {
     ],
   };
   const options = {
+    responsive: true,
     plugins: {
       legend: {
         display: false,
@@ -38,7 +42,7 @@ const TaskChart = () => {
       boxShadow="0 8px 30px rgba(0,0,0,0.12)"
       marginBottom="24px"
     >
-      <Bar data={data} options={options} />
+      <Bar options={options} data={data} />
     </Box>
   );
 };

@@ -43,7 +43,7 @@ const Comment: React.FC<Props> = ({ comment }) => {
   const handleClickCancel = () => {
     setMode('PREVIEW');
   };
-  const onSubmitUpdate: SubmitHandler<FormValues> = async ({ content }) => {
+  const onSubmitUpdate: SubmitHandler<FormValues> = async ({ content }: any) => {
     if (!content.getCurrentContent().hasText()) {
       setMode('PREVIEW');
       return;

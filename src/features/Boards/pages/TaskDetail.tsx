@@ -182,7 +182,7 @@ export default function TaskDetail() {
               </Box>
               <Box>
                 <SearchPhoto onSelectPhoto={handleSelectPhoto} onUploadPhoto={handleUploadPhoto} />
-                <AssignDeadline value={task.deadlineDay} />
+                <AssignDeadline deadline={task.deadlineDay} remind={task.reminderDay} />
                 <AssignLabel task={task} />
                 <AssignTask task={task} />
               </Box>

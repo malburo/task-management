@@ -38,7 +38,8 @@ interface BoardState {
   tasks: EntityState<ITask>;
   members: EntityState<IUser>;
   labels: EntityState<ILabel>;
-  filter: string;
+  filterByLabels: string;
+  filterByUser: string;
 }
 
 const initialState: BoardState = {
@@ -52,7 +53,8 @@ const initialState: BoardState = {
   tasks: tasksAdapter.getInitialState(),
   members: membersAdapter.getInitialState(),
   labels: labelsAdapter.getInitialState(),
-  filter: '',
+  filterByLabels: '',
+  filterByUser: '',
 };
 
 const boardSlice = createSlice({
@@ -91,8 +93,11 @@ const boardSlice = createSlice({
       labelsAdapter.updateOne(state.labels, { id: payload.labelId, changes: payload.changes });
     },
 
-    updateFilter: (state, { payload }: PayloadAction<any>) => {
-      state.filter = payload.filter;
+    updateFilterByLabel: (state, { payload }: PayloadAction<any>) => {
+      state.filterByLabels = payload.labelId;
+    },
+    updateFilterByUser: (state, { payload }: PayloadAction<any>) => {
+      state.filterByUser = payload.userId;
     },
   },
   extraReducers: (builder) => {
@@ -128,7 +133,8 @@ export const {
   addMember,
   addLabel,
   updateLabel,
-  updateFilter,
+  updateFilterByLabel,
+  updateFilterByUser,
 } = actions;
 
 export default boardReducer;

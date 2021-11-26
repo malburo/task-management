@@ -27,11 +27,15 @@ const Column: React.FC<ColumnProps> = ({ column }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const scrollBottomRef = useRef<null | HTMLDivElement>(null);
   const didMount = useRef(false);
-  const filter = useSelector((state: RootState) => state.board.filter);
+  const filterByLabels = useSelector((state: RootState) => state.board.filterByLabels);
+  const filterByUsers = useSelector((state: RootState) => state.board.filterByUser);
   const tasks: ITask[] = useSelector((state: RootState) => {
     const allTasks = tasksSelector.selectAll(state).filter((task: ITask) => {
-      if (filter === '') return task.columnId === column._id;
-      return task.columnId === column._id && task.labelsId.includes(filter);
+      if (filterByLabels === '' && filterByUsers === '') return task.columnId === column._id;
+      if (filterByLabels === '' && filterByUsers !== '')
+        return task.columnId === column._id && task.membersId.includes(filterByUsers);
+
+      return task.columnId === column._id && task.labelsId.includes(filterByLabels);
     });
     return mapOrder(allTasks, column.taskOrder, '_id');
   });

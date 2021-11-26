@@ -16,11 +16,16 @@ interface IParams {
 const Members = () => {
   const { boardId } = useParams<IParams>();
   const history = useHistory();
+
   const members = useSelector(membersSelector.selectAll);
 
   useEffect(() => {
     if (members.length === 0) return;
-    history.push(`/boards/${boardId}/members/${members[0]._id}`);
+    if (
+      history.location.pathname === `/boards/${boardId}/members` ||
+      history.location.pathname === `/boards/${boardId}/members/`
+    )
+      history.push(`/boards/${boardId}/members/${members[0]._id}`);
   }, [boardId, history, members]);
 
   return (
@@ -42,6 +47,7 @@ const Members = () => {
                 </Typography>
                 {members.map((member) => (
                   <Box
+                    key={member._id}
                     display="flex"
                     alignItems="center"
                     padding="12px"

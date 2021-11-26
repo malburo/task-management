@@ -1,13 +1,15 @@
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { DateTimePicker, LoadingButton, LocalizationProvider, StaticDateTimePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import { Box, Button, Popover, TextField } from '@mui/material';
+import { Box, Button, Popover, TextField, Typography } from '@mui/material';
 import taskApi from 'api/taskApi';
 import { useState } from 'react';
 import { useParams } from 'react-router';
+import Reminder from './Reminder';
 
 interface Props {
-  value: Date;
+  deadline: Date | null;
+  remind: Date | null;
 }
 
 interface Params {
@@ -15,9 +17,10 @@ interface Params {
   taskId: string;
 }
 
-const AssignDeadline: React.FC<Props> = ({ value }) => {
+const AssignDeadline: React.FC<Props> = ({ deadline, remind }) => {
   const { boardId, taskId } = useParams<Params>();
-  const [dateTimeValue, setDateTimeValue] = useState<Date | null>(value ? new Date(value) : new Date());
+  const [deadlineTime, setDeadlineTime] = useState<Date | null>(deadline ? new Date(deadline) : new Date());
+  const [remindTime, setRemindTime] = useState<Date | null>(remind ? new Date(remind) : null);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const open = Boolean(anchorEl);
@@ -29,9 +32,20 @@ const AssignDeadline: React.FC<Props> = ({ value }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleDeadlineTimeChange = (newValue: Date | null) => {
+    setDeadlineTime(newValue);
+  };
+  const handleRemindTimeChange = (newValue: Date | null) => {
+    setRemindTime(newValue);
+  };
   const onSubmit = async () => {
-    if (!dateTimeValue) return;
-    const payload = { boardId, taskId, data: { deadlineDay: dateTimeValue, status: 'UNFINISHED' } };
+    if (!deadlineTime) return;
+    const payload = {
+      boardId,
+      taskId,
+      data: { deadlineDay: deadlineTime, reminderDay: remindTime, status: 'DOING' },
+    };
     await taskApi.update(payload);
     setAnchorEl(null);
   };
@@ -54,14 +68,14 @@ const AssignDeadline: React.FC<Props> = ({ value }) => {
         onClose={handleClose}
         anchorOrigin={{
           vertical: 'bottom',
-          horizontal: 'center',
+          horizontal: 'left',
         }}
         transformOrigin={{
           vertical: 'top',
-          horizontal: 'center',
+          horizontal: 'left',
         }}
         sx={{
-          marginTop: '12px',
+          marginTop: '-20px',
         }}
       >
         <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -69,29 +83,35 @@ const AssignDeadline: React.FC<Props> = ({ value }) => {
             ampm={false}
             ampmInClock={false}
             displayStaticWrapperAs="desktop"
-            value={dateTimeValue}
-            onChange={(newValue) => {
-              setDateTimeValue(newValue);
-            }}
+            value={deadlineTime}
+            onChange={handleDeadlineTimeChange}
             renderInput={(params) => <div />}
           />
-          <Box textAlign="center" marginY="24px">
+          <Box marginY="24px">
             <Box paddingX="24px" marginBottom="24px">
+              <Box marginBottom="8px">
+                <Typography variant="regular2">Time</Typography>
+              </Box>
               <DateTimePicker
                 inputFormat="dd/MM/yyyy H:mm"
                 renderInput={(params) => <TextField inputProps={params.inputProps} error={params.error} fullWidth />}
-                value={dateTimeValue}
-                onChange={(newValue) => {
-                  setDateTimeValue(newValue);
-                }}
+                value={deadlineTime}
+                onChange={handleDeadlineTimeChange}
+              />
+              <Reminder
+                remindTime={remindTime}
+                deadlineTime={deadlineTime}
+                handleRemindTimeChange={handleRemindTimeChange}
               />
             </Box>
-            <LoadingButton variant="contained" color="inherit" sx={{ marginRight: '12px' }} onClick={handleClose}>
-              Cancel
-            </LoadingButton>
-            <LoadingButton variant="contained" color="primary" onClick={onSubmit}>
-              Save
-            </LoadingButton>
+            <Box textAlign="center" marginTop="24px">
+              <LoadingButton variant="contained" color="inherit" sx={{ marginRight: '12px' }} onClick={handleClose}>
+                Cancel
+              </LoadingButton>
+              <LoadingButton variant="contained" color="primary" onClick={onSubmit}>
+                Save
+              </LoadingButton>
+            </Box>
           </Box>
         </LocalizationProvider>
       </Popover>

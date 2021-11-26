@@ -52,10 +52,23 @@ const TaskDeadline: React.FC<Props> = ({ value, status }) => {
         disabled={status === 'DEADLINE_EXPIRED'}
         startIcon={<AccessTimeIcon />}
         sx={{
-          backgroundColor: status === 'FINISHED' ? '#5fb181' : status === 'DEADLINE_EXPIRED' ? '#EB5757' : '#999999',
+          backgroundColor:
+            status === 'FINISHED'
+              ? '#5fb181'
+              : status === 'DEADLINE_EXPIRED'
+              ? '#EB5757'
+              : status === 'REMINDER'
+              ? '#f7b554'
+              : '#999999',
           '&:hover': {
             backgroundColor:
-              status === 'FINISHED' ? '#54c059' : status === 'DEADLINE_EXPIRED' ? '#d14137cc' : '#8d8d8d',
+              status === 'FINISHED'
+                ? '#54c059'
+                : status === 'DEADLINE_EXPIRED'
+                ? '#d14137cc'
+                : status === 'REMINDER'
+                ? '#d59c48'
+                : '#8d8d8d',
           },
           '&:disabled': {
             backgroundColor: '#EB5757',
@@ -92,7 +105,7 @@ const TaskDeadline: React.FC<Props> = ({ value, status }) => {
           <Box
             padding="12px"
             borderRadius="8px"
-            bgcolor={`${status === 'UNFINISHED' && '#F2F2F2'}`}
+            bgcolor={`${status !== 'FINISHED' && '#F2F2F2'}`}
             marginY="12px"
             onClick={handleClickUnfinished}
             sx={{ cursor: 'pointer', '&:hover': { backgroundColor: '#F2F2F2' } }}
