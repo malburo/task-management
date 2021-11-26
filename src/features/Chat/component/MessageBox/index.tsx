@@ -56,7 +56,7 @@ export default function MessageBox() {
       messagesBox.current?.scroll({ top: messagesBox.current.scrollHeight });
     });
     // eslint-disable-next-line
-  }, [room]);
+  }, [room._id]);
 
   useEffect(() => {
     socketClient.on('chat:add-message', () => {
@@ -119,7 +119,6 @@ export default function MessageBox() {
             return (
               <MyMessage
                 key={item._id}
-                profilePictureUrl={item.postedBy.profilePictureUrl}
                 postedDate={date}
                 content={item.content}
                 renderTimeLine={renderTimeline}

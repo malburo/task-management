@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import roomApi from 'api/roomApi';
-import { IBoard } from 'models/board';
-import { IRoom } from 'models/room';
+import { initialRoom, IRoom } from 'models/room';
 
 export const getOneRoom = createAsyncThunk('room/getOneRoom', async (payload: string) => {
   const { data } = await roomApi.getOne(payload);
@@ -10,7 +9,6 @@ export const getOneRoom = createAsyncThunk('room/getOneRoom', async (payload: st
 
 export const getGeneralRoom = createAsyncThunk('room/getGeneralRoom', async (payload: string) => {
   const response = await roomApi.getGeneralRoom(payload);
-  console.log(response);
   return response.data.room;
 });
 
@@ -18,7 +16,7 @@ interface IRoomState {
   roomInfor: IRoom;
 }
 const initialState: IRoomState = {
-  roomInfor: { _id: '', board: {} as IBoard, newMessage: 0, image: 'none', isGeneral: false, members: [], name: 'all' },
+  roomInfor: { ...initialRoom },
 };
 
 const roomSlice = createSlice({

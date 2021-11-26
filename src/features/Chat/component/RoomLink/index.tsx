@@ -38,7 +38,8 @@ const RoomLink: React.FC<IRoomLinkPros> = ({ roomInfor, hightlight, newMessage }
         >
           <Stack direction="row" spacing={1}>
             <Typography>{_.truncate(roomInfor?.name, { length: roomInfor.isGeneral ? 10 : 20 })}</Typography>
-            {roomInfor.isGeneral && <Chip label="ALL" color="primary" />}
+            {roomInfor.isGeneral && <Chip label="ALL" color="warning" />}
+            {roomInfor.isBot && <Chip label="BOT" color="primary" />}
             {newMessage > 0 && <Chip label={newMessage > 0 && `${newMessage > 5 ? '5+' : newMessage}`} color="error" />}
           </Stack>
         </Box>

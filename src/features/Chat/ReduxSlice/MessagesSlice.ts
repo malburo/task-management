@@ -1,4 +1,5 @@
 import { createAsyncThunk, createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import botApi from 'api/botApi';
 import messageApi from 'api/messageApi';
 import { RootState } from 'app/store';
 import { IMessage } from 'models/messages';
@@ -27,6 +28,16 @@ export const createOne = createAsyncThunk('room/createOne', async (payload: Pick
   });
   return data.message;
 });
+export const createBotRequest = createAsyncThunk(
+  'room/bot/createOne',
+  async (payload: Pick<IMessage, '_id' | 'content'>) => {
+    const { data } = await botApi.sendRequest({
+      roomId: payload._id,
+      content: payload.content,
+    });
+    return data.message;
+  }
+);
 export const deleteOne = createAsyncThunk('room/deleteOne', async (payload: string) => {
   const response = await messageApi.deleteOne(payload);
   return response.data.message;
@@ -76,6 +87,11 @@ const messagesSlice = createSlice({
     builder.addCase(createOne.pending, (state) => {});
     builder.addCase(createOne.rejected, (state) => {});
     builder.addCase(createOne.fulfilled, (state, { payload }: PayloadAction<IMessage>) => {
+      messagesAdapter.addOne(state.messages, payload);
+    });
+    builder.addCase(createBotRequest.pending, (state) => {});
+    builder.addCase(createBotRequest.rejected, (state) => {});
+    builder.addCase(createBotRequest.fulfilled, (state, { payload }: PayloadAction<IMessage>) => {
       messagesAdapter.addOne(state.messages, payload);
     });
   },

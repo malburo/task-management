@@ -9,4 +9,16 @@ export interface IRoom {
   board: IBoard;
   image?: string;
   newMessage: number;
+  isBot: boolean;
 }
+
+export const initialRoom = {
+  _id: '',
+  board: {} as IBoard,
+  newMessage: 0,
+  image: 'none',
+  isGeneral: false,
+  members: [],
+  name: 'all',
+  isBot: false,
+};

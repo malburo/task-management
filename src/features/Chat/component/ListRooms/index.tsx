@@ -28,9 +28,8 @@ const ListRooms: React.FC<IListRoom> = (props) => {
         setRooms(res.data.rooms);
       });
     });
-
     // eslint-disable-next-line
-  }, [board]);
+  }, [board._id]);
 
   useEffect(() => {
     if (board._id === '') return;
@@ -38,15 +37,16 @@ const ListRooms: React.FC<IListRoom> = (props) => {
       setRooms(res.data.rooms);
     });
 
+    console.log('call by this');
     // eslint-disable-next-line
-  }, [board, room]);
+  }, [board._id, room]);
 
   useEffect(() => {
     if (board._id === '') return;
     roomApi.search({ boardId: board._id, params: { term: props.term } }).then((res) => {
       setRooms(res.data.room);
     });
-
+    console.log('call by this');
     // eslint-disable-next-line
   }, [props.term]);
 
