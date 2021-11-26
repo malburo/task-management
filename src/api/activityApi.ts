@@ -1,11 +1,11 @@
 import axiosClient from './axiosClient';
 
 const activityApi = {
-  getAllActivitiesInBoard(payload: { boardId: string }): Promise<any> {
-    return axiosClient.get(`/boards/${payload.boardId}/activities`);
+  getAllActivitiesInBoard(boardId: string, params: any): Promise<any> {
+    return axiosClient.get(`/boards/${boardId}/activities`, { params });
   },
-  getByMember(payload: { boardId: string; memberId: string }): Promise<any> {
-    return axiosClient.get(`/boards/${payload.boardId}/activities/members/${payload.memberId}`);
+  getByMember(payload: { boardId: string; memberId: string }, params: any): Promise<any> {
+    return axiosClient.get(`/boards/${payload.boardId}/activities/members/${payload.memberId}`, { params });
   },
 };
 

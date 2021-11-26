@@ -29,6 +29,13 @@ axiosClient.interceptors.response.use(
     return response;
   },
   (error) => {
+    if (error.response.status === 403) {
+      localStorage.removeItem('access_token');
+      window.location.replace('/auth/login');
+    }
+    if (error.response.status === 401) {
+      window.location.replace('/unauthorized');
+    }
     return Promise.reject(error.response.data.error || error.message);
   }
 );

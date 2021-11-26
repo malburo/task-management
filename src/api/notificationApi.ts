@@ -1,8 +1,8 @@
 import axiosClient from './axiosClient';
 
 const notificationApi = {
-  getAll(): Promise<any> {
-    return axiosClient.get(`/notifications`);
+  getAll(params: any): Promise<any> {
+    return axiosClient.get(`/notifications`, { params });
   },
 };
 
