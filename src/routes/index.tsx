@@ -1,4 +1,5 @@
 import NotFound from 'components/NotFound';
+import PrivatePage from 'components/PrivatePage';
 import AuthFeature from 'features/Auth';
 import BoardFeature from 'features/Boards';
 import Boards from 'features/Boards/pages/Boards';
@@ -17,6 +18,7 @@ const RoutesComponent = () => (
       <PrivateRoute exact path="/boards" component={Boards} />
       <PrivateRoute path="/boards/:boardId" component={BoardFeature} />
       <PrivateRoute path="/profile" component={UserFeature} />
+      <PrivateRoute path="/unauthorized" component={PrivatePage} />
       <Route component={NotFound} />
     </Switch>
   </BrowserRouter>

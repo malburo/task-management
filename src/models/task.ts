@@ -8,7 +8,7 @@ export interface ITask {
   membersId: string[];
   labelsId: string[];
   deadlineDay: Date;
-  reminderDay: Date;
+  reminderDay: Date | null;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -5,7 +5,7 @@ import Header from 'components/Header';
 import SettingPNG from 'images/settings-bw.png';
 import { useHistory } from 'react-router';
 
-const NotFoundPage = () => {
+const PrivatePage = () => {
   const history = useHistory();
   return (
     <>
@@ -52,4 +52,4 @@ const NotFoundPage = () => {
   );
 };
 
-export default NotFoundPage;
+export default PrivatePage;
