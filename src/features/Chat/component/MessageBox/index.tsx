@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { AppDispatch, RootState } from 'app/store';
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,7 +34,6 @@ export default function MessageBox() {
   let timeLine = 0;
   const [seed, setSeed] = useState(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isAll, setIsAll] = useState<boolean>(false);
   const [imageSrc, setImageSrc] = useState<string>('');
   const [openImage, setOpenImage] = useState<boolean>(false);
   const messagesBox = React.useRef<HTMLDivElement>(null);
@@ -43,6 +42,7 @@ export default function MessageBox() {
   const dispatch = useDispatch<AppDispatch>();
   const room = useSelector((state: RootState) => state.room.roomInfor);
   const messages = useSelector(messagesSeletor.selectAll);
+  const [isAll, setIsAll] = useState<boolean>(false);
   const me = useSelector((state: RootState) => state.auth.currentUser) as IUser;
 
   useChat();
@@ -96,7 +96,19 @@ export default function MessageBox() {
         onScroll={scrollDetect}
       >
         {isLoading && <Loader />}
-
+        {isAll && (
+          <Typography
+            color="#afafaf"
+            sx={{
+              fontSize: 20,
+              fontWeight: 500,
+              textAlign: 'center',
+              marginTop: 5,
+            }}
+          >
+            That's all messages !!!
+          </Typography>
+        )}
         {messages.map((item: IMessage) => {
           let date = new Date(item.createdAt);
           let renderTimeline = false;

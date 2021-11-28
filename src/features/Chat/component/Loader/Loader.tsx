@@ -7,22 +7,7 @@ export interface IParamChatRoom {
 
 const Loader: React.FC = () => {
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        position: 'fixed',
-        width: '100%',
-        marginTop: '8px',
-        // eslint-disable-next-line
-        ['@media (min-width: 900px)']: {
-          marginLeft: '25%',
-        },
-        // eslint-disable-next-line
-        ['@media (max-width: 900px)']: {
-          justifyContent: 'space-around',
-        },
-      }}
-    >
+    <Box textAlign="center" marginTop={5}>
       <CircularProgress />
     </Box>
   );
