@@ -60,6 +60,7 @@ export default function MessageBox() {
 
   useEffect(() => {
     if (messages.length % 20 !== 0) setIsAll(true);
+    else setIsAll(false);
   }, [messages]);
 
   useEffect(() => {
