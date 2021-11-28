@@ -34,6 +34,7 @@ export default function MessageBox() {
   let timeLine = 0;
   const [seed, setSeed] = useState(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isAll, setIsAll] = useState<boolean>(false);
   const [imageSrc, setImageSrc] = useState<string>('');
   const [openImage, setOpenImage] = useState<boolean>(false);
   const messagesBox = React.useRef<HTMLDivElement>(null);
@@ -44,7 +45,6 @@ export default function MessageBox() {
   const messages = useSelector(messagesSeletor.selectAll);
   const me = useSelector((state: RootState) => state.auth.currentUser) as IUser;
 
-  // eslint-disable-next-line
   useChat();
 
   useEffect(() => {
@@ -57,6 +57,10 @@ export default function MessageBox() {
     });
     // eslint-disable-next-line
   }, [room._id]);
+
+  useEffect(() => {
+    if (messages.length % 20 !== 0) setIsAll(true);
+  }, [messages]);
 
   useEffect(() => {
     socketClient.on('chat:add-message', () => {
@@ -78,7 +82,7 @@ export default function MessageBox() {
   const debounceCall = debounce((scrollPosition) => fetchMoreMsg(scrollPosition), 500);
 
   const scrollDetect = (event: React.UIEvent<HTMLDivElement>) => {
-    debounceCall(event.currentTarget.scrollTop);
+    !isAll && debounceCall(event.currentTarget.scrollTop);
   };
 
   return (

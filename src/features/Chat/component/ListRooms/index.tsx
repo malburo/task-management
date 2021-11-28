@@ -36,8 +36,6 @@ const ListRooms: React.FC<IListRoom> = (props) => {
     roomApi.getAllYourRoomInBoard(board._id).then((res) => {
       setRooms(res.data.rooms);
     });
-
-    console.log('call by this');
     // eslint-disable-next-line
   }, [board._id, room]);
 
