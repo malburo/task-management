@@ -1,5 +1,5 @@
 import ChatIcon from '@mui/icons-material/Chat';
-import { Avatar, Box, Button, Typography } from '@mui/material';
+import { Avatar, Box, Button, Paper, Typography } from '@mui/material';
 import commentApi from 'api/commentApi';
 import { RootState } from 'app/store';
 import EditorField from 'components/form-control/EditorField';
@@ -38,6 +38,7 @@ const AddComment: React.FC = () => {
     const contentRaw = JSON.stringify(convertToRaw(currentContent));
     const payload = { boardId, taskId, content: contentRaw };
     await commentApi.create(payload);
+    form.setValue('content', () => EditorState.createEmpty());
     form.reset();
     setMode('PREVIEW');
   };
@@ -56,34 +57,36 @@ const AddComment: React.FC = () => {
           Comments
         </Typography>
       </Box>
-      <Box
-        border={`${mode === 'PREVIEW' ? '1px solid transparent' : '1px solid #ddd'}`}
-        padding="12px"
-        bgcolor="#f7f7f7b0"
-        borderRadius="4px"
-        onFocus={onFocus}
-      >
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <Box>
-            <Box display="flex">
-              <Avatar variant="rounded" src={currentUser?.profilePictureUrl} sx={{ marginRight: '12px' }} />
-              <Box width="100%" marginTop="4px">
-                <EditorField name="content" placeholder="Write a comment..." form={form} />
+      <Paper elevation={0}>
+        <Box
+          border={`${mode === 'PREVIEW' ? '1px solid transparent' : '1px solid #ddd'}`}
+          padding="12px"
+          borderRadius="4px"
+          bgcolor="secondary.main"
+          onFocus={onFocus}
+        >
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <Box>
+              <Box display="flex">
+                <Avatar variant="rounded" src={currentUser?.profilePictureUrl} sx={{ marginRight: '12px' }} />
+                <Box width="100%" marginTop="4px">
+                  <EditorField name="content" placeholder="Write a comment..." form={form} />
+                </Box>
               </Box>
+              {mode === 'EDIT' && (
+                <Box textAlign="right" marginTop="12px">
+                  <Button variant="contained" color="secondary" onClick={onClickCancel} style={{ marginRight: 12 }}>
+                    cancel
+                  </Button>
+                  <Button type="submit" variant="contained" color="primary">
+                    comment
+                  </Button>
+                </Box>
+              )}
             </Box>
-            {mode === 'EDIT' && (
-              <Box textAlign="right" marginTop="12px">
-                <Button variant="contained" color="secondary" onClick={onClickCancel} style={{ marginRight: 12 }}>
-                  cancel
-                </Button>
-                <Button type="submit" variant="contained" color="primary">
-                  comment
-                </Button>
-              </Box>
-            )}
-          </Box>
-        </form>
-      </Box>
+          </form>
+        </Box>
+      </Paper>
     </>
   );
 };

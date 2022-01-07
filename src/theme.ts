@@ -1,53 +1,5 @@
 import { createTheme } from '@mui/material/styles';
-import React from 'react';
-
-declare module '@mui/material/styles' {
-  interface TypographyVariants {
-    regular1: React.CSSProperties;
-    regular2: React.CSSProperties;
-    regular3: React.CSSProperties;
-    regular4: React.CSSProperties;
-    regular5: React.CSSProperties;
-    regular6: React.CSSProperties;
-
-    semiBold1: React.CSSProperties;
-    semiBold2: React.CSSProperties;
-    semiBold3: React.CSSProperties;
-    semiBold4: React.CSSProperties;
-    semiBold5: React.CSSProperties;
-    semiBold6: React.CSSProperties;
-
-    bold1: React.CSSProperties;
-    bold2: React.CSSProperties;
-    bold3: React.CSSProperties;
-    bold4: React.CSSProperties;
-    bold5: React.CSSProperties;
-    bold6: React.CSSProperties;
-  }
-
-  interface TypographyVariantsOptions {
-    regular1?: React.CSSProperties;
-    regular2?: React.CSSProperties;
-    regular3?: React.CSSProperties;
-    regular4?: React.CSSProperties;
-    regular5?: React.CSSProperties;
-    regular6?: React.CSSProperties;
-
-    semiBold1?: React.CSSProperties;
-    semiBold2?: React.CSSProperties;
-    semiBold3?: React.CSSProperties;
-    semiBold4?: React.CSSProperties;
-    semiBold5?: React.CSSProperties;
-    semiBold6?: React.CSSProperties;
-
-    bold1?: React.CSSProperties;
-    bold2?: React.CSSProperties;
-    bold3?: React.CSSProperties;
-    bold4?: React.CSSProperties;
-    bold5?: React.CSSProperties;
-    bold6?: React.CSSProperties;
-  }
-}
+import { deepmerge } from '@mui/utils';
 
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
@@ -73,107 +25,34 @@ declare module '@mui/material/Typography' {
     bold6: true;
   }
 }
-
-const theme = createTheme({
-  spacing: 4,
-  palette: {
-    primary: {
-      main: '#2F80ED',
-    },
-  },
+const themeTypography = {
   typography: {
-    regular1: {
-      fontSize: '10px',
-      lineHeight: '12px',
-      fontWeight: 500,
-    },
-    regular2: {
-      fontSize: '12px',
-      lineHeight: '16px',
-      fontWeight: 500,
-    },
-    regular3: {
-      fontSize: '14px',
-      lineHeight: '22px',
-      fontWeight: 500,
-    },
-    regular4: {
-      fontSize: '16px',
-      lineHeight: '24px',
-      fontWeight: 500,
-    },
-    regular5: {
-      fontSize: '18px',
-      lineHeight: '26px',
-      fontWeight: 500,
-    },
-    regular6: {
-      fontSize: '20px',
-      lineHeight: '28px',
-      fontWeight: 500,
-    },
-    semiBold1: {
-      fontSize: '10px',
-      lineHeight: '12px',
-      fontWeight: 600,
-    },
-    semiBold2: {
-      fontSize: '12px',
-      lineHeight: '16px',
-      fontWeight: 600,
-    },
-    semiBold3: {
-      fontSize: '14px',
-      lineHeight: '22px',
-      fontWeight: 600,
-    },
-    semiBold4: {
-      fontSize: '16px',
-      lineHeight: '24px',
-      fontWeight: 600,
-    },
-    semiBold5: {
-      fontSize: '18px',
-      lineHeight: '16px',
-      fontWeight: 600,
-    },
-    semiBold6: {
-      fontSize: '20px',
-      lineHeight: '28px',
-      fontWeight: 600,
-    },
-    bold1: {
-      fontSize: '10px',
-      lineHeight: '12px',
-      fontWeight: 700,
-    },
-    bold2: {
-      fontSize: '12px',
-      lineHeight: '16px',
-      fontWeight: 700,
-    },
-    bold3: {
-      fontSize: '14px',
-      lineHeight: '22px',
-      fontWeight: 700,
-    },
-    bold4: {
-      fontSize: '16px',
-      lineHeight: '24px',
-      fontWeight: 700,
-    },
-    bold5: {
-      fontSize: '18px',
-      lineHeight: '26px',
-      fontWeight: 700,
-    },
-    bold6: {
-      fontSize: '20px',
-      lineHeight: '28px',
-      fontWeight: 700,
-    },
+    regular1: { fontSize: '10px', lineHeight: '12px', fontWeight: 500 },
+    regular2: { fontSize: '12px', lineHeight: '16px', fontWeight: 500 },
+    regular3: { fontSize: '14px', lineHeight: '22px', fontWeight: 500 },
+    regular4: { fontSize: '16px', lineHeight: '24px', fontWeight: 500 },
+    regular5: { fontSize: '18px', lineHeight: '26px', fontWeight: 500 },
+    regular6: { fontSize: '20px', lineHeight: '28px', fontWeight: 500 },
+
+    semiBold1: { fontSize: '10px', lineHeight: '12px', fontWeight: 600 },
+    semiBold2: { fontSize: '12px', lineHeight: '16px', fontWeight: 600 },
+    semiBold3: { fontSize: '14px', lineHeight: '22px', fontWeight: 600 },
+    semiBold4: { fontSize: '16px', lineHeight: '24px', fontWeight: 600 },
+    semiBold5: { fontSize: '18px', lineHeight: '16px', fontWeight: 600 },
+    semiBold6: { fontSize: '20px', lineHeight: '28px', fontWeight: 600 },
+
+    bold1: { fontSize: '10px', lineHeight: '12px', fontWeight: 700 },
+    bold2: { fontSize: '12px', lineHeight: '16px', fontWeight: 700 },
+    bold3: { fontSize: '14px', lineHeight: '22px', fontWeight: 700 },
+    bold4: { fontSize: '16px', lineHeight: '24px', fontWeight: 700 },
+    bold5: { fontSize: '18px', lineHeight: '26px', fontWeight: 700 },
+    bold6: { fontSize: '20px', lineHeight: '28px', fontWeight: 700 },
     fontFamily: ['Poppins', 'sans-serif'].join(','),
   },
+};
+
+const theme = createTheme({
+  ...themeTypography,
   components: {
     MuiButton: {
       styleOverrides: {
@@ -183,22 +62,16 @@ const theme = createTheme({
           fontSize: 12,
           height: 32,
           padding: '8px 20px',
-        },
-        contained: {
-          backgroundColor: '#F2F2F2',
           boxShadow: 'none',
-          color: '#828282',
           '&:hover': {
-            backgroundColor: '#dfdfdf',
             boxShadow: 'none',
           },
         },
-        containedPrimary: {
-          backgroundColor: '#2F80ED',
-          color: 'white',
+        containedSecondary: {
+          backgroundColor: '#F2F2F2',
+          color: '#828282',
           '&:hover': {
-            backgroundColor: '#2d79e1',
-            color: 'white',
+            backgroundColor: '#DFDFDF',
           },
         },
       },
@@ -271,10 +144,6 @@ const theme = createTheme({
           borderRadius: 8,
           padding: 12,
           width: 140,
-          color: '#4F4F4F',
-          '&:hover': {
-            backgroundColor: '#F2F2F2',
-          },
           '& .MuiSvgIcon-root': {
             fontSize: 18,
             marginRight: 12,
@@ -339,7 +208,77 @@ const theme = createTheme({
         },
       },
     },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: 0,
+        },
+      },
+    },
   },
 });
 
-export default theme;
+export const lightTheme = deepmerge(
+  theme,
+  createTheme({
+    spacing: 4,
+    palette: {
+      mode: 'light',
+      text: {
+        primary: '#272E35',
+      },
+      primary: {
+        main: '#2F80ED',
+      },
+      secondary: {
+        main: '#f7f7f7',
+      },
+    },
+  })
+);
+
+export const darkTheme = deepmerge(
+  theme,
+  createTheme({
+    spacing: 4,
+    palette: {
+      mode: 'dark',
+      text: {
+        primary: '#fff',
+      },
+      background: {
+        default: '#f51150',
+        paper: 'rgb(39 41 52)',
+      },
+      primary: {
+        main: 'rgb(57, 148, 255)',
+      },
+      secondary: {
+        main: 'rgb(39 41 52)',
+        dark: 'rgb(39 41 52)',
+      },
+    },
+    components: {
+      MuiButton: {
+        styleOverrides: {
+          containedSecondary: {
+            backgroundColor: 'rgb(39 41 52)',
+            color: '#ccc',
+            '&:hover': {
+              backgroundColor: '#22232e',
+            },
+          },
+        },
+      },
+      MuiDialog: {
+        styleOverrides: {
+          paper: {
+            backgroundImage: 'linear-gradient(rgb(255 255 255 / 5%), rgb(255 255 255 / 5%))',
+          },
+        },
+      },
+    },
+  })
+);
+
+export default lightTheme;

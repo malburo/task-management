@@ -19,6 +19,7 @@ export default function SideBar() {
   const { pathname } = useLocation();
   return (
     <Paper
+      elevation={0}
       sx={{
         display: 'flex',
         flexDirection: 'column',
@@ -28,8 +29,9 @@ export default function SideBar() {
         },
         width: { sm: '60px', md: '200px' },
         height: '100vh',
-        bgcolor: '#fff',
+        borderRight: '1px solid rgb(135 135 135 / 22%)',
         zIndex: 1000,
+        borderRadius: 0,
       }}
     >
       <Stack direction="row" alignItems="center" margin="24px">
@@ -42,8 +44,8 @@ export default function SideBar() {
         <ListItem
           component={NavLink}
           to={`/boards/${boardId}/dashboard`}
-          activeStyle={{ color: '#454545', fontWeight: 'bold' }}
-          sx={{ padding: '4px 8px', color: '#ccc' }}
+          activeStyle={{ fontWeight: 'bold', opacity: 1 }}
+          sx={{ padding: '4px 8px', color: 'text.primary', opacity: 0.5 }}
         >
           <Box
             display="flex"
@@ -51,7 +53,7 @@ export default function SideBar() {
             width="100%"
             padding="12px"
             borderRadius="4px"
-            sx={{ '&:hover': { backgroundColor: '#ebebeb', color: '#454545' } }}
+            sx={{ '&:hover': { backgroundColor: 'rgb(195 195 195 / 25%)' } }}
           >
             <InsertChartIcon />
             <Typography variant="regular3" sx={{ marginLeft: '24px', display: { xs: 'none', md: 'block' } }}>
@@ -63,8 +65,8 @@ export default function SideBar() {
           component={NavLink}
           exact
           to={`/boards/${boardId}`}
-          activeStyle={{ color: '#454545', fontWeight: 'bold' }}
-          sx={{ padding: '4px 8px', color: '#ccc' }}
+          activeStyle={{ fontWeight: 'bold', opacity: 1 }}
+          sx={{ padding: '4px 8px', color: 'text.primary', opacity: 0.5 }}
         >
           <Box
             display="flex"
@@ -72,7 +74,7 @@ export default function SideBar() {
             width="100%"
             padding="12px"
             borderRadius="4px"
-            sx={{ '&:hover': { backgroundColor: '#ebebeb', color: '#454545' } }}
+            sx={{ '&:hover': { backgroundColor: 'rgb(195 195 195 / 25%)' } }}
           >
             <DashboardIcon />
             <Typography variant="regular3" sx={{ marginLeft: '24px', display: { xs: 'none', md: 'block' } }}>
@@ -84,8 +86,8 @@ export default function SideBar() {
           component={NavLink}
           to={`/boards/${boardId}/rooms/all`}
           isActive={() => pathname.includes('/rooms')}
-          activeStyle={{ color: '#454545', fontWeight: 'bold' }}
-          sx={{ padding: '4px 8px', color: '#ccc' }}
+          activeStyle={{ fontWeight: 'bold', opacity: 1 }}
+          sx={{ padding: '4px 8px', color: 'text.primary', opacity: 0.5 }}
         >
           <Box
             display="flex"
@@ -93,7 +95,7 @@ export default function SideBar() {
             width="100%"
             padding="12px"
             borderRadius="4px"
-            sx={{ '&:hover': { backgroundColor: '#ebebeb', color: '#454545' } }}
+            sx={{ '&:hover': { backgroundColor: 'rgb(195 195 195 / 25%)' } }}
           >
             <ChatIcon />
             <Typography variant="regular3" sx={{ marginLeft: '24px', display: { xs: 'none', md: 'block' } }}>
@@ -104,8 +106,8 @@ export default function SideBar() {
         <ListItem
           component={NavLink}
           to={`/boards/${boardId}/members`}
-          activeStyle={{ color: '#454545', fontWeight: 'bold' }}
-          sx={{ padding: '4px 8px', color: '#ccc' }}
+          activeStyle={{ fontWeight: 'bold', opacity: 1 }}
+          sx={{ padding: '4px 8px', color: 'text.primary', opacity: 0.5 }}
         >
           <Box
             display="flex"
@@ -113,7 +115,7 @@ export default function SideBar() {
             width="100%"
             padding="12px"
             borderRadius="4px"
-            sx={{ '&:hover': { backgroundColor: '#ebebeb', color: '#454545' } }}
+            sx={{ '&:hover': { backgroundColor: 'rgb(195 195 195 / 25%)' } }}
           >
             <GroupIcon />
             <Typography variant="regular3" sx={{ marginLeft: '24px', display: { xs: 'none', md: 'block' } }}>

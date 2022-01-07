@@ -1,5 +1,5 @@
 import SubtitlesIcon from '@mui/icons-material/Subtitles';
-import { Box, Typography } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 import taskApi from 'api/taskApi';
 import EditableField from 'components/form-control/EditableField';
 import { useEffect } from 'react';
@@ -49,9 +49,11 @@ const TaskTitle: React.FC<Props> = ({ value }) => {
           Title
         </Typography>
       </Box>
-      <Box height="30px" bgcolor="#f7f7f7b0" borderRadius="8px" padding="12px">
-        <EditableField form={form} name="title" placeholder="Title..." onBlur={onSubmit} maxLength={40} />
-      </Box>
+      <Paper elevation={0}>
+        <Box height="30px" borderRadius="8px" padding="12px" bgcolor="secondary.main">
+          <EditableField form={form} name="title" placeholder="Title..." onBlur={onSubmit} maxLength={40} />
+        </Box>
+      </Paper>
     </>
   );
 };

@@ -121,8 +121,8 @@ export default function TaskDetail() {
               <Box position="absolute" right="12px" bottom="12px">
                 <Button
                   variant="contained"
-                  color="error"
-                  sx={{ marginRight: '24px' }}
+                  color="secondary"
+                  sx={{ marginRight: '12px' }}
                   onClick={handleClickCancelSaveImage}
                 >
                   Cancel

@@ -1,5 +1,5 @@
 import LockIcon from '@mui/icons-material/Lock';
-import { Button, Grid, Popover, Typography } from '@mui/material';
+import { Button, Grid, Paper, Popover, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useState } from 'react';
 import PublicIcon from '@mui/icons-material/Public';
@@ -46,7 +46,7 @@ const EditVisibility = () => {
         aria-describedby={id}
         onClick={handleClick}
         variant="contained"
-        color="inherit"
+        color="secondary"
         startIcon={isPrivate ? <LockIcon /> : <PublicIcon />}
         style={{ marginRight: '16px' }}
       >
@@ -81,14 +81,15 @@ const EditVisibility = () => {
           <Box>
             <Typography variant="regular2">Choose who can see to this board.</Typography>
           </Box>
-          <Box
+          <Paper
+            elevation={!isPrivate ? 0 : 6}
             sx={{
               padding: '12px',
-              bgcolor: `${!isPrivate && '#F2F2F2'}`,
               borderRadius: '8px',
               cursor: 'pointer',
+              boxShadow: 'none',
               ':hover': {
-                backgroundColor: '#F2F2F2',
+                opacity: 0.6,
               },
             }}
             onClick={handleClickPublic}
@@ -98,16 +99,17 @@ const EditVisibility = () => {
               <Typography variant="regular2">Public</Typography>
             </Grid>
             <Typography variant="regular1">Anyone on the internet can see this.</Typography>
-          </Box>
-          <Box
+          </Paper>
+          <Paper
+            elevation={isPrivate ? 0 : 6}
             sx={{
               padding: '12px',
               cursor: 'pointer',
-              bgcolor: `${isPrivate && '#F2F2F2'}`,
               borderRadius: '8px',
               marginTop: '12px',
+              boxShadow: 'none',
               ':hover': {
-                backgroundColor: '#F2F2F2',
+                opacity: 0.6,
               },
             }}
             onClick={handleClickPrivate}
@@ -123,7 +125,7 @@ const EditVisibility = () => {
               <Typography variant="regular2">Private</Typography>
             </Grid>
             <Typography variant="regular1">Only board members can see this.</Typography>
-          </Box>
+          </Paper>
         </Box>
       </Popover>
     </Box>

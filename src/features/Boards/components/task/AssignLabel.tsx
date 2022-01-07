@@ -74,7 +74,7 @@ const AssignLabel: React.FC<Props> = ({ task }) => {
       <Button
         onClick={handleOpen}
         variant="contained"
-        color="inherit"
+        color="secondary"
         startIcon={<LabelIcon />}
         fullWidth
         sx={{ justifyContent: 'flex-start', marginTop: '12px' }}

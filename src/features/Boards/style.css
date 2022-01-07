@@ -282,8 +282,14 @@ input:last-child {
   padding: 5px;
 }
 
+.column-ghost {
+  transition: transform 0.18s ease;
+  opacity: 0.8;
+}
+
 .card-ghost {
   transition: transform 0.18s ease;
+  opacity: 0.8;
   transform: rotateZ(5deg);
 }
 

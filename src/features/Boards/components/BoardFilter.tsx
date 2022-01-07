@@ -30,7 +30,7 @@ const BoardFilter: React.FC<Props> = ({ handleTypeChange, type }) => {
 
   return (
     <Box>
-      <Button onClick={handleOpen} variant="contained" color="inherit" startIcon={<FilterListIcon />} fullWidth>
+      <Button onClick={handleOpen} variant="contained" color="secondary" startIcon={<FilterListIcon />} fullWidth>
         {type === 'myBoards' && 'My Boards'}
         {type === 'myBoardsJoined' && 'Joined'}
         {type === 'public' && 'Public'}
@@ -65,7 +65,7 @@ const BoardFilter: React.FC<Props> = ({ handleTypeChange, type }) => {
             onClick={() => handleClick('myBoards')}
             sx={{
               ':hover': {
-                backgroundColor: '#F2F2F2',
+                backgroundColor: 'rgb(195 195 195 / 25%)',
               },
               cursor: 'pointer',
             }}
@@ -82,7 +82,7 @@ const BoardFilter: React.FC<Props> = ({ handleTypeChange, type }) => {
             onClick={() => handleClick('myBoardsJoined')}
             sx={{
               ':hover': {
-                backgroundColor: '#F2F2F2',
+                backgroundColor: 'rgb(195 195 195 / 25%)',
               },
               cursor: 'pointer',
             }}
@@ -99,7 +99,7 @@ const BoardFilter: React.FC<Props> = ({ handleTypeChange, type }) => {
             onClick={() => handleClick('public')}
             sx={{
               ':hover': {
-                backgroundColor: '#F2F2F2',
+                backgroundColor: 'rgb(195 195 195 / 25%)',
               },
               cursor: 'pointer',
             }}

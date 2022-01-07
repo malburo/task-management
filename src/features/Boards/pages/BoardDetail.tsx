@@ -1,4 +1,4 @@
-import { Avatar, AvatarGroup, Box, Stack } from '@mui/material';
+import { Avatar, AvatarGroup, Box, Paper, Stack } from '@mui/material';
 import { Container, Draggable, DropResult } from '@richardrout/react-smooth-dnd';
 import boardApi from 'api/boardApi';
 import { AppDispatch, RootState } from 'app/store';
@@ -49,7 +49,7 @@ const BoardDetail = () => {
   return (
     <Stack direction="row">
       <SideBar />
-      <Box height="100vh" bgcolor="#fff" flex={1} overflow="hidden">
+      <Box height="100vh" flex={1} overflow="hidden" component={Paper}>
         <Switch>
           <Route path={`/boards/:boardId/tasks/:taskId`} component={TaskDetail} />
         </Switch>
@@ -82,11 +82,12 @@ const BoardDetail = () => {
           height="calc(100vh - 145px)"
         >
           <Container
-            behaviour="contain"
+            // behaviour="contain"
             orientation="horizontal"
             disableScrollOverlapDetection={true}
             dragHandleSelector=".column-move"
             onDrop={onColumnDrop}
+            dragClass="column-ghost"
             getChildPayload={(index: number) => columns[index]}
             style={{
               minWidth: 0,

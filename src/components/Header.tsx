@@ -1,5 +1,7 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AppsIcon from '@mui/icons-material/Apps';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { Avatar, Button, Divider, Stack } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
@@ -14,12 +16,13 @@ import NotificationFeature from 'features/Notification';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
+import { changeMode } from 'themeSlice';
 import Logo from '../images/Logo-small.svg';
-import Search from './Search';
 
 const Header = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { isAuth, currentUser } = useSelector((state: RootState) => state.auth);
+  const mode = useSelector((state: RootState) => state.theme.mode);
   const history = useHistory();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -38,14 +41,19 @@ const Header = () => {
     history.push('/auth/login');
     setAnchorEl(null);
   };
+  const toggleColorMode = () => {
+    if (mode === 'light') return dispatch(changeMode('dark'));
+    dispatch(changeMode('light'));
+  };
   return (
     <AppBar
       position="fixed"
       color="inherit"
+      elevation={0}
       sx={{
         backdropFilter: 'blur(20px)',
-        boxShadow: 'rgb(234 238 243) 0px -1px 1px inset',
-        backgroundColor: 'rgba(255, 255, 255, 0.72)',
+        boxShadow: 'rgb(135 135 135 / 22%) 0px -1px 1px inset',
+        opacity: '0.92',
         height: '65px',
       }}
     >
@@ -60,9 +68,9 @@ const Header = () => {
           <Box display="flex" alignItems="center">
             {isAuth ? (
               <>
-                <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+                {/* <Box sx={{ display: { xs: 'none', md: 'block' } }}>
                   <Search />
-                </Box>
+                </Box> */}
                 <NotificationFeature />
                 <Avatar
                   onClick={handleProfileMenuOpen}
@@ -114,12 +122,26 @@ const Header = () => {
         }}
       >
         <MenuItem onClick={() => handleClickMenuItem('/profile/general')}>
-          <AccountCircleIcon fontSize="small" sx={{ fill: '#4F4F4F' }} />
+          <AccountCircleIcon fontSize="small" />
           <Typography variant="regular2">Profile</Typography>
         </MenuItem>
         <MenuItem onClick={() => handleClickMenuItem('/boards')}>
-          <AppsIcon fontSize="small" sx={{ fill: '#4F4F4F' }} />
+          <AppsIcon fontSize="small" />
           <Typography variant="regular2">All boards</Typography>
+        </MenuItem>
+        <Divider sx={{ margin: '10px 0px' }} />
+        <MenuItem onClick={toggleColorMode}>
+          {mode === 'dark' ? (
+            <>
+              <Brightness4Icon fontSize="small" />
+              <Typography variant="regular2">Dark</Typography>
+            </>
+          ) : (
+            <>
+              <Brightness7Icon fontSize="small" />
+              <Typography variant="regular2">Light</Typography>
+            </>
+          )}
         </MenuItem>
         <Divider sx={{ margin: '10px 0px' }} />
         <MenuItem onClick={handleLogout}>

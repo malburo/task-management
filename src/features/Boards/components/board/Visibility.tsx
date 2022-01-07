@@ -39,7 +39,7 @@ const Visibility: React.FC<VisibilityProps> = ({ onChange }) => {
         aria-describedby={id}
         onClick={handleClick}
         variant="contained"
-        color="inherit"
+        color="secondary"
         fullWidth
         startIcon={isPrivate ? <LockIcon /> : <PublicIcon />}
         sx={{ justifyContent: 'flex-start', marginRight: '16px' }}
@@ -76,6 +76,7 @@ const Visibility: React.FC<VisibilityProps> = ({ onChange }) => {
             borderRadius={2}
             onClick={handleClickPublic}
             sx={{
+              cursor: 'pointer',
               ':hover': {
                 backgroundColor: '#F2F2F2',
               },
@@ -92,6 +93,7 @@ const Visibility: React.FC<VisibilityProps> = ({ onChange }) => {
             borderRadius={2}
             onClick={handleClickPrivate}
             sx={{
+              cursor: 'pointer',
               ':hover': {
                 backgroundColor: '#F2F2F2',
               },
@@ -101,7 +103,7 @@ const Visibility: React.FC<VisibilityProps> = ({ onChange }) => {
               <LockIcon sx={{ width: '12px', height: '12px', marginRight: '8px' }} />
               <Typography variant="regular2">Private</Typography>
             </Grid>
-            <Typography variant="regular1">Anyone on the internet can see this.</Typography>
+            <Typography variant="regular1">Only board members can see this.</Typography>
           </Box>
         </Box>
       </Popover>

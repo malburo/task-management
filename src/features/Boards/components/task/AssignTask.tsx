@@ -59,7 +59,7 @@ const AssignTask: React.FC<Props> = ({ task }) => {
       <Button
         onClick={handleClick}
         variant="contained"
-        color="inherit"
+        color="secondary"
         startIcon={<GroupIcon />}
         fullWidth
         sx={{ justifyContent: 'flex-start', marginTop: '12px' }}

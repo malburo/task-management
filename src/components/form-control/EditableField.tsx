@@ -22,9 +22,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     boxSizing: 'border-box',
     borderRadius: '4px',
     touchAction: 'none',
+    border: '1px solid transparent',
   },
   focused: {
-    backgroundColor: 'white',
     border: '1px solid #ccc',
   },
 }));

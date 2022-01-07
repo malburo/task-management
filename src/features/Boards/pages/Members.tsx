@@ -1,4 +1,4 @@
-import { Avatar, Grid, Stack, Typography } from '@mui/material';
+import { Avatar, Grid, Paper, Stack, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import SideBar from 'components/SideBar';
 import { useEffect } from 'react';
@@ -31,9 +31,9 @@ const Members = () => {
   return (
     <Stack direction="row">
       <SideBar />
-      <Box height="100vh" flex={1} overflow="scroll">
+      <Box height="100vh" flex={1}>
         <Box height="65px" />
-        <Box padding="48px" display="flex">
+        <Box padding="48px" display="flex" component={Paper}>
           <Grid container spacing={4}>
             <Grid item sm={12} md={4}>
               <Box
@@ -54,14 +54,15 @@ const Members = () => {
                     borderRadius="8px"
                     component={NavLink}
                     to={`/boards/${boardId}/members/${member._id}`}
-                    activeStyle={{ color: '#454545', fontWeight: 'bold', backgroundColor: '#F7F6F3' }}
+                    activeStyle={{ fontWeight: 'bold', opacity: 1, backgroundColor: '#F7F6F3' }}
+                    sx={{ padding: '24px', color: 'text.primary', opacity: 0.5 }}
                   >
                     <Box>
                       <Avatar sx={{ marginRight: '12px' }} src={member.profilePictureUrl} />
                     </Box>
                     <Box>
                       <Typography>{member.username}</Typography>
-                      <Typography>{member.role}</Typography>
+                      <Typography>{member.role?.toLocaleLowerCase()}</Typography>
                     </Box>
                   </Box>
                 ))}

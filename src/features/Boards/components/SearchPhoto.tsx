@@ -83,7 +83,7 @@ const SearchPhoto: React.FC<SearchPhotoProps> = ({ onSelectPhoto, onUploadPhoto 
         aria-describedby={id}
         onClick={handleClick}
         variant="contained"
-        color="inherit"
+        color="secondary"
         startIcon={<ImageIcon />}
         fullWidth
         sx={{ justifyContent: 'flex-start' }}
@@ -151,7 +151,7 @@ const SearchPhoto: React.FC<SearchPhotoProps> = ({ onSelectPhoto, onUploadPhoto 
                 </Grid>
               ))}
           </Grid>
-          <Button variant="contained" color="inherit" fullWidth sx={{ marginTop: '12px' }} component="label">
+          <Button variant="contained" color="secondary" fullWidth sx={{ marginTop: '12px' }} component="label">
             <input type="file" onChange={handleUploadPhoto} hidden />
             Upload your photo
           </Button>

@@ -4,11 +4,13 @@ import boardReducer from 'features/Boards/boardSlice';
 import messagesReducer from 'features/Chat/ReduxSlice/MessagesSlice';
 import roomReducer from 'features/Chat/ReduxSlice/RoomSlice';
 import chatUIReducer from 'features/Chat/ReduxSlice/uiSlice';
+import themeReducer from 'themeSlice';
 
 const rootReducer = {
   auth: authReducer,
   board: boardReducer,
   room: roomReducer,
+  theme: themeReducer,
   message: messagesReducer,
   chatUI: chatUIReducer,
 };

@@ -54,7 +54,7 @@ const AssignDeadline: React.FC<Props> = ({ deadline, remind }) => {
       <Button
         onClick={handleOpen}
         variant="contained"
-        color="inherit"
+        color="secondary"
         startIcon={<AccessTimeIcon />}
         fullWidth
         sx={{ justifyContent: 'flex-start', marginTop: '12px' }}

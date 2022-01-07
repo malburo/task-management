@@ -52,7 +52,7 @@ const TaskFilter = () => {
   };
   return (
     <Box>
-      <Button onClick={handleOpen} variant="contained" color="inherit" startIcon={<FilterListIcon />} fullWidth>
+      <Button onClick={handleOpen} variant="contained" color="secondary" startIcon={<FilterListIcon />} fullWidth>
         Filter
       </Button>
       <Popover

@@ -1,4 +1,4 @@
-import { Container, Grid, Pagination, Stack } from '@mui/material';
+import { Container, Grid, Pagination, Paper, Stack } from '@mui/material';
 import { Box } from '@mui/system';
 import boardApi from 'api/boardApi';
 import Footer from 'components/Footer';
@@ -101,36 +101,38 @@ const Boards = () => {
   return (
     <>
       <Header />
-      <Container sx={{ minHeight: 'calc(100vh - 145px)', marginTop: '65px', paddingTop: '24px' }}>
-        <Stack direction="row" justifyContent="space-between" alignItems="center" marginBottom="24px">
-          <BoardFilter handleTypeChange={handleTypeChange} type={queryParams.type} />
-          <AddBoard onSubmit={handleAddBoard} />
-        </Stack>
-        <Grid container spacing={4}>
-          {isLoading
-            ? [...new Array(Number(queryParams.limit) || 12)].map((data, index) => (
-                <Grid item xs={6} sm={4} md={3} key={index}>
-                  <BoardSkeleton />
-                </Grid>
-              ))
-            : boardList.map((board) => (
-                <Grid item xs={6} sm={4} md={3} key={board._id}>
-                  <BoardCard data={board} />
-                </Grid>
-              ))}
-        </Grid>
-        {Math.ceil(pagination.total / parseInt(pagination.limit)) > 1 && (
-          <Box marginY="48px" display="flex" justifyContent="center">
-            <Pagination
-              color="primary"
-              count={Math.ceil(pagination.total / parseInt(pagination.limit)) || 0}
-              page={parseInt(pagination.page)}
-              onChange={handlePageChange}
-              shape="rounded"
-            />
-          </Box>
-        )}
-      </Container>
+      <Paper>
+        <Container sx={{ minHeight: 'calc(100vh - 145px)', paddingTop: '100px' }}>
+          <Stack direction="row" justifyContent="space-between" alignItems="center" marginBottom="24px">
+            <BoardFilter handleTypeChange={handleTypeChange} type={queryParams.type} />
+            <AddBoard onSubmit={handleAddBoard} />
+          </Stack>
+          <Grid container spacing={4}>
+            {isLoading
+              ? [...new Array(Number(queryParams.limit) || 12)].map((data, index) => (
+                  <Grid item xs={6} sm={4} md={3} key={index}>
+                    <BoardSkeleton />
+                  </Grid>
+                ))
+              : boardList.map((board) => (
+                  <Grid item xs={6} sm={4} md={3} key={board._id}>
+                    <BoardCard data={board} />
+                  </Grid>
+                ))}
+          </Grid>
+          {Math.ceil(pagination.total / parseInt(pagination.limit)) > 1 && (
+            <Box marginTop="48px" display="flex" justifyContent="center" paddingBottom="48px">
+              <Pagination
+                color="primary"
+                count={Math.ceil(pagination.total / parseInt(pagination.limit)) || 0}
+                page={parseInt(pagination.page)}
+                onChange={handlePageChange}
+                shape="rounded"
+              />
+            </Box>
+          )}
+        </Container>
+      </Paper>
       <Footer />
     </>
   );

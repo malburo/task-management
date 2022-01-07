@@ -1,7 +1,7 @@
 import CreateIcon from '@mui/icons-material/Create';
 import DescriptionIcon from '@mui/icons-material/Description';
 import { LoadingButton } from '@mui/lab';
-import { Button, Typography } from '@mui/material';
+import { Button, Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import taskApi from 'api/taskApi';
 import EditorField from 'components/form-control/EditorField';
@@ -88,37 +88,40 @@ const TaskDescription: React.FC<Props> = ({ value }) => {
           </Button>
         </Box>
       </Box>
-      <Box
-        padding="12px"
-        boxSizing="border-box"
-        borderRadius="8px"
-        marginBottom="12px"
-        border={`${mode === 'PREVIEW' ? '1px solid transparent' : '1px solid #ddd'}`}
-        bgcolor="#f7f7f7b0"
-        minHeight="140px"
-      >
-        <Box minHeight="60px">
-          <form onSubmit={form.handleSubmit(onSubmit)} id="description-form">
-            <EditorField name="description" placeholder="Description..." form={form} readOnly={mode === 'PREVIEW'} />
-          </form>
-        </Box>
-        {mode === 'EDIT' && (
-          <Box marginTop="12px" textAlign="right">
-            <Button variant="contained" color="error" sx={{ marginRight: '24px' }} onClick={onClickCancel}>
-              Cancel
-            </Button>
-            <LoadingButton
-              form="description-form"
-              type="submit"
-              loading={isLoading}
-              variant="contained"
-              color="primary"
-            >
-              Save
-            </LoadingButton>
+      <Paper elevation={0}>
+        <Box
+          padding="12px"
+          boxSizing="border-box"
+          borderRadius="8px"
+          marginBottom="12px"
+          border={`${mode === 'PREVIEW' ? '1px solid transparent' : '1px solid #ddd'}`}
+          // bgcolor="#f7f7f7b0"
+          bgcolor="secondary.main"
+          minHeight="140px"
+        >
+          <Box minHeight="60px">
+            <form onSubmit={form.handleSubmit(onSubmit)} id="description-form">
+              <EditorField name="description" placeholder="Description..." form={form} readOnly={mode === 'PREVIEW'} />
+            </form>
           </Box>
-        )}
-      </Box>
+          {mode === 'EDIT' && (
+            <Box marginTop="12px" textAlign="right">
+              <Button variant="contained" color="secondary" sx={{ marginRight: '12px' }} onClick={onClickCancel}>
+                Cancel
+              </Button>
+              <LoadingButton
+                form="description-form"
+                type="submit"
+                loading={isLoading}
+                variant="contained"
+                color="primary"
+              >
+                Save
+              </LoadingButton>
+            </Box>
+          )}
+        </Box>
+      </Paper>
     </>
   );
 };

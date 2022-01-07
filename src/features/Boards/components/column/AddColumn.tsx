@@ -49,11 +49,10 @@ const AddColumn = () => {
         <Button
           onClick={handleClick}
           variant="contained"
+          color="secondary"
           endIcon={<AddIcon />}
           sx={{
-            background: '#DAE4FD',
             borderRadius: '8px',
-            color: '#2F80ED',
             height: '32px',
             width: '260px',
             padding: '8px 15px',
@@ -66,16 +65,16 @@ const AddColumn = () => {
         </Button>
       )}
       {isToggle && (
-        <Card sx={{ width: '280px', border: '2px solid #0000000a', marginX: '48px' }}>
+        <Card elevation={0} sx={{ width: '280px', marginX: '48px', bgcolor: 'secondary.main' }}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <Grid container direction="column" justifyContent="center" alignItems="flex-start">
               <InputBaseField form={form} name="title" placeholder="Enter a title for this column..." autoFocus />
               <Box display="flex" alignItems="center" justifyContent="flex-end" width="100%" marginTop="12px">
-                <Button type="submit" variant="contained" color="primary" style={{ marginRight: 12 }}>
-                  save
-                </Button>
-                <Button variant="contained" color="secondary" onClick={handleCancel}>
+                <Button variant="contained" color="secondary" onClick={handleCancel} style={{ marginRight: 12 }}>
                   cancel
+                </Button>
+                <Button type="submit" variant="contained" color="primary">
+                  save
                 </Button>
               </Box>
             </Grid>
