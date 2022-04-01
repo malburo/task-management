@@ -3,23 +3,14 @@ import axiosClient from './axiosClient';
 import { Response } from 'models/common';
 
 const roomApi = {
-  getOne(payload: string): Promise<Response<IRoom>> {
-    return axiosClient.get(`/rooms/${payload}`);
+  getOne(payload: any): Promise<Response<IRoom>> {
+    return axiosClient.get(`/rooms/${payload.roomId}`);
   },
-  getAllYourRoomInBoard(payload: string): Promise<Response<IRoom[]>> {
-    return axiosClient.get(`/rooms/board/${payload}`);
+  getAll(payload: any): Promise<Response<IRoom[]>> {
+    return axiosClient.get(`/rooms`, { params: payload });
   },
-  addMember(payload?: any): Promise<Response<IRoom>> {
-    return axiosClient.post(`/rooms/board/${payload.boardId}/member`, payload);
-  },
-  removeMember(payload?: any): Promise<Response<IRoom>> {
-    return axiosClient.delete(`/rooms/board/${payload.boardId}/member`, payload);
-  },
-  search(payload: { boardId: string; params: any }): Promise<Response<IRoom[]>> {
-    return axiosClient.get(`/rooms/board/${payload.boardId}/search`, { params: payload.params });
-  },
-  getGeneralRoom(payload: string): Promise<Response<IRoom>> {
-    return axiosClient.get(`/rooms/board/${payload}/generalRoom`);
+  getRoomByMemberId(payload: any): any {
+    return axiosClient.get(`/rooms/members/${payload.memberId}`, { params: payload });
   },
 };
 

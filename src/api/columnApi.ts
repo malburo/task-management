@@ -13,6 +13,13 @@ const columnApi = {
   }): Promise<Response<IColumn>> {
     return axiosClient.put(`/columns/${payload.columnId}`, payload.data);
   },
+  pushWorkflow(payload: { columnId: string; data: string }): any {
+    return axiosClient.post(`/columns/${payload.columnId}/workflow`, { data: payload.data });
+  },
+  pullWorkflow(payload: { columnId: string; data: string }): any {
+    console.log({ payload });
+    return axiosClient.delete(`/columns/${payload.columnId}/workflow`, { data: { data: payload.data } });
+  },
   deleteOne(payload: { columnId: string }): Promise<Response<IColumn>> {
     return axiosClient.delete(`/columns/${payload.columnId}`);
   },
