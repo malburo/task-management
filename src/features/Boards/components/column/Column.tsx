@@ -19,10 +19,13 @@ import EditColumnTitle from './EditColumTitle';
 
 interface ColumnProps {
   column: IColumn;
+  currentWorkflow: any;
+  setCurrentWorkflow: any;
 }
 
-const Column: React.FC<ColumnProps> = ({ column }) => {
+const Column: React.FC<ColumnProps> = ({ column, currentWorkflow, setCurrentWorkflow }) => {
   const dispatch = useDispatch<AppDispatch>();
+
   const [showAddTaskForm, setShowAddTaskForm] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const scrollBottomRef = useRef<null | HTMLDivElement>(null);
@@ -46,23 +49,33 @@ const Column: React.FC<ColumnProps> = ({ column }) => {
   }, [showAddTaskForm]);
 
   const onTaskDrop = async (columnId: string, dropResult: DropResult) => {
-    if (dropResult.addedIndex === dropResult.removedIndex) return;
-    if (dropResult.addedIndex === null && dropResult.removedIndex === null) return;
+    if (dropResult.addedIndex === dropResult.removedIndex) {
+      if (dropResult.addedIndex !== null && dropResult.removedIndex !== null) setCurrentWorkflow((prev: any) => []);
+      return;
+    }
+    if (dropResult.addedIndex === null && dropResult.removedIndex === null) {
+      return;
+    }
 
     const newTasks = applyDrag(tasks, dropResult);
     const newTaskOrder = newTasks.map((task: ITask) => task._id);
 
     if (dropResult.addedIndex !== null && dropResult.removedIndex !== null) {
+      setCurrentWorkflow((prev: any) => []);
       dispatch(updateColumn({ columnId, changes: { taskOrder: newTaskOrder } }));
       await columnApi.update({ columnId, data: { taskOrder: newTaskOrder, taskId: null } });
       return;
     }
 
     if (dropResult.addedIndex !== null) {
+      if (!currentWorkflow?.includes(column._id) && currentWorkflow.length !== 1) {
+        return setCurrentWorkflow([]);
+      }
       const taskId = dropResult.payload._id;
       dispatch(updateColumn({ columnId, changes: { taskOrder: newTaskOrder } }));
       dispatch(updateTask({ taskId, changes: { columnId } }));
       await columnApi.update({ columnId, data: { taskOrder: newTaskOrder, taskId } });
+      setCurrentWorkflow([]);
       return;
     }
   };
@@ -78,10 +91,22 @@ const Column: React.FC<ColumnProps> = ({ column }) => {
     setShowAddTaskForm(true);
   };
 
+  function onDropReady(dropResult: any) {
+    if (dropResult.removedIndex === dropResult.addedIndex) {
+      const workflow = [column._id, ...column.workflows];
+      setCurrentWorkflow((prev: any) => workflow);
+    }
+  }
   return (
     <Box marginLeft={12} width="270px">
       <Paper elevation={0}>
-        <Box bgcolor="secondary.main">
+        <Box
+          bgcolor={
+            currentWorkflow.length === 1 || currentWorkflow.length === 0 || currentWorkflow?.includes(column._id)
+              ? 'secondary.main'
+              : '#fd4a4a3b'
+          }
+        >
           <Box display="flex" justifyContent="space-between" height="40px" borderRadius="8px" paddingTop="8px">
             <EditColumnTitle columnId={column._id} value={column.title} />
             <Box onClick={handleMenuOpen} marginRight="12px" className="column-move" sx={{ cursor: 'move' }}>
@@ -108,6 +133,7 @@ const Column: React.FC<ColumnProps> = ({ column }) => {
             maxHeight="calc(100vh - 280px)"
             padding="0 4px 0 12px"
             marginRight="4px"
+            onDragOver={(e: any) => console.log('over')}
           >
             <Container
               disableScrollOverlapDetection={true}
@@ -117,10 +143,8 @@ const Column: React.FC<ColumnProps> = ({ column }) => {
               dropClass="card-ghost-drop"
               getChildPayload={(index: number) => tasks[index]}
               onDrop={(dropResult) => onTaskDrop(column._id, dropResult)}
-              dropPlaceholder={{
-                animationDuration: 150,
-                className: 'drop-preview',
-              }}
+              dropPlaceholder={undefined}
+              onDropReady={onDropReady}
             >
               {tasks.map((task: ITask) => (
                 <Draggable key={task._id}>

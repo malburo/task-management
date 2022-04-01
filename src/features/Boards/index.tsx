@@ -1,6 +1,9 @@
 import { socketClient } from 'api/socketClient';
 import { AppDispatch } from 'app/store';
 import Chat from 'features/Chat/pages/Chat';
+import WhiteBoard from 'features/WhiteBoard/pages/Whiteboard';
+import Whiteboards from 'features/WhiteBoard/pages/Whiteboards';
+import Workflow from 'features/Workflow/pages/Workflow';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, Switch, useParams } from 'react-router-dom';
@@ -35,7 +38,11 @@ const BoardFeature: React.FC = () => {
     <>
       <Header />
       <Switch>
-        <Route path={`/boards/:boardId/rooms/:roomId`} component={Chat} />
+        <Route exact path={`/boards/:boardId/whiteboards`} component={Whiteboards} />
+        <Route exact path={`/boards/:boardId/whiteboards/:whiteboardId`} component={WhiteBoard} />
+        <Route exact path={`/boards/:boardId/workflow`} component={Workflow} />
+        <Route exact path={`/boards/:boardId/rooms`} component={Chat} />
+        <Route exact path={`/boards/:boardId/rooms/:roomId`} component={Chat} />
         <Route exact path={`/boards/:boardId`} component={BoardDetail} />
         <Route exact path={`/boards/:boardId/dashboard`} component={DashBoard} />
         <Route exact path={`/boards/:boardId/members`} component={Members} />

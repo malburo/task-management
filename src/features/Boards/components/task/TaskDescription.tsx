@@ -50,7 +50,7 @@ const TaskDescription: React.FC<Props> = ({ value }) => {
     setMode('PREVIEW');
   };
 
-  const onSubmit: SubmitHandler<FormValues> = async ({ description }: any) => {
+  const onSubmit: any = async ({ description }: any) => {
     try {
       setIsloading(true);
       if (!description.getCurrentContent().hasText()) {
