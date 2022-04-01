@@ -4,6 +4,7 @@ import boardApi from 'api/boardApi';
 import { AppDispatch, RootState } from 'app/store';
 import SideBar from 'components/SideBar';
 import { IColumn } from 'models/column';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useParams } from 'react-router';
 import { applyDrag } from 'utilities/dragDrop';
@@ -24,6 +25,7 @@ interface Params {
 const BoardDetail = () => {
   const { boardId } = useParams<Params>();
   const dispatch = useDispatch<AppDispatch>();
+  const [currentWorkflow, setCurrentWorkflow] = useState<any>([]);
 
   const board = useSelector((state: RootState) => state.board);
   const columns: IColumn[] = useSelector((state: RootState) => {
@@ -96,7 +98,7 @@ const BoardDetail = () => {
           >
             {columns.map((column: IColumn) => (
               <Draggable key={column._id}>
-                <Column column={column} />
+                <Column column={column} currentWorkflow={currentWorkflow} setCurrentWorkflow={setCurrentWorkflow} />
               </Draggable>
             ))}
           </Container>

@@ -29,7 +29,7 @@ const AddComment: React.FC = () => {
       content: () => EditorState.createEmpty(),
     },
   });
-  const onSubmit: SubmitHandler<FormValues> = async ({ content }: any) => {
+  const onSubmit: any = async ({ content }: any) => {
     if (!content.getCurrentContent().hasText()) {
       setMode('PREVIEW');
       return;

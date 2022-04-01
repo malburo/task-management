@@ -449,7 +449,11 @@ input:last-child {
   border: 1px dashed #abc;
   margin-bottom: 24px;
 }
-
+.drop-preview2 {
+  background-color: red;
+  border: 1px dashed #abc;
+  margin-bottom: 24px;
+}
 .cards-drop-preview {
   background-color: rgba(150, 150, 200, 0.1);
   border: 1px dashed #abc;
