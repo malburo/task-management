@@ -5,18 +5,65 @@ import InsertChartIcon from '@mui/icons-material/InsertChart';
 import { List, ListItem, Stack, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { Box } from '@mui/system';
-import { useHistory, useLocation, useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import Logo from '../images/Logo-small.svg';
+import BrushIcon from '@mui/icons-material/Brush';
+import SchemaIcon from '@mui/icons-material/Schema';
 
 interface IParams {
   boardId: string;
 }
 
+interface MenuType {
+  url: string;
+  name: string;
+  icon: JSX.Element;
+  exact: boolean;
+}
+
 export default function SideBar() {
   const { boardId } = useParams<IParams>();
   const history = useHistory();
-  const { pathname } = useLocation();
+
+  const menuList: MenuType[] = [
+    {
+      url: `/boards/${boardId}/dashboard`,
+      name: 'General',
+      icon: <InsertChartIcon />,
+      exact: false,
+    },
+    {
+      url: `/boards/${boardId}`,
+      name: 'Board',
+      icon: <DashboardIcon />,
+      exact: true,
+    },
+    {
+      url: `/boards/${boardId}/rooms`,
+      name: 'Messages',
+      icon: <ChatIcon />,
+      exact: false,
+    },
+    {
+      url: `/boards/${boardId}/whiteboards`,
+      name: 'White Boards',
+      icon: <BrushIcon />,
+      exact: false,
+    },
+    {
+      url: `/boards/${boardId}/workflow`,
+      name: 'Workflow',
+      icon: <SchemaIcon />,
+      exact: false,
+    },
+    {
+      url: `/boards/${boardId}/members`,
+      name: 'Members',
+      icon: <GroupIcon />,
+      exact: false,
+    },
+  ];
   return (
     <Paper
       elevation={0}
@@ -41,88 +88,30 @@ export default function SideBar() {
         </Typography>
       </Stack>
       <List>
-        <ListItem
-          component={NavLink}
-          to={`/boards/${boardId}/dashboard`}
-          activeStyle={{ fontWeight: 'bold', opacity: 1 }}
-          sx={{ padding: '4px 8px', color: 'text.primary', opacity: 0.5 }}
-        >
-          <Box
-            display="flex"
-            alignItems="center"
-            width="100%"
-            padding="12px"
-            borderRadius="4px"
-            sx={{ '&:hover': { backgroundColor: 'rgb(195 195 195 / 25%)' } }}
+        {menuList.map((item, index) => (
+          <ListItem
+            component={NavLink}
+            to={item.url}
+            exact={item.exact}
+            activeStyle={{ fontWeight: 'bold', opacity: 1 }}
+            sx={{ padding: '4px 8px', color: 'text.primary', opacity: 0.5 }}
+            key={index}
           >
-            <InsertChartIcon />
-            <Typography variant="regular3" sx={{ marginLeft: '24px', display: { xs: 'none', md: 'block' } }}>
-              General
-            </Typography>
-          </Box>
-        </ListItem>
-        <ListItem
-          component={NavLink}
-          exact
-          to={`/boards/${boardId}`}
-          activeStyle={{ fontWeight: 'bold', opacity: 1 }}
-          sx={{ padding: '4px 8px', color: 'text.primary', opacity: 0.5 }}
-        >
-          <Box
-            display="flex"
-            alignItems="center"
-            width="100%"
-            padding="12px"
-            borderRadius="4px"
-            sx={{ '&:hover': { backgroundColor: 'rgb(195 195 195 / 25%)' } }}
-          >
-            <DashboardIcon />
-            <Typography variant="regular3" sx={{ marginLeft: '24px', display: { xs: 'none', md: 'block' } }}>
-              Board
-            </Typography>
-          </Box>
-        </ListItem>
-        <ListItem
-          component={NavLink}
-          to={`/boards/${boardId}/rooms/all`}
-          isActive={() => pathname.includes('/rooms')}
-          activeStyle={{ fontWeight: 'bold', opacity: 1 }}
-          sx={{ padding: '4px 8px', color: 'text.primary', opacity: 0.5 }}
-        >
-          <Box
-            display="flex"
-            alignItems="center"
-            width="100%"
-            padding="12px"
-            borderRadius="4px"
-            sx={{ '&:hover': { backgroundColor: 'rgb(195 195 195 / 25%)' } }}
-          >
-            <ChatIcon />
-            <Typography variant="regular3" sx={{ marginLeft: '24px', display: { xs: 'none', md: 'block' } }}>
-              Messages
-            </Typography>
-          </Box>
-        </ListItem>
-        <ListItem
-          component={NavLink}
-          to={`/boards/${boardId}/members`}
-          activeStyle={{ fontWeight: 'bold', opacity: 1 }}
-          sx={{ padding: '4px 8px', color: 'text.primary', opacity: 0.5 }}
-        >
-          <Box
-            display="flex"
-            alignItems="center"
-            width="100%"
-            padding="12px"
-            borderRadius="4px"
-            sx={{ '&:hover': { backgroundColor: 'rgb(195 195 195 / 25%)' } }}
-          >
-            <GroupIcon />
-            <Typography variant="regular3" sx={{ marginLeft: '24px', display: { xs: 'none', md: 'block' } }}>
-              Members
-            </Typography>
-          </Box>
-        </ListItem>
+            <Box
+              display="flex"
+              alignItems="center"
+              width="100%"
+              padding="12px"
+              borderRadius="4px"
+              sx={{ '&:hover': { backgroundColor: 'rgb(195 195 195 / 25%)' } }}
+            >
+              {item.icon}
+              <Typography variant="regular3" sx={{ marginLeft: '24px', display: { xs: 'none', md: 'block' } }}>
+                {item.name}
+              </Typography>
+            </Box>
+          </ListItem>
+        ))}
       </List>
     </Paper>
   );
