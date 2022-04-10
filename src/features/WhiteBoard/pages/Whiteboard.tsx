@@ -79,6 +79,7 @@ const Whiteboard = () => {
       newDocument.pages.page1 = data.whiteboard.content.page;
       setDocument(newDocument);
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [whiteboardId]);
 
   useEffect(() => {
@@ -87,10 +88,13 @@ const Whiteboard = () => {
       newDocument.pages.page1 = data.content.page;
       setDocument(newDocument);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleChange = async (data: any) => {
     try {
+      await socketClient.emit('test');
+
       const payload = {
         content: {
           page: data.getPage(),

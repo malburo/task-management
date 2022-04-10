@@ -6,16 +6,7 @@ import InputBaseField from 'components/form-control/InputBaseField';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
-interface Photo {
-  id: string;
-  urls: {
-    full: string;
-    raw: string;
-    regular: string;
-    small: string;
-    thumb: string;
-  };
-}
+
 interface IParams {
   boardId: string;
   roomId: string;
@@ -28,7 +19,7 @@ interface FormValues {
 }
 
 const GifPicker: React.FC<GifPickerProps> = () => {
-  const { roomId, boardId } = useParams<IParams>();
+  const { roomId } = useParams<IParams>();
   const [photos, setPhotos] = useState<any[]>([]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

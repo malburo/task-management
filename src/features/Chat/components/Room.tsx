@@ -56,6 +56,7 @@ const Room: React.FC<Props> = () => {
     socketClient.on('messages:create', (newMessage: any) => {
       setMessageList([newMessage, ...messageList]);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messageList.length]);
 
   const fetchMoreData = async () => {

@@ -1,4 +1,4 @@
-import { Grid, Paper, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 import { Box } from '@mui/system';
 import { socketClient } from 'api/socketClient';
 import SideBar from 'components/SideBar';

@@ -1,10 +1,9 @@
-import { Box, Button, IconButton } from '@mui/material';
+import UploadIcon from '@mui/icons-material/Upload';
+import { IconButton } from '@mui/material';
 import messageApi from 'api/messageApi';
 import uploadApi from 'api/uploadApi';
-import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
-import UploadIcon from '@mui/icons-material/Upload';
 
 interface IParams {
   boardId: string;
@@ -12,8 +11,7 @@ interface IParams {
 }
 
 const UploadImage = () => {
-  const { roomId, boardId } = useParams<IParams>();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { roomId } = useParams<IParams>();
 
   const handleChangeAvatar = async (event: any) => {
     const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];

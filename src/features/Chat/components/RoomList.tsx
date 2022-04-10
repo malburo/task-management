@@ -32,7 +32,7 @@ const RoomList: React.FC<Props> = () => {
       } catch (error) {}
       setIsLoading(false);
     })();
-  }, []);
+  }, [boardId, history, roomId]);
 
   const handleClickDirectMessage = async (memberId: string) => {
     const { data } = await roomApi.getRoomByMemberId({ boardId, memberId });

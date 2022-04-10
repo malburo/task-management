@@ -5,13 +5,10 @@ import { RootState } from 'app/store';
 import EditorField from 'components/form-control/EditorField';
 import { convertToRaw, EditorState } from 'draft-js';
 import React, { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-interface FormValues {
-  content: EditorState;
-}
 interface Params {
   boardId: string;
   taskId: string;

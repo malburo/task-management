@@ -1,4 +1,4 @@
-import { Avatar, Box, Skeleton, Stack } from '@mui/material';
+import { Box, Skeleton, Stack } from '@mui/material';
 
 const MessageListSkeleton = () => {
   return (

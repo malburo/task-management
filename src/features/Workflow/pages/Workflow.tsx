@@ -3,11 +3,11 @@ import { Box } from '@mui/system';
 import columnApi from 'api/columnApi';
 import { RootState } from 'app/store';
 import SideBar from 'components/SideBar';
+import dagre from 'dagre';
 import { columnsSelector } from 'features/Boards/boardSlice';
 import AddColumn from 'features/Boards/components/column/AddColumn';
 import { useCallback, useState } from 'react';
 import ReactFlow, {
-  addEdge,
   Background,
   Connection,
   Controls,
@@ -18,7 +18,6 @@ import ReactFlow, {
 } from 'react-flow-renderer';
 import { useSelector } from 'react-redux';
 import FloatingEdge from '../components/FloatingEdge';
-import dagre from 'dagre';
 
 const edgeTypes = {
   floating: FloatingEdge,
@@ -97,13 +96,12 @@ const Workflow = () => {
   const [openDeleteEdge, setOpenDeleteEdge] = useState(false);
   const [currentDeleteNodeId, setCurrentDeleteNodeId] = useState<string>('');
   const [currentDeleteEdge, setCurrentDeleteEdge] = useState<any>({});
-  const onConnect = useCallback(
-    async (connection: Connection) => {
-      if (!connection.source || !connection.target) return;
-      await columnApi.pushWorkflow({ columnId: connection.source, data: connection.target });
-    },
-    [setEdges]
-  );
+
+  const onConnect = useCallback(async (connection: Connection) => {
+    if (!connection.source || !connection.target) return;
+    await columnApi.pushWorkflow({ columnId: connection.source, data: connection.target });
+  }, []);
+
   const onLayout = useCallback(
     (direction) => {
       const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(nodes, edges, direction);

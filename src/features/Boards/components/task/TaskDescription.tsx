@@ -6,10 +6,9 @@ import { Box } from '@mui/system';
 import taskApi from 'api/taskApi';
 import EditorField from 'components/form-control/EditorField';
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
-import React, { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router';
-import { useEffect } from 'react';
 
 interface Props {
   value: string;
@@ -17,9 +16,6 @@ interface Props {
 interface Params {
   boardId: string;
   taskId: string;
-}
-interface FormValues {
-  description: EditorState;
 }
 
 const TaskDescription: React.FC<Props> = ({ value }) => {

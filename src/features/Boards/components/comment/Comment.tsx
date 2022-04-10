@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Typography, Paper } from '@mui/material';
+import { Avatar, Box, Button, Paper, Typography } from '@mui/material';
 import commentApi from 'api/commentApi';
 import { RootState } from 'app/store';
 import EditorField from 'components/form-control/EditorField';
@@ -6,14 +6,11 @@ import { formatDistanceToNow } from 'date-fns';
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
 import { IConmment } from 'models/comment';
 import React, { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import DeleteComment from './DeleteComment';
 
-interface FormValues {
-  content: EditorState;
-}
 interface Params {
   boardId: string;
   taskId: string;

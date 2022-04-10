@@ -3,7 +3,7 @@ import { Box, IconButton, Paper } from '@mui/material';
 import messageApi from 'api/messageApi';
 import InputBaseField from 'components/form-control/InputBaseField';
 import React from 'react';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import EmojiPicker from './EmojiPicker';
 import GifPicker from './GiphyPicker';
@@ -14,7 +14,7 @@ interface Params {
   roomId: string;
 }
 const MessageForm = () => {
-  const { boardId, roomId } = useParams<Params>();
+  const { roomId } = useParams<Params>();
 
   const form = useForm({
     mode: 'onSubmit',

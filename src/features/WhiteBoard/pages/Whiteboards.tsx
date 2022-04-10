@@ -34,6 +34,7 @@ const Whiteboards = () => {
       limit: Number(params.limit) || 12,
       boardId,
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search]);
 
   useEffect(() => {
