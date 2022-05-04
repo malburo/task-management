@@ -1,6 +1,5 @@
 import { Avatar, Grid, Paper, Stack, Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import SideBar from 'components/SideBar';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
@@ -29,54 +28,43 @@ const Members = () => {
   }, [boardId, history, members]);
 
   return (
-    <Stack direction="row">
-      <SideBar />
-      <Box height="100vh" flex={1}>
-        <Box height="65px" />
-        <Box padding="48px" display="flex" component={Paper}>
-          <Grid container spacing={4}>
-            <Grid item sm={12} md={4}>
+    <Box padding="48px">
+      <Grid container spacing={4}>
+        <Grid item sm={12} md={4}>
+          <Box boxShadow="0 8px 30px rgba(0,0,0,0.12)" padding="24px" borderRadius="12px" height="calc(90vh - 145px)">
+            <Typography sx={{ fontSize: '20px', fontWeight: '500', margin: '12px 0px 24px 0px' }}>
+              Member {members.length}
+            </Typography>
+            {members.map((member) => (
               <Box
-                boxShadow="0 8px 30px rgba(0,0,0,0.12)"
-                padding="24px"
-                borderRadius="12px"
-                height="calc(90vh - 145px)"
+                key={member._id}
+                display="flex"
+                alignItems="center"
+                padding="12px"
+                borderRadius="8px"
+                component={NavLink}
+                to={`/boards/${boardId}/members/${member._id}`}
+                activeStyle={{ fontWeight: 'bold', opacity: 1, backgroundColor: '#F7F6F3' }}
+                sx={{ padding: '24px', color: 'text.primary', opacity: 0.5 }}
               >
-                <Typography sx={{ fontSize: '20px', fontWeight: '500', margin: '12px 0px 24px 0px' }}>
-                  Member {members.length}
-                </Typography>
-                {members.map((member) => (
-                  <Box
-                    key={member._id}
-                    display="flex"
-                    alignItems="center"
-                    padding="12px"
-                    borderRadius="8px"
-                    component={NavLink}
-                    to={`/boards/${boardId}/members/${member._id}`}
-                    activeStyle={{ fontWeight: 'bold', opacity: 1, backgroundColor: '#F7F6F3' }}
-                    sx={{ padding: '24px', color: 'text.primary', opacity: 0.5 }}
-                  >
-                    <Box>
-                      <Avatar sx={{ marginRight: '12px' }} src={member.profilePictureUrl} />
-                    </Box>
-                    <Box>
-                      <Typography>{member.username}</Typography>
-                      <Typography>{member.role?.toLocaleLowerCase()}</Typography>
-                    </Box>
-                  </Box>
-                ))}
+                <Box>
+                  <Avatar sx={{ marginRight: '12px' }} src={member.profilePictureUrl} />
+                </Box>
+                <Box>
+                  <Typography>{member.username}</Typography>
+                  <Typography>{member.role?.toLocaleLowerCase()}</Typography>
+                </Box>
               </Box>
-            </Grid>
-            <Grid item sm={12} md={8}>
-              <Box>
-                <MemberActivities />
-              </Box>
-            </Grid>
-          </Grid>
-        </Box>
-      </Box>
-    </Stack>
+            ))}
+          </Box>
+        </Grid>
+        <Grid item sm={12} md={8}>
+          <Box>
+            <MemberActivities />
+          </Box>
+        </Grid>
+      </Grid>
+    </Box>
   );
 };
 

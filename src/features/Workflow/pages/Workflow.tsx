@@ -17,6 +17,7 @@ import ReactFlow, {
   ReactFlowProvider,
 } from 'react-flow-renderer';
 import { useSelector } from 'react-redux';
+import AddNode from '../components/AddNode';
 import FloatingEdge from '../components/FloatingEdge';
 
 const edgeTypes = {
@@ -147,35 +148,29 @@ const Workflow = () => {
   };
 
   return (
-    <Stack direction="row">
-      <SideBar />
-      <Box height="100vh" flex={1}>
-        <Box height="65px" />
-        <Box display="flex" component={Paper} height="calc(100vh - 65px)">
-          <Grid container>
-            <Box height="800px" width="90%">
-              <ReactFlowProvider>
-                <ReactFlow
-                  defaultNodes={layoutedNodes}
-                  defaultEdges={layoutedEdges}
-                  onConnect={onConnect}
-                  onEdgesDelete={onEdgesDelete}
-                  onNodesDelete={onNodesDelete}
-                  fitView
-                  edgeTypes={edgeTypes}
-                >
-                  <Background />
-                  <Controls />
-                </ReactFlow>
-              </ReactFlowProvider>
-              <AddColumn />
-              <div className="controls">
-                <button onClick={() => onLayout('TB')}>vertical layout</button>
-                <button onClick={() => onLayout('LR')}>horizontal layout</button>
-              </div>
-            </Box>
-          </Grid>
+    <>
+      <Box>
+        <Box m="24px">
+          <AddNode />
         </Box>
+        <Grid container>
+          <Box height="calc(100vh - 200px)" width="100%">
+            <ReactFlowProvider>
+              <ReactFlow
+                defaultNodes={layoutedNodes}
+                defaultEdges={layoutedEdges}
+                onConnect={onConnect}
+                onEdgesDelete={onEdgesDelete}
+                onNodesDelete={onNodesDelete}
+                fitView
+                edgeTypes={edgeTypes}
+              >
+                <Background />
+                <Controls />
+              </ReactFlow>
+            </ReactFlowProvider>
+          </Box>
+        </Grid>
       </Box>
       <Dialog
         open={openDeleteNode}
@@ -221,7 +216,7 @@ const Workflow = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </Stack>
+    </>
   );
 };
 

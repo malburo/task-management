@@ -1,7 +1,7 @@
+import { BoardLayout } from 'components/layout';
 import NotFound from 'components/NotFound';
 import PrivatePage from 'components/PrivatePage';
 import AuthFeature from 'features/Auth';
-import BoardFeature from 'features/Boards';
 import Boards from 'features/Boards/pages/Boards';
 import LandingPage from 'features/LandingPage';
 import UserFeature from 'features/User';
@@ -16,7 +16,7 @@ const RoutesComponent = () => (
       <AuthRoute path="/auth" component={AuthFeature} />
       <PublicRoute exact path="/" component={LandingPage} />
       <PrivateRoute exact path="/boards" component={Boards} />
-      <PrivateRoute path="/boards/:boardId" component={BoardFeature} />
+      <PrivateRoute path="/boards/:boardId" component={BoardLayout} />
       <PrivateRoute path="/profile" component={UserFeature} />
       <PrivateRoute path="/unauthorized" component={PrivatePage} />
       <Route component={NotFound} />

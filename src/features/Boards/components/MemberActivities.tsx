@@ -12,7 +12,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { membersSelector } from '../boardSlice';
-import ActivityCard from './ActivityCard';
+import ActivityCard from '../../Dashboard/components/ActivityCard';
 
 interface Params {
   boardId: string;
@@ -62,12 +62,14 @@ const MemberActivities = () => {
   };
 
   useEffect(() => {
-    (async () => {
-      socketClient.on('activity:create', (newActivity: IActivity) => {
-        if (newActivity.senderId._id === memberId) setActivityList((prev) => [newActivity, ...prev]);
-      });
-    })();
+    socketClient.on('activity:create', (newActivity: IActivity) => {
+      if (newActivity.senderId._id === memberId) setActivityList((prev) => [newActivity, ...prev]);
+    });
+    return () => {
+      socketClient.off('activity:create');
+    };
   }, [memberId]);
+
   if (!member) return <Box>loading</Box>;
 
   return (

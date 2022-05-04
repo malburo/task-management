@@ -129,10 +129,10 @@ const Column: React.FC<ColumnProps> = ({ column, currentWorkflow, setCurrentWork
             </Menu>
           </Box>
           <Box
-            sx={{ overflowY: 'scroll', overflowX: 'hidden' }}
+            sx={{ overflowY: 'auto', overflowX: 'hidden' }}
             maxHeight="calc(100vh - 280px)"
             padding="0 4px 0 12px"
-            marginRight="4px"
+            marginRight="8px"
             onDragOver={(e: any) => console.log('over')}
           >
             <Container
