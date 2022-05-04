@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
 import { changeMode } from 'themeSlice';
 import Logo from '../images/Logo-small.svg';
+import Badge from '@mui/material/Badge';
 
 const Header = () => {
   const dispatch = useDispatch<AppDispatch>();

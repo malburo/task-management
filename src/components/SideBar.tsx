@@ -71,18 +71,21 @@ export default function SideBar() {
         display: 'flex',
         flexDirection: 'column',
         paddingX: {
-          sm: '10px',
+          xs: '10px',
           md: '24px',
         },
-        width: { sm: '60px', md: '200px' },
+        minWidth: { xs: '60px', md: '200px' },
+        width: { xs: '60px', md: '200px' },
         height: '100vh',
         borderRight: '1px solid rgb(135 135 135 / 22%)',
         zIndex: 1000,
         borderRadius: 0,
       }}
     >
-      <Stack direction="row" alignItems="center" margin="24px">
-        <img src={Logo} alt="logo" onClick={() => history.push('/')} style={{ cursor: 'pointer' }} />
+      <Stack direction="row" alignItems="center" margin="24px 0px 24px 24px">
+        <Box width="32px" height="32px">
+          <img src={Logo} alt="logo" onClick={() => history.push('/')} style={{ cursor: 'pointer' }} />
+        </Box>
         <Typography variant="semiBold5" sx={{ marginX: 4, display: { xs: 'none', md: 'block' } }}>
           Tasker
         </Typography>
