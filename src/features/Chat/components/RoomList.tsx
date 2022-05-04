@@ -1,5 +1,7 @@
-import { Avatar, Box, Typography } from '@mui/material';
+import { Avatar, Badge, Box, Typography } from '@mui/material';
 import roomApi from 'api/roomApi';
+import { socketClient } from 'api/socketClient';
+import { RootState } from 'app/store';
 import { membersSelector } from 'features/Boards/boardSlice';
 import RoomListSkeleton from 'features/Chat/components/skeleton/RoomListSkeleton';
 import { useEffect, useState } from 'react';
@@ -14,11 +16,11 @@ interface IParams {
 }
 
 const RoomList: React.FC<Props> = () => {
+  const currentUser = useSelector((state: RootState) => state.auth.currentUser);
   const memberList = useSelector(membersSelector.selectAll);
   const [roomList, setRoomList] = useState<any>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const { boardId, roomId } = useParams<IParams>();
-  const [currentRoomId, setCurrentRoomId] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const history = useHistory();
 
@@ -32,15 +34,27 @@ const RoomList: React.FC<Props> = () => {
       } catch (error) {}
       setIsLoading(false);
     })();
-  }, [boardId, history, roomId]);
+  }, []);
 
-  const handleClickDirectMessage = async (memberId: string) => {
+  useEffect(() => {
+    socketClient.on('rooms:update', async (newRoom: any) => {
+      const { data } = await roomApi.getAll({ boardId });
+      setRoomList(data.rooms);
+    });
+    return () => {
+      socketClient.off('rooms:update');
+    };
+  }, []);
+
+  const handleClickUser = async (memberId: string) => {
     const { data } = await roomApi.getRoomByMemberId({ boardId, memberId });
-    setCurrentRoomId(memberId);
     history.push(`/boards/${boardId}/rooms/${data.room._id}`);
   };
-  const handleClickGroupMessage = async (roomId: string) => {
-    setCurrentRoomId('');
+  const handleClickRoom = async (roomId: string) => {
+    const roomListClone = [...roomList];
+    const index = roomListClone.findIndex((room) => room._id === roomId);
+    roomListClone[index].unReadCount = 0;
+    setRoomList(roomListClone);
     const { data } = await roomApi.getOne({ roomId });
     history.push(`/boards/${boardId}/rooms/${data.room._id}`);
   };
@@ -55,41 +69,110 @@ const RoomList: React.FC<Props> = () => {
             <Typography variant="bold3">Channel</Typography>
           </Box>
 
-          {roomList
-            .filter((room: any) => room.type === 'GROUP')
-            .map((room: any) => (
-              <Box
-                key={room._id}
-                onClick={() => handleClickGroupMessage(room._id)}
-                sx={{
-                  color: 'text.primary',
-                  bgcolor: roomId === room._id ? 'rgb(195 195 195 / 25%)' : '#fff',
-                  cursor: 'pointer',
-                  padding: 2,
-                  borderRadius: 2,
-                  '&:hover': { bgcolor: 'rgb(195 195 195 / 25%)' },
-                }}
-              >
-                <Typography> # {room.name}</Typography>
-              </Box>
-            ))}
+          {roomList.map((room: any) => {
+            return (
+              room.type === 'GROUP' && (
+                <Box
+                  key={room._id}
+                  onClick={() => handleClickRoom(room._id)}
+                  sx={{
+                    color: 'text.primary',
+                    bgcolor: roomId === room._id ? 'rgb(195 195 195 / 25%)' : '#fff',
+                    cursor: 'pointer',
+                    padding: 2,
+                    borderRadius: 2,
+                    '&:hover': { bgcolor: 'rgb(195 195 195 / 25%)' },
+                  }}
+                >
+                  {room.unReadCount === 0 ? (
+                    <Typography> # {room.name}</Typography>
+                  ) : (
+                    <Badge variant="dot" color="primary">
+                      <Typography> # {room.name}</Typography>
+                    </Badge>
+                  )}
+                </Box>
+              )
+            );
+          })}
 
           <Box my={4}>
             <Typography variant="bold3"> Direct messages</Typography>
           </Box>
+          {roomList.map((room: any) => {
+            return (
+              room.type !== 'GROUP' && (
+                <Box
+                  key={room._id}
+                  onClick={() => handleClickRoom(room._id)}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: 2,
+                    borderRadius: 2,
+                    color: 'text.primary',
+                    bgcolor: roomId === room._id ? 'rgb(195 195 195 / 25%)' : '#fff',
+                    cursor: 'pointer',
+                    mt: 4,
+                    '&:hover': { bgcolor: 'rgb(195 195 195 / 25%)' },
+                  }}
+                >
+                  <Box>
+                    <Avatar
+                      sx={{ marginRight: '12px' }}
+                      src={
+                        memberList.find(
+                          (member) => member._id !== currentUser?._id && room.usersId.includes(member._id)
+                        )?.profilePictureUrl
+                      }
+                    />
+                  </Box>
+                  <Box>
+                    {room.unReadCount === 0 ? (
+                      <Typography>
+                        {
+                          memberList.find(
+                            (member) => member._id !== currentUser?._id && room.usersId.includes(member._id)
+                          )?.username
+                        }
+                      </Typography>
+                    ) : (
+                      <Badge variant="dot" color="primary">
+                        <Typography>
+                          {
+                            memberList.find(
+                              (member) => member._id !== currentUser?._id && room.usersId.includes(member._id)
+                            )?.username
+                          }
+                        </Typography>
+                      </Badge>
+                    )}
+                  </Box>
+                </Box>
+              )
+            );
+          })}
           {memberList
-            .filter((member) => member.username.indexOf(searchTerm) >= 0)
+            .filter(
+              (member) =>
+                member.username.indexOf(searchTerm) >= 0 &&
+                member._id !== currentUser?._id &&
+                roomList
+                  .filter((room: any) => room.type !== 'GROUP')
+                  .map((room: any) => room.usersId)
+                  .flat()
+                  .includes(member._id) === false
+            )
             .map((member) => (
               <Box
                 key={member._id}
-                onClick={() => handleClickDirectMessage(member._id)}
+                onClick={() => handleClickUser(member._id)}
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
                   padding: 2,
                   borderRadius: 2,
                   color: 'text.primary',
-                  bgcolor: currentRoomId === member._id ? 'rgb(195 195 195 / 25%)' : '#fff',
                   cursor: 'pointer',
                   mt: 4,
                   '&:hover': { bgcolor: 'rgb(195 195 195 / 25%)' },

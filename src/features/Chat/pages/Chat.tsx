@@ -23,19 +23,13 @@ const Chat = () => {
   }, [roomId]);
 
   return (
-    <Stack direction="row">
-      <SideBar />
-      <Stack flex={1}>
-        <Box height="65px" />
-        <Stack direction="row" p={10} bgcolor="#f8f9fa" flex={1}>
-          <Box mr={10}>
-            <RoomList />
-          </Box>
-          <Box flex={1}>
-            <Room />
-          </Box>
-        </Stack>
-      </Stack>
+    <Stack direction="row" p={10} bgcolor="#f8f9fa">
+      <Box mr={10}>
+        <RoomList />
+      </Box>
+      <Box flex={1}>
+        <Room />
+      </Box>
     </Stack>
   );
 };

@@ -54,10 +54,12 @@ const Room: React.FC<Props> = () => {
 
   useEffect(() => {
     socketClient.on('messages:create', (newMessage: any) => {
-      setMessageList([newMessage, ...messageList]);
+      setMessageList((messageList: any) => [newMessage, ...messageList]);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [messageList.length]);
+    return () => {
+      socketClient.off('messages:create');
+    };
+  }, []);
 
   const fetchMoreData = async () => {
     try {
@@ -93,7 +95,10 @@ const Room: React.FC<Props> = () => {
           <InfiniteScroll
             dataLength={messageList.length}
             next={fetchMoreData}
-            hasMore={Math.ceil(pagination.total / pagination.limit) !== pagination.page - 1}
+            hasMore={
+              Math.ceil(pagination.total / parseInt(pagination.limit)) !== parseInt(pagination.page) - 1 &&
+              pagination.total !== 0
+            }
             loader={<MessageListSkeleton />}
             inverse={true}
             scrollableTarget="scrollableDiv"
@@ -103,7 +108,7 @@ const Room: React.FC<Props> = () => {
           </InfiniteScroll>
         </Box>
       </Box>
-      <Box sx={{ zIndex: 9999 }}>
+      <Box>
         <MessageForm />
       </Box>
     </Box>

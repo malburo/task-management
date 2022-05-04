@@ -28,7 +28,6 @@ const MessageForm = () => {
     try {
       if (!roomId) return;
       const payload = { roomId, content, type: 'TEXT' };
-      console.log({ payload });
       await messageApi.create(payload);
       form.reset({ content: '' });
     } catch (error) {
