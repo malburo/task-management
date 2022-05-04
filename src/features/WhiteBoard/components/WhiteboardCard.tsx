@@ -12,7 +12,7 @@ const WhiteboardCard: React.FC<Props> = ({ data }) => {
     <Card raised sx={{ border: '2px solid #0000000a' }}>
       <Link to={`/boards/${data.boardId}/whiteboards/${data._id}`}>
         <CardMedia
-          sx={{ height: '130px', borderRadius: '12px' }}
+          sx={{ height: '160px', borderRadius: '12px' }}
           image={data.coverUrl || 'https://www.viet247.net/images/noimage_food_viet247.jpg'}
         />
       </Link>

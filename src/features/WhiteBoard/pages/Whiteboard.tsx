@@ -88,6 +88,9 @@ const Whiteboard = () => {
       newDocument.pages.page1 = data.content.page;
       setDocument(newDocument);
     });
+    return () => {
+      socketClient.off('whiteboard:update');
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -108,29 +111,25 @@ const Whiteboard = () => {
   };
 
   return (
-    <Stack direction="row">
-      <SideBar />
-      <Box height="100vh" flex={1}>
-        <Box height="65px" />
-        <Box display="flex" component={Paper} height="calc(100vh - 65px)" position="relative">
-          <Grid container>
-            <Box
-              sx={{
-                position: 'absolute',
-                top: '0px',
-                left: '0px',
-                right: '0px',
-                bottom: '0px',
-                width: '100%',
-                height: '100%',
-              }}
-            >
-              <Tldraw document={document} onCommand={handleChange} />
-            </Box>
-          </Grid>
-        </Box>
+    <Box>
+      <Box display="flex" component={Paper} height="calc(100vh - 65px)" position="relative">
+        <Grid container>
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '0px',
+              left: '0px',
+              right: '0px',
+              bottom: '0px',
+              width: '100%',
+              height: '100%',
+            }}
+          >
+            <Tldraw document={document} onCommand={handleChange} />
+          </Box>
+        </Grid>
       </Box>
-    </Stack>
+    </Box>
   );
 };
 

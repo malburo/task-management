@@ -79,45 +79,39 @@ const Whiteboards = () => {
     fetchBoardsData();
   };
   return (
-    <Stack direction="row">
-      <SideBar />
-      <Box height="100vh" flex={1}>
-        <Box height="65px" />
-        <Box display="flex" component={Paper} height="calc(100vh - 65px)">
-          <Grid container>
-            <Box height="500px" width="90%" sx={{ position: 'relative' }}>
-              <Stack direction="row" justifyContent="space-between" alignItems="center" marginBottom="24px">
-                <AddWhiteboard onSubmit={handleAddBoard} />
-              </Stack>
-              <Grid container spacing={4}>
-                {isLoading
-                  ? [...new Array(Number(queryParams.limit) || 12)].map((data, index) => (
-                      <Grid item xs={6} sm={4} md={3} key={index}>
-                        <BoardSkeleton />
-                      </Grid>
-                    ))
-                  : whiteboardList.map((whiteboard) => (
-                      <Grid item xs={6} sm={4} md={3} key={whiteboard._id}>
-                        <WhiteboardCard data={whiteboard} />
-                      </Grid>
-                    ))}
-              </Grid>
-              {Math.ceil(pagination.total / parseInt(pagination.limit)) > 1 && (
-                <Box marginTop="48px" display="flex" justifyContent="center" paddingBottom="48px">
-                  <Pagination
-                    color="primary"
-                    count={Math.ceil(pagination.total / parseInt(pagination.limit)) || 0}
-                    page={parseInt(pagination.page)}
-                    onChange={handlePageChange}
-                    shape="rounded"
-                  />
-                </Box>
-              )}
-            </Box>
+    <Box p="40px">
+      <Grid container>
+        <Box height="500px" width="90%" sx={{ position: 'relative' }}>
+          <Stack direction="row" justifyContent="space-between" alignItems="center" marginBottom="24px">
+            <AddWhiteboard onSubmit={handleAddBoard} />
+          </Stack>
+          <Grid container spacing={4}>
+            {isLoading
+              ? [...new Array(Number(queryParams.limit) || 12)].map((data, index) => (
+                  <Grid item xs={6} sm={4} md={3} key={index}>
+                    <BoardSkeleton />
+                  </Grid>
+                ))
+              : whiteboardList.map((whiteboard) => (
+                  <Grid item xs={6} sm={4} md={3} key={whiteboard._id}>
+                    <WhiteboardCard data={whiteboard} />
+                  </Grid>
+                ))}
           </Grid>
+          {Math.ceil(pagination.total / parseInt(pagination.limit)) > 1 && (
+            <Box marginTop="48px" display="flex" justifyContent="center" paddingBottom="48px">
+              <Pagination
+                color="primary"
+                count={Math.ceil(pagination.total / parseInt(pagination.limit)) || 0}
+                page={parseInt(pagination.page)}
+                onChange={handlePageChange}
+                shape="rounded"
+              />
+            </Box>
+          )}
         </Box>
-      </Box>
-    </Stack>
+      </Grid>
+    </Box>
   );
 };
 
