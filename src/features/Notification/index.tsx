@@ -6,6 +6,7 @@ import { Box } from '@mui/system';
 import notificationApi from 'api/notificationApi';
 import { socketClient } from 'api/socketClient';
 import { RootState } from 'app/store';
+import EmptyData from 'components/EmptyData';
 import NotificationCard from 'features/Notification/components/NotificationCard';
 import useNotification from 'hooks/useNotification';
 import { INotification } from 'models/notification';
@@ -137,39 +138,40 @@ const NotificationFeature: React.FC = () => {
                 <Typography variant="bold4">Recent notification</Typography>
               </Box>
               <Box>
-                <InfiniteScroll
-                  dataLength={notificationList.length}
-                  next={fetchMoreData}
-                  hasMore={
-                    Math.ceil(pagination.total / pagination.limit) !== pagination.page - 1 &&
-                    notificationList.length !== 0
-                  }
-                  height="400px"
-                  loader={<h4>Loading...</h4>}
-                  endMessage={
-                    <p style={{ textAlign: 'center' }}>
-                      <b>Yay! You have seen it all</b>
-                    </p>
-                  }
-                >
-                  {notificationList.map((notification) => {
-                    const noti = notiList.find((noti: any) => noti.type === notification.type);
-                    if (!noti) return;
-                    return (
-                      <Box onClick={() => noti.onClick(notification)} key={notification._id}>
-                        <NotificationCard sender={notification.senderId} time={notification.createdAt}>
-                          <Typography variant="regular2">{noti.message(notification)}</Typography>
-                        </NotificationCard>
-                      </Box>
-                    );
-                  })}
-                </InfiniteScroll>
+                {notificationList.length === 0 ? (
+                  <EmptyData />
+                ) : (
+                  <InfiniteScroll
+                    dataLength={notificationList.length}
+                    next={fetchMoreData}
+                    hasMore={
+                      Math.ceil(pagination.total / pagination.limit) !== pagination.page - 1 &&
+                      notificationList.length !== 0
+                    }
+                    height="400px"
+                    loader={<h4>Loading...</h4>}
+                  >
+                    {notificationList.map((notification) => {
+                      const noti = notiList.find((noti: any) => noti.type === notification.type);
+                      if (!noti) return;
+                      return (
+                        <Box onClick={() => noti.onClick(notification)} key={notification._id}>
+                          <NotificationCard sender={notification.senderId} time={notification.createdAt}>
+                            <Typography variant="regular2">{noti.message(notification)}</Typography>
+                          </NotificationCard>
+                        </Box>
+                      );
+                    })}
+                  </InfiniteScroll>
+                )}
               </Box>
-              <Box textAlign="center" mt={4}>
-                <Button variant="contained" onClick={handleClickDeleteAll}>
-                  Read all
-                </Button>
-              </Box>
+              {notificationList.length !== 0 && (
+                <Box textAlign="center" mt={4}>
+                  <Button variant="contained" onClick={handleClickDeleteAll}>
+                    Read all
+                  </Button>
+                </Box>
+              )}
             </Box>
           </Box>
         </Box>

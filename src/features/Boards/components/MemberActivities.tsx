@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { membersSelector } from '../boardSlice';
 import ActivityCard from '../../Dashboard/components/ActivityCard';
+import EmptyData from 'components/EmptyData';
 
 interface Params {
   boardId: string;
@@ -87,7 +88,7 @@ const MemberActivities = () => {
         <Typography variant="regular2" sx={{ marginLeft: '12px' }}>
           Last Activity
         </Typography>
-        {pagination.total && (
+        {pagination.total ? (
           <InfiniteScroll
             dataLength={activityList.length}
             next={fetchMoreData}
@@ -96,11 +97,6 @@ const MemberActivities = () => {
             }
             height="calc(90vh - 345px)"
             loader={<h4>Loading...</h4>}
-            endMessage={
-              <p style={{ textAlign: 'center' }}>
-                <b>Yay! You have seen it all</b>
-              </p>
-            }
           >
             {activityList.map((activity) => {
               if (activity.type === 'BOARD:ADD_MEMBER')
@@ -173,6 +169,8 @@ const MemberActivities = () => {
                 );
             })}
           </InfiniteScroll>
+        ) : (
+          <EmptyData />
         )}
       </Box>
     </Box>

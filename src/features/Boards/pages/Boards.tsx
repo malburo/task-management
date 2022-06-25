@@ -1,4 +1,4 @@
-import { Container, Grid, Pagination, Paper, Stack } from '@mui/material';
+import { Container, Grid, Pagination, Paper, Stack, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import boardApi from 'api/boardApi';
 import Footer from 'components/Footer';
@@ -12,6 +12,8 @@ import AddBoard, { AddBoardFormValues } from '../components/board/AddBoard';
 import BoardCard from '../components/board/BoardCard';
 import BoardFilter from '../components/BoardFilter';
 import BoardSkeleton from '../components/skeleton/BoardSkeleton';
+import Empty from 'images/Empty.svg';
+import EmptyData from 'components/EmptyData';
 
 const Boards = () => {
   const [boardList, setBoardList] = useState<IBoard[]>([]);
@@ -98,27 +100,33 @@ const Boards = () => {
     };
     fetchBoardsData();
   };
+
   return (
     <>
       <Header />
       <Paper>
-        <Container sx={{ minHeight: 'calc(100vh - 145px)', paddingTop: '100px' }}>
+        <Container sx={{ minHeight: 'calc(100vh - 80px)', paddingTop: '100px' }}>
           <Stack direction="row" justifyContent="space-between" alignItems="center" marginBottom="24px">
             <BoardFilter handleTypeChange={handleTypeChange} type={queryParams.type} />
             <AddBoard onSubmit={handleAddBoard} />
           </Stack>
+
           <Grid container spacing={4}>
-            {isLoading
-              ? [...new Array(Number(queryParams.limit) || 12)].map((data, index) => (
-                  <Grid item xs={6} sm={4} md={3} key={index}>
-                    <BoardSkeleton />
-                  </Grid>
-                ))
-              : boardList.map((board) => (
-                  <Grid item xs={6} sm={4} md={3} key={board._id}>
-                    <BoardCard data={board} />
-                  </Grid>
-                ))}
+            {isLoading ? (
+              [...new Array(Number(queryParams.limit) || 12)].map((data, index) => (
+                <Grid item xs={6} sm={4} md={3} key={index}>
+                  <BoardSkeleton />
+                </Grid>
+              ))
+            ) : boardList.length === 0 ? (
+              <EmptyData />
+            ) : (
+              boardList.map((board) => (
+                <Grid item xs={6} sm={4} md={3} key={board._id}>
+                  <BoardCard data={board} />
+                </Grid>
+              ))
+            )}
           </Grid>
           {Math.ceil(pagination.total / parseInt(pagination.limit)) > 1 && (
             <Box marginTop="48px" display="flex" justifyContent="center" paddingBottom="48px">

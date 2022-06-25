@@ -13,7 +13,7 @@ const Security = () => {
   return (
     <Paper>
       <Container>
-        <Grid container sx={{ marginTop: '65px', paddingTop: '48px' }}>
+        <Grid container sx={{ marginTop: '65px', paddingTop: '48px', minHeight: '100vh' }}>
           <Grid item xs={3}>
             <Box position="sticky" top="80px">
               <List>

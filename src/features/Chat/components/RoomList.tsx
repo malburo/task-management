@@ -59,7 +59,7 @@ const RoomList: React.FC<Props> = () => {
     history.push(`/boards/${boardId}/rooms/${data.room._id}`);
   };
   return (
-    <Box bgcolor="#fff" padding="24px" height="80vh">
+    <Box bgcolor="#fff" padding="24px" height="80vh" minWidth="200px">
       <SearchRoom searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       {isLoading ? (
         <RoomListSkeleton />
@@ -87,9 +87,10 @@ const RoomList: React.FC<Props> = () => {
                   {room.unReadCount === 0 ? (
                     <Typography> # {room.name}</Typography>
                   ) : (
-                    <Badge variant="dot" color="primary">
+                    <Box display="flex" justifyContent="space-between" alignItems="center">
                       <Typography> # {room.name}</Typography>
-                    </Badge>
+                      <Badge variant="dot" color="primary" sx={{ marginRight: 4 }}></Badge>
+                    </Box>
                   )}
                 </Box>
               )
@@ -137,7 +138,7 @@ const RoomList: React.FC<Props> = () => {
                         }
                       </Typography>
                     ) : (
-                      <Badge variant="dot" color="primary">
+                      <Box display="flex" justifyContent="space-between" alignItems="center">
                         <Typography>
                           {
                             memberList.find(
@@ -145,7 +146,8 @@ const RoomList: React.FC<Props> = () => {
                             )?.username
                           }
                         </Typography>
-                      </Badge>
+                        <Badge variant="dot" color="primary" sx={{ marginLeft: 8 }}></Badge>
+                      </Box>
                     )}
                   </Box>
                 </Box>

@@ -3,6 +3,7 @@ import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import activityApi from 'api/activityApi';
 import { socketClient } from 'api/socketClient';
+import EmptyData from 'components/EmptyData';
 import { format } from 'date-fns';
 import { IActivity } from 'models/activity';
 import { useEffect, useState } from 'react';
@@ -73,18 +74,13 @@ const Activities = () => {
       minHeight="calc(90vh - 145px)"
     >
       <Typography variant="regular2">Activities</Typography>
-      {pagination.total > 0 && (
+      {pagination.total > 0 ? (
         <InfiniteScroll
           dataLength={activityList.length}
           next={fetchMoreData}
           hasMore={Math.ceil(pagination.total / pagination.limit) !== pagination.page - 1}
           height="calc(90vh - 145px)"
           loader={<h4>Loading...</h4>}
-          endMessage={
-            <p style={{ textAlign: 'center' }}>
-              <b>Yay! You have seen it all</b>
-            </p>
-          }
         >
           {activityList.map((activity) => {
             if (activity.type === 'BOARD:ADD_MEMBER')
@@ -157,6 +153,8 @@ const Activities = () => {
               );
           })}
         </InfiniteScroll>
+      ) : (
+        <EmptyData />
       )}
     </Box>
   );

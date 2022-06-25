@@ -88,12 +88,12 @@ const Whiteboards = () => {
           <Grid container spacing={4}>
             {isLoading
               ? [...new Array(Number(queryParams.limit) || 12)].map((data, index) => (
-                  <Grid item xs={6} sm={4} md={3} key={index}>
+                  <Grid item xs={6} sm={6} md={6} key={index}>
                     <BoardSkeleton />
                   </Grid>
                 ))
               : whiteboardList.map((whiteboard) => (
-                  <Grid item xs={6} sm={4} md={3} key={whiteboard._id}>
+                  <Grid item xs={6} sm={6} md={6} key={whiteboard._id}>
                     <WhiteboardCard data={whiteboard} />
                   </Grid>
                 ))}

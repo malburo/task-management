@@ -2,7 +2,7 @@ import { Box, Skeleton, Stack } from '@mui/material';
 
 const MessageListSkeleton = () => {
   return (
-    <>
+    <Box overflow="hidden" width="300px">
       <Stack direction="row" alignItems="flex-start" marginTop={4}>
         <Box margin="4px 12px">
           <Skeleton animation="wave" variant="circular" width={40} height={40} />
@@ -96,7 +96,7 @@ const MessageListSkeleton = () => {
           </Stack>
         </Box>
       </Stack>
-    </>
+    </Box>
   );
 };
 export default MessageListSkeleton;
